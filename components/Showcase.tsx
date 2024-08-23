@@ -19,37 +19,37 @@ const Showcase = () => {
   const worksList = [
     {
       backgroundColor: "from-red-100 to-blue-100",
-      title: "SaladHub",
-      image: "/SaladOnTheRun.png",
+      title: "Elegant Long Layers",
+      image: "/g1.png",
       description:
         "a user-friendly web application designed for both salad enthusiasts and restaurant administrators. It streamlines the process of ordering fresh, custom-made salads online, catering to busy individuals who seek quick and healthy meal options.",
     },
     {
       backgroundColor: "from-blue-100 to-violet-100",
-      title: "CreativeHub",
-      image: "/creativeHub.png",
+      title: "Beach Wave Bob",
+      image: "/g2.png",
       description:
         "A dynamic and visually appealing platform for artists and designers to showcase their portfolios, share their creative process, and connect with potential clients.",
     },
     {
       backgroundColor: "from-violet-100 to-purple-100",
-      title: "TechTrends",
-      image: "/TechTrends.PNG",
+      title: "Edgy Undercut Design",
+      image: "/g3.PNG",
       description:
         "A modern news and blog website focused on the latest technology trends, product reviews, and industry insights, with a sleek, responsive design.",
     },
 
     {
       backgroundColor: "from-purple-100 to-pink-100",
-      title: "TravelBuddy",
-      image: "/TravelBuddy.PNG",
+      title: "Classic Curls with a Twist",
+      image: "/g4.png",
       description:
         "A travel booking and itinerary planning website that helps users discover new destinations, find the best deals on flights and hotels, and create personalized travel plans.",
     },
     {
       backgroundColor: "from-pink-100 to-indigo-100",
-      title: "EduPlatform",
-      image: "/EduPlatform.png",
+      title: "Soft Balayage Waves",
+      image: "/g5.png",
       description:
         "An online education platform that provides interactive courses, tutorials, and certifications in various fields, designed with an intuitive and engaging learning experience.",
     },
@@ -60,7 +60,7 @@ const Showcase = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
   return (
     <motion.section className="h-screen w-screen">
-      <div className="relative h-[600vh]" ref={ref}>
+      <div className="relative h-[700vh]" ref={ref}>
         <div className="flex h-screen w-screen items-center justify-center text-center text-8xl text-zinc-600">
           Gallery
         </div>
@@ -73,20 +73,20 @@ const Showcase = () => {
                 className={`flex h-screen w-screen items-center justify-center bg-gradient-to-r ${item.backgroundColor}`}
                 key={item.title}
               >
-                <div className="mt-20 flex flex-col justify-center gap-8 text-zinc-600">
-                  <h1 className="text-xl font-bold md:text-4xl lg:text-6xl xl:text-8xl">
+                <div className="mt-20 flex flex-col justify-center gap-5 text-zinc-600">
+                  <h1 className="justify-center text-xl font-bold md:text-4xl lg:text-4xl xl:text-6xl">
                     {item.title}
                   </h1>
-                  <div className="relative h-56 w-80 md:h-64 md:w-96 lg:h-[350px] lg:w-[500px] xl:h-[420px] xl:w-[600px]">
+                  <div className="relative h-56 w-72 md:h-64 md:w-96 lg:h-[350px] lg:w-[500px] xl:h-[420px] xl:w-[600px]">
                     <Image
                       src={item.image}
                       alt=""
                       fill
-                      className="rounded-xl"
-                      sizes="(max-width: 768px) 80vw, (max-width: 1024px) 96vw, (max-width: 1280px) 500px, 600px"
+                      className="rounded-xl object-contain"
+                      sizes="(max-width: 768px) 80vw, (max-width: 1024px) 96vw, (max-width: 1280px) 500px,(max-width: 1920px) 600px "
                     />
                   </div>
-                  <p className="w-80 md:w-96 lg:w-[500px] lg:text-lg xl:w-[600px]">
+                  <p className="h-24 w-80 md:w-96 lg:w-[500px] lg:text-lg xl:w-[600px]">
                     {item.description}
                   </p>
 
@@ -94,6 +94,7 @@ const Showcase = () => {
                 </div>
               </div>
             ))}
+            {/* SEE MORE BUTTON */}
             <div
               className={`flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-100 to-violet-100`}
             >
@@ -112,27 +113,31 @@ const Showcase = () => {
           </motion.div>
         </div>
       </div>
-      <div className="mt-20 flex h-screen w-screen flex-col items-center justify-center gap-8">
-        <h1 className="text-6xl font-bold">Do you have a project?</h1>
+      {/* SVG */}
+      {/* <div className="mx-auto mt-20 flex h-screen w-screen flex-col items-center justify-center gap-8">
+        <h1 className="text-4xl font-bold sm:text-6xl">
+          Do you have a project?
+        </h1>
         <div className="relative">
           <motion.svg
             animate={{ rotate: 360 }}
             transition={{ duration: 8, ease: "linear", repeat: Infinity }}
             viewBox="0 0 300 300"
-            className="h-64 w-64 md:h-[500px] md:w-[500px]"
+            className="h-64 w-48 sm:w-60 md:h-[500px] md:w-[500px]"
           >
             <defs>
               <path
                 id="circlePath"
-                d="M 150, 150 m -60, 0 a 60,60 0 0,1 120,0 a 60,60 0 0,1 -120,0 "
+                d="M 150, 150 m -60, 0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0 "
               />
             </defs>
             <text fill="#000">
               <textPath xlinkHref="#circlePath" className="text-xl">
-                Your Front-end Developer and UI Designer{" "}
+                Your Front-end Developer and UI Designer
               </textPath>
             </text>
           </motion.svg>
+
           <Button asChild variant={"ghost"} className="flex-1 rounded-full">
             <Link
               href={"/contact"}
@@ -142,7 +147,7 @@ const Showcase = () => {
             </Link>
           </Button>
         </div>
-      </div>
+      </div> */}
     </motion.section>
   );
 };

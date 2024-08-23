@@ -6,6 +6,7 @@ import { motion, useInView, useScroll } from "framer-motion";
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import OurService from "@/components/OurService";
 
 export default function Home() {
   const ref1 = useRef<HTMLDivElement | null>(null);
@@ -20,7 +21,7 @@ export default function Home() {
   const isRef5Inview = useInView(ref5, { margin: "-100px" });
   return (
     <>
-      <main className="flex h-[700vh] flex-col items-center">
+      <main className="flex min-h-full flex-col items-center gap-10">
         <Navbar />
         <div
           className="home flex h-[100vh] w-full items-center justify-center"
@@ -28,32 +29,20 @@ export default function Home() {
         >
           <Hero />
         </div>
-        <div
-          className="services flex h-[100vh] w-full items-center justify-center bg-blue-300"
-          ref={ref2}
-        >
-          <h1>P2</h1>
+
+        <div className="services flex min-h-dvh w-full flex-col" ref={ref2}>
+          <OurService />
         </div>
+
+        <div className="gallery h-[700vh] w-full items-center justify-center">
+          <Showcase />
+        </div>
+
         <div
           className="pricing flex h-[100vh] w-full items-center justify-center bg-green-300"
           ref={ref3}
         >
           <h1>P3</h1>
-        </div>
-        <div className="gallery">
-          <Showcase />
-        </div>
-        <div
-          className="P4 flex h-[100vh] w-full items-center justify-center bg-yellow-300"
-          ref={ref4}
-        >
-          <h1>P4</h1>
-        </div>
-        <div
-          className="P4 flex h-[100vh] w-full items-center justify-center bg-yellow-300"
-          ref={ref4}
-        >
-          <h1>P5</h1>
         </div>
       </main>
     </>

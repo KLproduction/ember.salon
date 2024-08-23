@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React, { useState } from "react";
 import {
@@ -12,7 +14,6 @@ import {
 } from "react-icons/ai";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
-import PaddingWarpper from "./PaddingWarpper";
 import { Link } from "react-scroll";
 import Hamburger from "hamburger-react";
 import { motion } from "framer-motion";
@@ -51,10 +52,7 @@ const Hero = () => {
       name: "Services",
       path: "services",
     },
-    {
-      name: "Pricing",
-      path: "pricing",
-    },
+
     {
       name: "Gallery",
       path: "gallery",
@@ -99,24 +97,74 @@ const Hero = () => {
   const route = useRouter();
   return (
     <>
-      <div className="relative h-full w-full">
-        <div className="absolute left-0 right-0 top-0 z-20 mx-auto hidden h-10 w-full flex-col rounded-b-3xl bg-zinc-50 shadow-md sm:flex">
-          <div className="absolute inset-0 flex items-center justify-between gap-10 p-3 font-bold">
-            <div className="mx-10 flex items-center justify-center gap-3">
+      {/* Mobile nav menu */}
+      {isMenuOpen && (
+        <motion.div
+          variants={listVar}
+          initial="closed"
+          animate="opened"
+          className={cn(
+            "fixed left-0 top-0 z-[999999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
+          )}
+        >
+          <div className="absolute right-0 top-0 p-20">
+            <AiOutlineClose
+              onClick={() => setIsMenuOpen(false)}
+              className="cursor-pointer text-xl text-zinc-50"
+            />
+          </div>
+          {navList.map((item, index) => (
+            <motion.div
+              variants={listItemVar}
+              key={index}
+              className="text-3xl font-bold"
+            >
+              <Button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}
+                variant={"ghost"}
+                asChild
+                className="text-xl font-bold text-colors-indian-yellow hover:text-white"
+              >
+                <Link
+                  to={item.path}
+                  smooth={true}
+                  offset={-100}
+                  duration={500}
+                  className="cursor-pointer"
+                >
+                  {item.name}
+                </Link>
+              </Button>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+      <div className="relative h-full min-h-dvh w-full">
+        <motion.div
+          initial={{ y: "-100vw", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          transition={{ duration: 2, delay: 0.2 }}
+          className="absolute left-0 right-0 top-0 z-20 mx-auto hidden h-10 w-4/5 flex-col rounded-b-3xl bg-zinc-50 shadow-md sm:flex"
+        >
+          {/* information Bar */}
+          <div className="absolute inset-0 flex items-center justify-between gap-10 p-3 px-4 font-bold">
+            <div className="flex items-center justify-center">
               <AiFillPhone className="text-xl" />
               <h1>
                 {" "}
-                Call Us: <span className="text-zinc-500">07563154953</span>
+                Call Us: <span className="text-zinc-500">01234-567-890</span>
               </h1>
             </div>
             <div className="flex flex-1 flex-nowrap items-center justify-center gap-3 sm:hidden lg:flex">
               <AiOutlineClockCircle />
-              <h1>
+              <p>
                 Opening Hour:{" "}
-                <span className="text-zinc-500">
+                <span className="text-sm text-zinc-500">
                   Monday - Sunday, 10am - 7pm
                 </span>
-              </h1>
+              </p>
             </div>
             <div>
               {/* Container for social icons */}
@@ -136,28 +184,35 @@ const Hero = () => {
               </div>
             </div>
           </div>
-          <div className="mt-20 flex items-center justify-between gap-5 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
-            <div className="flex min-w-[7rem] flex-col justify-start">
-              <h1 className="text-colors-indian-yellow text-3xl font-bold">
-                HAIRCUT
+          {/* HERO NAV */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            className="mt-20 flex items-center justify-between gap-5 px-5"
+          >
+            {/* HERO NAVBAR LOGO */}
+            <div className="flex border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 p-2">
+              <h1 className="text-3xl font-bold text-colors-indian-yellow">
+                EMBER
               </h1>
-              <h1 className="text-xl font-semibold text-zinc-50">
+              <h1 className="text-lg font-semibold text-zinc-50">
                 {" "}
                 HAIR SALON
               </h1>
             </div>
-            <div className="hidden h-full w-full items-center justify-center text-zinc-50 sm:flex">
+            <div className="hidden h-full w-full items-center justify-end text-zinc-50 sm:flex">
               {navList.map((item, index) => (
                 <div key={index}>
                   <Button
                     asChild
                     variant={"ghost"}
-                    className="text-md md:text-md font-black lg:text-lg xl:text-xl"
+                    className="text-md font-black md:text-lg lg:text-xl xl:text-3xl"
                   >
                     <Link
                       to={item.path}
                       smooth={true}
-                      offset={0}
+                      offset={-100}
                       duration={500}
                       className="cursor-pointer"
                     >
@@ -167,19 +222,16 @@ const Hero = () => {
                 </div>
               ))}
             </div>
-
-            <Button
-              size={"lg"}
-              className="bg-colors-indian-yellow hidden items-center gap-3 rounded-[5rem] p-3 text-xl font-bold text-white lg:flex"
-            >
-              Appointment
-              <AiOutlineArrowRight />
-            </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Container for social icons */}
-        <div className="absolute left-0 right-0 top-0 z-20 mx-auto flex h-10 w-full justify-center gap-4 bg-zinc-50 shadow-md sm:hidden">
+        <motion.div
+          initial={{ y: "-100vh" }}
+          animate={{ y: "0%" }}
+          transition={{ duration: 2 }}
+          className="absolute left-0 right-0 top-0 z-20 mx-auto flex h-10 w-full justify-center gap-4 bg-zinc-50 shadow-md sm:hidden"
+        >
           {navIcons.map(({ name, icon, path }) => (
             <div key={name}>
               <Button
@@ -192,99 +244,104 @@ const Hero = () => {
               </Button>
             </div>
           ))}
-        </div>
-
-        <div className="absolute left-0 right-0 top-20 z-20 flex h-10 w-full justify-between px-5 sm:hidden">
-          <div className="flex min-w-[7rem] flex-col justify-start">
-            <h1 className="text-colors-indian-yellow text-3xl font-bold">
-              HAIRCUT
+        </motion.div>
+        {/* MOBILE NAV */}
+        <motion.div
+          initial={{ y: "-100vh" }}
+          animate={{ y: "0%" }}
+          transition={{ duration: 2 }}
+          className="absolute left-0 right-0 top-20 z-20 flex h-10 w-full justify-between px-5 sm:hidden"
+        >
+          {/* MOBILE NAV LOGO */}
+          <div className="flex h-[7rem] border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 p-2">
+            <h1 className="text-3xl font-bold text-colors-indian-yellow">
+              EMBER
             </h1>
-            <h1 className="font-semibold text-zinc-50"> HAIR SALON</h1>
+            <h1 className="text-lg font-semibold text-zinc-50">
+              {" "}
+              HAIR <br /> SALON
+            </h1>
           </div>
           <div className="text-zinc-50">
             <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
           </div>
-          {/* Mobile nav menu */}
-          {isMenuOpen && (
-            <motion.div
-              variants={listVar}
-              initial="closed"
-              animate="opened"
-              className={cn(
-                "fixed left-0 top-0 z-[99999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
-              )}
-            >
-              <div className="absolute right-0 top-0 p-20">
-                <AiOutlineClose
-                  onClick={() => setIsMenuOpen(false)}
-                  className="cursor-pointer text-xl text-zinc-50"
-                />
-              </div>
-              {navList.map((item, index) => (
-                <motion.div
-                  variants={listItemVar}
-                  key={index}
-                  className="text-3xl font-bold"
-                >
-                  <Button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                    }}
-                    variant={"ghost"}
-                    asChild
-                    className="text-colors-indian-yellow text-xl font-bold hover:text-white"
-                  >
-                    <Link
-                      to={item.path}
-                      smooth={true}
-                      offset={-90}
-                      duration={500}
-                      className="cursor-pointer"
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </div>
+        </motion.div>
+        {/* TEXT */}
         <div className="absolute inset-0 h-full w-full">
-          <div className="w-12/3 absolute left-0 right-0 top-[15rem] z-20 flex h-10 flex-col justify-start gap-10 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
-            <h1 className="flex justify-start text-3xl font-bold text-white sm:text-4xl md:text-6xl">
-              HAIR CUTTING & COLORING
-            </h1>
-            <p className="text-white">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis
-              deleniti ad repudiandae fugiat architecto eius earum magnam natus
-              fugit quasi, totam quas veritatis nam quisquam tenetur libero
-              quae! Id, quidem?
-            </p>
-            <div className="flex justify-start">
-              <Button
-                asChild
-                className="bg-colors-indian-yellow ml-20 p-3 text-zinc-50"
+          <div className="absolute bottom-0 left-0 top-[15rem] z-20 mx-auto flex w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
+            <div className="hidden flex-col justify-start gap-3 text-3xl font-bold text-white duration-200 sm:flex sm:gap-10 sm:text-4xl md:text-6xl">
+              <motion.div
+                initial={{ x: "-100vw", opacity: 0 }}
+                animate={{ x: "0%", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2 }}
+                className="flex w-full justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[450px] md:w-[650px]"
               >
-                <Link
-                  to={"services"}
-                  smooth={true}
-                  offset={-90}
-                  duration={500}
-                  className="cursor-pointer"
-                >
-                  EXPLORE OUR SERVICES
-                </Link>
-              </Button>
+                <h1 className="p-3 font-bold">Cut & Styling</h1>
+              </motion.div>
+              <motion.div
+                initial={{ x: "-100vw", opacity: 0 }}
+                animate={{ x: "0%", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="flex w-[200px] justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[350px] md:w-[550px]"
+              >
+                <h1 className="p-3 font-bold">Treatments</h1>
+              </motion.div>
+              <motion.div
+                initial={{ x: "-100vw", opacity: 0 }}
+                animate={{ x: "0%", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
+                className="flex w-[150px] justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[250px] md:w-[450px]"
+              >
+                <h1 className="p-3 font-bold">Coloring</h1>
+              </motion.div>
             </div>
-          </div>
-          <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20 backdrop-blur-sm" />
 
-          <Image
-            src={"/6.PNG"}
-            fill
-            alt="hero"
-            className="z-[-1] h-full w-full object-cover brightness-50"
-          />
+            {/* LARGE BUTTON */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 1 }}
+              className="hidden h-full w-full sm:flex"
+            >
+              <Button
+                size={"lg"}
+                className="absolute bottom-[50%] ml-[20%] h-28 rounded-xl border border-zinc-50 bg-transparent p-5 text-4xl font-bold text-zinc-50 backdrop-blur-md sm:left-[30%] sm:top-[70%] md:bottom-[20%] md:ml-[10%] lg:ml-0 xl:left-[90%] xl:ml-[10%] xl:text-5xl"
+              >
+                BOOK ONLINE
+              </Button>
+            </motion.div>
+
+            {/* SMALL HERO BUTTON */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 1 }}
+              className="flex w-full justify-center gap-5 sm:hidden"
+            >
+              <Button
+                size={"lg"}
+                className="mt-[60%] flex h-12 items-center gap-3 rounded-xl border border-zinc-50 bg-transparent text-xl font-bold text-zinc-50 backdrop-blur-md"
+              >
+                BOOK ONLINE
+              </Button>
+            </motion.div>
+          </div>
+          {/* IMAGE */}
+          <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20" />
+          <motion.div
+            initial={{ opacity: 0, scale: 1.2 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 4 }}
+            style={{ transformOrigin: "center center" }}
+            className="h-screen w-full"
+          >
+            <Image
+              src={"/6.PNG"}
+              fill
+              alt="hero"
+              className="z-[-1] h-full w-full bg-right object-cover brightness-50"
+            />
+          </motion.div>
         </div>
       </div>
     </>

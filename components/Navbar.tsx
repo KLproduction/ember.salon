@@ -6,6 +6,7 @@ import { Link, animateScroll } from "react-scroll";
 import { cn } from "@/lib/utils";
 import Hamburger from "hamburger-react";
 import { motion } from "framer-motion";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -21,10 +22,7 @@ const Navbar = () => {
       name: "Services",
       path: "services",
     },
-    {
-      name: "Pricing",
-      path: "pricing",
-    },
+
     {
       name: "Gallery",
       path: "gallery",
@@ -92,10 +90,10 @@ const Navbar = () => {
         <div className="flex h-full items-center justify-between">
           {/* LOGO */}
           <div className="flex min-w-[7rem] flex-col justify-start">
-            <h1 className="text-colors-indian-yellow text-3xl font-bold">
-              HAIRCUT
+            <h1 className="text-2xl font-bold text-colors-indian-yellow lg:text-4xl">
+              EMBER
             </h1>
-            <h1 className="font-semibold text-zinc-50"> HAIR SALON</h1>
+            <h1 className="text-lg font-semibold text-zinc-50"> HAIR SALON</h1>
           </div>
           {/* NAV ITEM */}
           <div className="hidden h-full w-full items-center justify-center gap-5 text-zinc-50 sm:flex">
@@ -105,7 +103,7 @@ const Navbar = () => {
                   <Link
                     to={item.path}
                     smooth={true}
-                    offset={0}
+                    offset={-100}
                     duration={500}
                     className="cursor-pointer"
                   >
@@ -116,7 +114,7 @@ const Navbar = () => {
             ))}
           </div>
           {/* Mobile nav trigger */}
-          <div className="flex text-white sm:hidden">
+          <div className="flex min-w-[48px] flex-shrink-0 text-white sm:hidden">
             <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
           </div>
         </div>
@@ -128,9 +126,15 @@ const Navbar = () => {
           initial="closed"
           animate="opened"
           className={cn(
-            "fixed left-0 top-[6rem] z-[99999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
+            "fixed left-0 top-0 z-[99999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
           )}
         >
+          <div className="absolute right-0 top-0 p-20">
+            <AiOutlineClose
+              onClick={() => setIsMenuOpen(false)}
+              className="cursor-pointer text-xl text-zinc-50"
+            />
+          </div>
           {navList.map((item, index) => (
             <motion.div
               variants={listItemVar}
@@ -143,7 +147,7 @@ const Navbar = () => {
                 }}
                 variant={"ghost"}
                 asChild
-                className="text-colors-indian-yellow text-xl font-bold hover:text-white"
+                className="text-xl font-bold text-colors-indian-yellow hover:text-white"
               >
                 <Link
                   to={item.path}
