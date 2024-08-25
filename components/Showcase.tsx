@@ -20,38 +20,38 @@ const Showcase = () => {
     {
       backgroundColor: "from-red-100 to-blue-100",
       title: "Elegant Long Layers",
-      image: "/g1.png",
+      image: "https://utfs.io/f/9efc4244-065d-4d6c-9aca-4d7fb98a60c2-2i2.png",
       description:
-        "a user-friendly web application designed for both salad enthusiasts and restaurant administrators. It streamlines the process of ordering fresh, custom-made salads online, catering to busy individuals who seek quick and healthy meal options.",
+        "Showcasing a blend of cool and warm blondes, this long layered cut is polished to perfection, offering a sleek and sophisticated style.",
     },
     {
       backgroundColor: "from-blue-100 to-violet-100",
       title: "Beach Wave Bob",
-      image: "/g2.png",
+      image: "https://utfs.io/f/f03462dc-724a-4b96-b9ac-570f07bbb601-2i3.png",
       description:
-        "A dynamic and visually appealing platform for artists and designers to showcase their portfolios, share their creative process, and connect with potential clients.",
+        " Embrace the beachy vibes with this tousled bob, featuring natural-looking waves and a blend of ashy blonde tones for a casual yet chic look.",
     },
     {
       backgroundColor: "from-violet-100 to-purple-100",
       title: "Edgy Undercut Design",
-      image: "/g3.PNG",
+      image: "https://utfs.io/f/f136e823-189a-4421-b6af-6207cf11f758-2i4.png",
       description:
-        "A modern news and blog website focused on the latest technology trends, product reviews, and industry insights, with a sleek, responsive design.",
+        " A bold statement piece, this precision cut showcases a creative undercut with a custom design, perfect for a standout look.",
     },
 
     {
       backgroundColor: "from-purple-100 to-pink-100",
       title: "Classic Curls with a Twist",
-      image: "/g4.png",
+      image: "https://utfs.io/f/b9b183b5-1793-40e4-a2e1-92b8c2928134-2i5.png",
       description:
-        "A travel booking and itinerary planning website that helps users discover new destinations, find the best deals on flights and hotels, and create personalized travel plans.",
+        "This hairstyle highlights soft, flowing curls with rich brunette tones, giving a timeless elegance with a modern twist.",
     },
     {
       backgroundColor: "from-pink-100 to-indigo-100",
       title: "Soft Balayage Waves",
-      image: "/g5.png",
+      image: "https://utfs.io/f/9329102d-0375-49d1-92e5-97b9b4b1db3c-2i6.png",
       description:
-        "An online education platform that provides interactive courses, tutorials, and certifications in various fields, designed with an intuitive and engaging learning experience.",
+        "Capturing the essence of soft, sun-kissed waves, this balayage hairstyle blends natural tones with gentle curls for a truly effortless style.",
     },
   ];
 
