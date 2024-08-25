@@ -192,7 +192,7 @@ const Hero = () => {
             className="mt-20 flex items-center justify-between gap-5 px-5"
           >
             {/* HERO NAVBAR LOGO */}
-            <div className="flex border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 p-2">
+            <div className="flex border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 bg-black/20 p-2 backdrop-blur-lg">
               <h1 className="text-3xl font-bold text-colors-indian-yellow">
                 EMBER
               </h1>
@@ -253,7 +253,7 @@ const Hero = () => {
           className="absolute left-0 right-0 top-20 z-20 flex h-10 w-full justify-between px-5 sm:hidden"
         >
           {/* MOBILE NAV LOGO */}
-          <div className="flex h-[7rem] border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 p-2">
+          <div className="flex h-[7rem] border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 bg-black/20 p-2 backdrop-blur-lg">
             <h1 className="text-3xl font-bold text-colors-indian-yellow">
               EMBER
             </h1>
