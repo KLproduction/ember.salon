@@ -7,6 +7,9 @@ import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import OurService from "@/components/OurService";
+import BookingForm from "@/components/BookingForm";
+import Footer from "@/components/Footer";
+import NewHero from "@/components/newHero";
 
 export default function Home() {
   const ref1 = useRef<HTMLDivElement | null>(null);
@@ -21,7 +24,7 @@ export default function Home() {
   const isRef5Inview = useInView(ref5, { margin: "-100px" });
   return (
     <>
-      <main className="flex min-h-full flex-col items-center gap-10">
+      <main className="flex min-h-full flex-col items-center">
         <Navbar />
         <div
           className="home flex h-[100vh] w-full items-center justify-center"
@@ -30,19 +33,25 @@ export default function Home() {
           <Hero />
         </div>
 
-        <div className="services flex min-h-dvh w-full flex-col" ref={ref2}>
+        {/* <div className="h-full w-full">
+          <NewHero />
+        </div> */}
+
+        <div className="services flex min-h-[100vh] w-full flex-col" ref={ref2}>
           <OurService />
         </div>
 
-        <div className="gallery h-[700vh] w-full items-center justify-center">
+        <div className="gallery top-0 h-[700vh] w-full items-center justify-center">
           <Showcase />
         </div>
 
-        <div
-          className="pricing flex h-[100vh] w-full items-center justify-center bg-green-300"
-          ref={ref3}
-        >
-          <h1>P3</h1>
+        <div className="appointment flex h-full w-full" ref={ref3}>
+          <h1>
+            <BookingForm />
+          </h1>
+        </div>
+        <div>
+          <Footer />
         </div>
       </main>
     </>

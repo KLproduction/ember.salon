@@ -304,10 +304,13 @@ const Hero = () => {
               className="hidden h-full w-full sm:flex"
             >
               <Button
+                asChild
                 size={"lg"}
                 className="absolute bottom-[50%] ml-[20%] h-28 rounded-xl border border-zinc-50 bg-transparent p-5 text-4xl font-bold text-zinc-50 backdrop-blur-md sm:left-[30%] sm:top-[70%] md:bottom-[20%] md:ml-[10%] lg:ml-0 xl:left-[90%] xl:ml-[10%] xl:text-5xl"
               >
-                BOOK ONLINE
+                <Link to="appointment" smooth className="cursor-pointer">
+                  BOOK ONLINE
+                </Link>
               </Button>
             </motion.div>
 
@@ -321,8 +324,11 @@ const Hero = () => {
               <Button
                 size={"lg"}
                 className="mt-[60%] flex h-12 items-center gap-3 rounded-xl border border-zinc-50 bg-transparent text-xl font-bold text-zinc-50 backdrop-blur-md"
+                asChild
               >
-                BOOK ONLINE
+                <Link to="appointment" smooth className="cursor-pointer">
+                  BOOK ONLINE
+                </Link>
               </Button>
             </motion.div>
           </div>
@@ -335,12 +341,13 @@ const Hero = () => {
             style={{ transformOrigin: "center center" }}
             className="h-screen w-full"
           >
-            <Image
+            {/* <Image
               src={"/6.PNG"}
               fill
               alt="hero"
               className="z-[-1] h-full w-full bg-right object-cover brightness-50"
-            />
+            /> */}
+            <div className="bg-girlHair h-full w-full bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
           </motion.div>
         </div>
       </div>

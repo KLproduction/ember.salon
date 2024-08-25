@@ -98,7 +98,7 @@ const Navbar = () => {
           {/* NAV ITEM */}
           <div className="hidden h-full w-full items-center justify-center gap-5 text-zinc-50 sm:flex">
             {navList.map((item, index) => (
-              <div key={index}>
+              <div key={index} className="">
                 <Button asChild variant={"ghost"}>
                   <Link
                     to={item.path}

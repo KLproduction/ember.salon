@@ -128,7 +128,7 @@ const OurService = () => {
   ];
   return (
     <>
-      <Card className="flex flex-col items-center justify-center gap-5 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
+      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
         <CardHeader className="flex w-auto justify-center text-4xl text-yellow-700 sm:text-6xl">
           Our Services
         </CardHeader>
@@ -225,7 +225,6 @@ const OurService = () => {
           ))}
         </CardContent>
       </Card>
-      <div className="h-screen w-screen"></div>
     </>
   );
 };

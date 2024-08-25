@@ -61,9 +61,16 @@ const Showcase = () => {
   return (
     <motion.section className="h-screen w-screen">
       <div className="relative h-[700vh]" ref={ref}>
-        <div className="flex h-screen w-screen items-center justify-center text-center text-8xl text-zinc-600">
-          Gallery
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 3 }}
+          className="bg-girlHair2 flex h-screen w-screen items-center justify-center bg-cover bg-fixed bg-center bg-no-repeat text-center"
+        >
+          <h1 className="bg-black/50 p-10 text-6xl font-black text-zinc-50 opacity-70 backdrop-blur-lg sm:text-9xl">
+            Gallery
+          </h1>
+        </motion.div>
         <div className="sticky top-0 flex h-screen items-center gap-4 overflow-hidden">
           <motion.div style={{ x }} className="flex">
             <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-zinc-300 to-red-100" />

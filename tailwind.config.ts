@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        girlHair: 'url("/6.PNG")',
+        girlHair2: 'url("/11.PNG")',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
