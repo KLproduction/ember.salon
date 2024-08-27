@@ -22,6 +22,7 @@ const config = {
       backgroundImage: {
         girlHair: 'url("/6.PNG")',
         girlHair2: 'url("/11.PNG")',
+        formBG: 'url("/formBG.PNG")',
       },
       colors: {
         border: "hsl(var(--border))",

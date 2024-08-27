@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@hookform/resolvers": "^3.6.0",
     "@nextui-org/spinner": "^2.0.30",
     "@prisma/client": "^5.15.0",
@@ -26,9 +27,11 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
+    "@react-google-maps/api": "^2.19.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
     "@tanstack/react-table": "^8.19.3",
+    "@types/google-map-react": "^2.1.10",
     "@uploadthing/react": "^6.7.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
@@ -62,6 +65,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
+    "@types/google.maps": "^3.55.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

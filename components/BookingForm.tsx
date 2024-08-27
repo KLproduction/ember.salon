@@ -72,24 +72,21 @@ const BookingForm = () => {
   };
   return (
     <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh]">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-        viewport={{ once: true }}
-        className="h-full w-full"
-      >
+      {/* <div className="bg-formBG h-full w-full bg-center bg-no-repeat object-cover">
         <Image
           src={"/formBG.PNG"}
           fill
           alt=""
           className="absolute inset-0 overflow-visible object-cover opacity-80 brightness-50"
         />
-      </motion.div>
-      <div className="absolute inset-0 h-full w-full">
+      </div> */}
+      <div
+        className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url("/formBG2.png")' }}
+      >
         <div className="flex flex-col items-center justify-center">
-          <Card className="mx-4 mt-[10rem] flex max-h-full flex-col items-center justify-center bg-black/50 text-zinc-50 backdrop-blur-md sm:mx-8 md:mx-12 lg:mx-20 xl:mx-48">
-            <CardHeader className="flex items-center justify-center px-4 text-6xl text-yellow-600 sm:px-8 md:px-12 lg:px-20 xl:px-48">
+          <Card className="mx-4 mt-[3rem] flex max-h-full flex-col items-center justify-center bg-black/75 text-zinc-50 backdrop-blur-sm sm:mx-8 md:mx-12 lg:mx-20 xl:mx-48">
+            <CardHeader className="flex items-center justify-center px-4 text-4xl text-yellow-600 sm:px-8 sm:text-6xl md:px-12 lg:px-20 xl:px-48">
               BOOK ONLINE
               <CardDescription className="mt-10 text-zinc-400">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit
@@ -123,6 +120,24 @@ const BookingForm = () => {
                       />
                       <FormField
                         control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone Number:</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="Please Enter Your Phone Number"
+                                disabled={isPending}
+                                className="min-w-[250px] placeholder-red-300"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
                         name="email"
                         render={({ field }) => (
                           <FormItem>
@@ -139,17 +154,16 @@ const BookingForm = () => {
                           </FormItem>
                         )}
                       />
-
                       <FormField
                         control={form.control}
-                        name="phone"
+                        name="confirmEmail"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number:</FormLabel>
+                            <FormLabel>Confirm Email:</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
-                                placeholder="Please Enter Your Phone Number"
+                                placeholder="Please confirm Your Email"
                                 disabled={isPending}
                                 className="min-w-[250px]"
                               />
@@ -158,6 +172,7 @@ const BookingForm = () => {
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="services"
@@ -231,6 +246,34 @@ const BookingForm = () => {
                       />
                       <FormField
                         control={form.control}
+                        name="time"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Time Slot</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a Time Slot" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {timeSlot.map((hour, index) => (
+                                  <SelectItem key={index} value={hour}>
+                                    {hour}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
                         name="date"
                         render={({ field }) => (
                           <FormItem className="flex h-20 flex-col justify-end text-white">
@@ -267,34 +310,6 @@ const BookingForm = () => {
                                 />
                               </PopoverContent>
                             </Popover>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="time"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Time Slot</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a Time Slot" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {timeSlot.map((hour, index) => (
-                                  <SelectItem key={index} value={hour}>
-                                    {hour}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
 
                             <FormMessage />
                           </FormItem>

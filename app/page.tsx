@@ -10,6 +10,8 @@ import OurService from "@/components/OurService";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
 import NewHero from "@/components/newHero";
+import Map from "@/components/map";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   const ref1 = useRef<HTMLDivElement | null>(null);
@@ -49,6 +51,9 @@ export default function Home() {
           <h1>
             <BookingForm />
           </h1>
+        </div>
+        <div className="contact h-full min-h-dvh w-full">
+          <Contact />
         </div>
         <div>
           <Footer />

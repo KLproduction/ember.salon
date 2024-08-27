@@ -207,7 +207,7 @@ const Hero = () => {
                   <Button
                     asChild
                     variant={"ghost"}
-                    className="text-md font-black md:text-lg lg:text-xl xl:text-3xl"
+                    className="text-md py-8 font-black hover:bg-white/50 md:text-lg lg:text-xl xl:text-3xl"
                   >
                     <Link
                       to={item.path}
@@ -347,7 +347,7 @@ const Hero = () => {
               alt="hero"
               className="z-[-1] h-full w-full bg-right object-cover brightness-50"
             /> */}
-            <div className="bg-girlHair h-full w-full bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
+            <div className="h-full w-full bg-girlHair bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
           </motion.div>
         </div>
       </div>
