@@ -37,14 +37,15 @@ export const setting = async (values: z.infer<typeof SettingSchema>) => {
     }
 
     const verificationToken = await generateVerificationToken(values.email);
+    if (values.email) {
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+        user.id,
+      );
 
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token,
-      user.id,
-    );
-
-    return { success: "Verification email sent!" };
+      return { success: "Verification email sent!" };
+    }
   }
 
   if (values.password && values.newPassword && dbUser.password) {
