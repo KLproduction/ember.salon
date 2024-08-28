@@ -51,6 +51,7 @@ import { TService, TServiceItem } from "@/lib/type";
 import { getProduct, getServiceItem } from "@/data/getProduct";
 import { useRouter } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
+import MySpinner from "./MySpinner";
 
 const BookingForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -98,9 +99,8 @@ const BookingForm = () => {
   const selectedDateTrigger = selectedDate ? selectedDate.toISOString() : null;
 
   useEffect(() => {
-    (async () => {
+    startTransition(async () => {
       const availableSlots = [];
-
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
 
@@ -113,7 +113,7 @@ const BookingForm = () => {
         ...form.getValues(),
         time: "",
       });
-    })();
+    });
   }, [selectedDateTrigger]);
 
   const onSubmit = (values: z.infer<typeof BookingFormSchema>) => {
@@ -313,6 +313,7 @@ const BookingForm = () => {
                             <Select
                               onValueChange={field.onChange}
                               value={field.value}
+                              disabled={isPending}
                             >
                               <FormControl>
                                 <SelectTrigger>
