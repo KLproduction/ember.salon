@@ -55,6 +55,7 @@ import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 const BookingForm = () => {
   const [isPending, startTransition] = useTransition();
   const [service, setService] = useState<TService[] | null>(null);
+  const [isTime, setIsTime] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -94,22 +95,26 @@ const BookingForm = () => {
     "19:00",
   ];
   const selectedDate = form.watch("date");
+  const selectedDateTrigger = selectedDate ? selectedDate.toISOString() : null;
 
   useEffect(() => {
     (async () => {
       const availableSlots = [];
+
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
-        console.log(slot, count);
 
         if (count < 5) {
           availableSlots.push(slot);
         }
       }
       setAvailableTimeSlots(availableSlots);
-      console.log(availableSlots);
+      form.reset({
+        ...form.getValues(),
+        time: "",
+      });
     })();
-  }, [selectedDate]);
+  }, [selectedDateTrigger]);
 
   const onSubmit = (values: z.infer<typeof BookingFormSchema>) => {
     startTransition(async () => {
@@ -255,40 +260,7 @@ const BookingForm = () => {
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="time"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Time Slot</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a Time Slot" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {slots.map((hour, index) => (
-                                  <SelectItem
-                                    key={index}
-                                    value={hour}
-                                    disabled={
-                                      !availableTimeSlots.includes(hour)
-                                    }
-                                  >
-                                    {hour}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
 
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                       <FormField
                         control={form.control}
                         name="date"
@@ -327,6 +299,40 @@ const BookingForm = () => {
                                 />
                               </PopoverContent>
                             </Popover>
+
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="time"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Time Slot</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a Time Slot" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {slots.map((hour, index) => (
+                                  <SelectItem
+                                    key={index}
+                                    value={hour}
+                                    disabled={
+                                      !availableTimeSlots.includes(hour)
+                                    }
+                                  >
+                                    {hour}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
 
                             <FormMessage />
                           </FormItem>
