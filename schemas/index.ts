@@ -1,4 +1,12 @@
+import { ServiceCategory } from "@prisma/client";
 import * as z from "zod";
+
+export const ServiceSettingSchema = z.object({
+  name: z.string().min(1, { message: "Please enter service name." }),
+  price: z.number(),
+  categoryName: z.enum(["CUTTING", "TREATMENT", "COLORING", "PERMANENT"]),
+  serviceStatus: z.enum(["Available", "notAvailable"]),
+});
 
 export const BookingFormSchema = z
   .object({
@@ -22,3 +30,36 @@ export const BookingFormSchema = z
       });
     }
   });
+
+export const LoginSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  password: z.string().min(1, {
+    message: "Password is required",
+  }),
+  code: z.optional(z.string()),
+});
+
+export const RegisterSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  password: z.string().min(8, {
+    message: "Minimum 8 Characters required",
+  }),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+});
+
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+});
+export const NewPasswordSchema = z.object({
+  password: z.string().min(8, {
+    message: "Minimum 8 Characters required",
+  }),
+});

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import {
   Card,
   CardContent,
@@ -22,110 +22,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatPrice } from "@/lib/formatPrice";
+import { TService } from "@/lib/type";
+import { getProduct } from "@/data/getProduct";
+import MySpinner from "./MySpinner";
 
 const OurService = () => {
-  const serviceList = [
-    {
-      name: " Cut and Blow Dry",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam adipisicing elit. Est ipsam psum dolor sit amet consectetur adipisicing elit.",
-      image: "/cutting.png",
-      path: "/",
-      price: {
-        cutting: [
-          {
-            name: "Cut & Styling",
-            price: formatPrice(19),
-          },
-          {
-            name: "Cleanse, Styling & Blow Dry Straight",
-            price: formatPrice(14),
-          },
-          {
-            name: "Cleanse & Up-do",
-            price: formatPrice(30),
-          },
-          {
-            name: "Child (Under 12)",
-            price: formatPrice(14),
-          },
-        ],
-      },
-    },
-    {
-      name: " Treatment",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam adipisicing elit. Est ipsam psum dolor sit amet consectetur adipisicing elit.",
-      image: "/treatments.png",
-      path: "/",
-      price: {
-        treatment: [
-          {
-            name: "Olaplex Protective Treatment",
-            price: formatPrice(15),
-          },
-          {
-            name: "Milbon Linkage Deep Intensive Care Treatment",
-            price: formatPrice(160),
-          },
-          {
-            name: "Milbon Superior Treatment",
-            price: formatPrice(80),
-          },
-          {
-            name: "Milbon Premium Position Treatment",
-            price: formatPrice(100),
-          },
-        ],
-      },
-    },
-    {
-      name: " Coloring",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam adipisicing elit. Est ipsam psum dolor sit amet consectetur adipisicing elit.",
-      image: "/coloring.png",
-      path: "/",
-      price: {
-        coloring: [
-          {
-            name: "Base Color or Color Treatment",
-            price: formatPrice(50),
-          },
-          {
-            name: "Protective Technical Bleach",
-            price: formatPrice(40),
-          },
-          {
-            name: "Creative Highlight",
-            price: formatPrice(80),
-          },
-          {
-            name: "Balayage / Air Touch",
-            price: formatPrice(200),
-          },
-        ],
-      },
-    },
-    {
-      name: " Permanent",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam adipisicing elit. Est ipsam psum dolor sit amet consectetur adipisicing elit.",
-      image: "/permanent.png",
-      path: "/",
-      price: {
-        permanent: [
-          {
-            name: "Touch Perm",
-            price: formatPrice(40),
-          },
-          {
-            name: "Technical Perm",
-            price: formatPrice(80),
-          },
-        ],
-      },
-    },
-  ];
+  const [service, setService] = useState<TService[] | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    startTransition(async () => {
+      const data = await getProduct();
+      if (data) {
+        setService(data);
+      }
+    });
+  }, []);
   return (
     <>
       <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
@@ -140,7 +52,7 @@ const OurService = () => {
         </CardDescription>
 
         <CardContent className="grid grid-cols-1 sm:grid-cols-2">
-          {serviceList.map((item, index) => (
+          {service?.map((item, index) => (
             <motion.div
               initial={{ opacity: 0, y: "50px" }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -176,46 +88,18 @@ const OurService = () => {
                         <DialogDescription></DialogDescription>
                       </DialogHeader>
                       <div className="flex flex-col justify-center gap-10 text-sm text-zinc-700 sm:text-lg md:text-xl">
-                        {item.price.cutting &&
-                          item.price.cutting.map((item, index) => (
-                            <div
-                              className="mx-5 flex items-center justify-between border-b-2 border-zinc-200 p-3"
-                              key={index}
-                            >
-                              <h1>{item.name}</h1>
-                              <p>{item.price}</p>
-                            </div>
-                          ))}
-                        {item.price.treatment &&
-                          item.price.treatment.map((item, index) => (
-                            <div
-                              className="mx-5 flex items-center justify-between border-b-2 border-zinc-200 p-3"
-                              key={index}
-                            >
-                              <h1>{item.name}</h1>
-                              <p>{item.price}</p>
-                            </div>
-                          ))}
-                        {item.price.permanent &&
-                          item.price.permanent.map((item, index) => (
-                            <div
-                              className="mx-5 flex items-center justify-between border-b-2 border-zinc-200 p-3"
-                              key={index}
-                            >
-                              <h1>{item.name}</h1>
-                              <p>{item.price}</p>
-                            </div>
-                          ))}
-                        {item.price.coloring &&
-                          item.price.coloring.map((item, index) => (
-                            <div
-                              className="mx-5 flex items-center justify-between border-b-2 border-zinc-200 p-3"
-                              key={index}
-                            >
-                              <h1>{item.name}</h1>
-                              <p>{item.price}</p>
-                            </div>
-                          ))}
+                        {item.serviceItem.map(
+                          (item, index) =>
+                            item.serviceStatus === "Available" && (
+                              <div
+                                className="mx-5 flex items-center justify-between border-b-2 border-zinc-200 p-3"
+                                key={index}
+                              >
+                                <h1>{item.name}</h1>
+                                <p>{formatPrice(item.price)}</p>
+                              </div>
+                            ),
+                        )}
                       </div>
                     </DialogContent>
                   </Dialog>

@@ -13,15 +13,14 @@ const Contact = () => {
           <div className="flex flex-col items-start justify-center">
             <h1 className="text-xl font-black text-yellow-600">Address:</h1>
             <div className="flex flex-col items-start justify-between">
-              <p>311 King"s Road</p>
-              <p>Chelsea</p>
+              <p>Westminster</p>
               <p>London</p>
-              <p>SW3 5EP</p>
+              <p>SW1A 2PW</p>
             </div>
           </div>
           <div className="flex flex-col items-start justify-center">
             <h1 className="text-xl font-black text-yellow-600">Contact:</h1>
-            <div className="flex flex-col items-start justify-between">
+            <div className="flex flex-col items-start justify-between gap-3">
               <div className="flex flex-col items-start justify-between">
                 <div>Telephone:</div>
                 <div> 01234-567-890</div>

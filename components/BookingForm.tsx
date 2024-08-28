@@ -23,7 +23,7 @@ import Image from "next/image";
 import { BookingFormSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Button } from "./ui/button";
 import {
   Popover,
@@ -45,9 +45,25 @@ import {
 } from "@/components/ui/select";
 import { SERVICES } from "@/lib/serviceList";
 import { Textarea } from "./ui/textarea";
+import { addBooking } from "@/action/booking";
+import { toast } from "sonner";
+import { TService, TServiceItem } from "@/lib/type";
+import { getProduct, getServiceItem } from "@/data/getProduct";
+import { useRouter } from "next/navigation";
+import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 
 const BookingForm = () => {
   const [isPending, startTransition] = useTransition();
+  const [service, setService] = useState<TService[] | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const data = await getProduct();
+      if (data) {
+        setService(data);
+      }
+    })();
+  }, []);
 
   const form = useForm<z.infer<typeof BookingFormSchema>>({
     resolver: zodResolver(BookingFormSchema),
@@ -56,30 +72,60 @@ const BookingForm = () => {
       email: "",
       phone: "",
       message: "",
+      confirmEmail: "",
+      services: "",
+      time: "",
+      date: undefined,
     },
   });
 
-  const timeSlot = Array.from({ length: 10 }, (_, i) => `${i + 10}:00`);
+  const [availableTimeSlots, setAvailableTimeSlots] = useState<string[]>([]);
 
-  const onSubmit = () => {
-    startTransition(() => {
-      try {
-        console.log(form.getValues());
-      } catch (e) {
-        console.error(e);
+  const slots = [
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+  ];
+  const selectedDate = form.watch("date");
+
+  useEffect(() => {
+    (async () => {
+      const availableSlots = [];
+      for (let slot of slots) {
+        const count = await checkFreeTimeSlot(selectedDate, slot);
+        console.log(slot, count);
+
+        if (count < 5) {
+          availableSlots.push(slot);
+        }
       }
+      setAvailableTimeSlots(availableSlots);
+      console.log(availableSlots);
+    })();
+  }, [selectedDate]);
+
+  const onSubmit = (values: z.infer<typeof BookingFormSchema>) => {
+    startTransition(async () => {
+      await addBooking(values).then((data) => {
+        if (data.success) {
+          toast.success("Booking has been made.");
+          form.reset();
+        } else {
+          toast.error("Something went wrong, fail to book.");
+        }
+      });
     });
   };
+
   return (
     <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh]">
-      {/* <div className="bg-formBG h-full w-full bg-center bg-no-repeat object-cover">
-        <Image
-          src={"/formBG.PNG"}
-          fill
-          alt=""
-          className="absolute inset-0 overflow-visible object-cover opacity-80 brightness-50"
-        />
-      </div> */}
       <div
         className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
         style={{ backgroundImage: 'url("/formBG2.png")' }}
@@ -181,7 +227,7 @@ const BookingForm = () => {
                             <FormLabel>Service</FormLabel>
                             <Select
                               onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              value={field.value}
                             >
                               <FormControl>
                                 <SelectTrigger>
@@ -189,52 +235,17 @@ const BookingForm = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {SERVICES.map((item, index) => (
+                                {service?.map((item, index) => (
                                   <SelectGroup key={index}>
-                                    <SelectLabel>{item.name}</SelectLabel>
+                                    <SelectLabel className="border-b-2 border-zinc-700 text-yellow-600">
+                                      {item.name}
+                                    </SelectLabel>
 
-                                    {item.price.cutting &&
-                                      item.price.cutting.map((item, index) => (
-                                        <SelectItem
-                                          key={index}
-                                          value={item.name}
-                                        >
-                                          {item.name}
-                                        </SelectItem>
-                                      ))}
-                                    {item.price.treatment &&
-                                      item.price.treatment.map(
-                                        (item, index) => (
-                                          <SelectItem
-                                            key={index}
-                                            value={item.name}
-                                          >
-                                            {item.name}
-                                          </SelectItem>
-                                        ),
-                                      )}
-
-                                    {item.price.coloring &&
-                                      item.price.coloring.map((item, index) => (
-                                        <SelectItem
-                                          key={index}
-                                          value={item.name}
-                                        >
-                                          {item.name}
-                                        </SelectItem>
-                                      ))}
-
-                                    {item.price.permanent &&
-                                      item.price.permanent.map(
-                                        (item, index) => (
-                                          <SelectItem
-                                            key={index}
-                                            value={item.name}
-                                          >
-                                            {item.name}
-                                          </SelectItem>
-                                        ),
-                                      )}
+                                    {item.serviceItem.map((item, index) => (
+                                      <SelectItem value={item.name}>
+                                        {item.name}
+                                      </SelectItem>
+                                    ))}
                                   </SelectGroup>
                                 ))}
                               </SelectContent>
@@ -252,7 +263,7 @@ const BookingForm = () => {
                             <FormLabel>Time Slot</FormLabel>
                             <Select
                               onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              value={field.value}
                             >
                               <FormControl>
                                 <SelectTrigger>
@@ -260,8 +271,14 @@ const BookingForm = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {timeSlot.map((hour, index) => (
-                                  <SelectItem key={index} value={hour}>
+                                {slots.map((hour, index) => (
+                                  <SelectItem
+                                    key={index}
+                                    value={hour}
+                                    disabled={
+                                      !availableTimeSlots.includes(hour)
+                                    }
+                                  >
                                     {hour}
                                   </SelectItem>
                                 ))}

@@ -12,6 +12,9 @@ import Footer from "@/components/Footer";
 import NewHero from "@/components/newHero";
 import Map from "@/components/map";
 import Contact from "@/components/Contact";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import SignOutBtn from "@/components/auth/SignOutBtn";
+import Link from "next/link";
 
 export default function Home() {
   const ref1 = useRef<HTMLDivElement | null>(null);
@@ -24,6 +27,8 @@ export default function Home() {
   const isRef4Inview = useInView(ref4);
   const ref5 = useRef<HTMLDivElement | null>(null);
   const isRef5Inview = useInView(ref5, { margin: "-100px" });
+  const user = useCurrentUser();
+
   return (
     <>
       <main className="flex min-h-full flex-col items-center">
@@ -34,10 +39,6 @@ export default function Home() {
         >
           <Hero />
         </div>
-
-        {/* <div className="h-full w-full">
-          <NewHero />
-        </div> */}
 
         <div className="services flex min-h-[100vh] w-full flex-col" ref={ref2}>
           <OurService />
@@ -57,6 +58,17 @@ export default function Home() {
         </div>
         <div>
           <Footer />
+        </div>
+        <div>
+          {user ? (
+            <div>
+              <SignOutBtn />
+            </div>
+          ) : (
+            <div>
+              <Link href={"/auth/login"}>Login</Link>
+            </div>
+          )}
         </div>
       </main>
     </>

@@ -89,12 +89,17 @@ const Navbar = () => {
       >
         <div className="flex h-full items-center justify-between">
           {/* LOGO */}
-          <div className="flex min-w-[7rem] flex-col justify-start">
-            <h1 className="text-2xl font-bold text-colors-indian-yellow lg:text-4xl">
-              EMBER
-            </h1>
-            <h1 className="text-lg font-semibold text-zinc-50"> HAIR SALON</h1>
-          </div>
+          <Link to="home" smooth className="cursor-pointer">
+            <div className="flex min-w-[7rem] flex-col justify-start">
+              <h1 className="text-2xl font-bold text-colors-indian-yellow lg:text-4xl">
+                EMBER
+              </h1>
+              <h1 className="text-lg font-semibold text-zinc-50">
+                {" "}
+                HAIR SALON
+              </h1>
+            </div>
+          </Link>
           {/* NAV ITEM */}
           <div className="hidden h-full w-full items-center justify-center gap-5 text-zinc-50 sm:flex">
             {navList.map((item, index) => (
