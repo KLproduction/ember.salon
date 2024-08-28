@@ -37,7 +37,7 @@ const Map = () => {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      <Marker position={center} />
+      <Marker position={center} key={1} />
       {/* Child components, such as markers, info windows, etc. */}
       <></>
     </GoogleMap>

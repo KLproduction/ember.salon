@@ -247,7 +247,7 @@ const BookingForm = () => {
                                     </SelectLabel>
 
                                     {item.serviceItem.map((item, index) => (
-                                      <SelectItem value={item.name}>
+                                      <SelectItem value={item.name} key={index}>
                                         {item.name}
                                       </SelectItem>
                                     ))}
