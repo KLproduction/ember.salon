@@ -69,6 +69,7 @@ model Booking {
   message   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  isRead    Boolean  @default(false)
 }
 
 model Account {

@@ -8,6 +8,14 @@ import * as z from "zod";
 
 export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
   try {
+    const dateWithoutTime = new Date(
+      Date.UTC(
+        values.date.getFullYear(),
+        values.date.getMonth(),
+        values.date.getDate(),
+      ),
+    );
+    console.log("Saving booking for:", { dateWithoutTime });
     await db.booking.create({
       data: {
         name: values.name,
@@ -15,7 +23,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
         phone: values.phone,
         service: values.services,
         timeSlot: values.time,
-        date: values.date,
+        date: dateWithoutTime,
         message: values.message || null,
       },
     });

@@ -52,6 +52,7 @@ import { getProduct, getServiceItem } from "@/data/getProduct";
 import { useRouter } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import MySpinner from "./MySpinner";
+import { enGB } from "date-fns/locale";
 
 const BookingForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -103,7 +104,7 @@ const BookingForm = () => {
       const availableSlots = [];
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
-
+        console.log(`Slot: ${slot}, Date: ${selectedDate}, Count: ${count}`);
         if (count < 5) {
           availableSlots.push(slot);
         }
@@ -118,14 +119,23 @@ const BookingForm = () => {
 
   const onSubmit = (values: z.infer<typeof BookingFormSchema>) => {
     startTransition(async () => {
-      await addBooking(values).then((data) => {
-        if (data.success) {
-          toast.success("Booking has been made.");
-          form.reset();
-        } else {
-          toast.error("Something went wrong, fail to book.");
-        }
-      });
+      const data = await addBooking(values);
+      if (data.success) {
+        toast.success("Booking has been made.");
+        // form.reset({
+        //   ...form.getValues(),
+        //   name: "",
+        //   email: "",
+        //   phone: "",
+        //   message: "",
+        //   confirmEmail: "",
+        //   services: "",
+        //   time: "",
+        //   date: undefined,
+        // });
+      } else {
+        toast.error("Something went wrong, fail to book.");
+      }
     });
   };
 
@@ -294,8 +304,14 @@ const BookingForm = () => {
                                   mode="single"
                                   selected={field.value}
                                   onSelect={field.onChange}
-                                  disabled={(date) => date < new Date()}
+                                  disabled={(date) => {
+                                    const today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+                                    date.setHours(0, 0, 0, 0);
+                                    return date < today;
+                                  }}
                                   initialFocus
+                                  locale={enGB}
                                 />
                               </PopoverContent>
                             </Popover>
@@ -316,22 +332,38 @@ const BookingForm = () => {
                               disabled={isPending}
                             >
                               <FormControl>
-                                <SelectTrigger>
+                                <SelectTrigger className="disabled:bg-zinc-600 disabled:text-zinc-600">
                                   <SelectValue placeholder="Select a Time Slot" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {slots.map((hour, index) => (
-                                  <SelectItem
-                                    key={index}
-                                    value={hour}
-                                    disabled={
-                                      !availableTimeSlots.includes(hour)
-                                    }
-                                  >
-                                    {hour}
-                                  </SelectItem>
-                                ))}
+                                {slots.map((hour, index) => {
+                                  const slotTime = parseInt(
+                                    hour.split(":")[0],
+                                    10,
+                                  );
+
+                                  const currentTime = new Date();
+                                  const currentHour = currentTime.getHours();
+                                  const isToday =
+                                    selectedDate &&
+                                    currentTime.toDateString() ===
+                                      new Date(selectedDate).toDateString();
+
+                                  return (
+                                    <SelectItem
+                                      key={index}
+                                      value={hour}
+                                      disabled={
+                                        (slotTime <= currentHour + 1 &&
+                                          isToday) ||
+                                        !availableTimeSlots.includes(hour)
+                                      }
+                                    >
+                                      {hour}
+                                    </SelectItem>
+                                  );
+                                })}
                               </SelectContent>
                             </Select>
 

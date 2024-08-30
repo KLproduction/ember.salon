@@ -1,0 +1,29 @@
+.my-booked-class {
+  position: relative; /* This ensures that the pseudo-element can be positioned relative to the day cell */
+}
+
+.my-booked-class::after {
+  content: ""; /* Necessary to create a pseudo-element */
+  position: absolute; /* Position the pseudo-element out of the normal flow, relative to the nearest positioned ancestor */
+  right: 2px; /* Distance from the right edge of the day cell */
+  top: 2px; /* Distance from the top edge of the day cell */
+  width: 6px; /* Width of the dot */
+  height: 6px; /* Height of the dot */
+  border-radius: 50%; /* Makes the dot circular */
+  background-color: gray; /* Color of the dot */
+}
+
+.my-unread-class {
+  position: relative;
+}
+
+.my-unread-class::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: green;
+}
