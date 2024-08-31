@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Description } from "@radix-ui/react-dialog";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { title } from "process";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Showcase = () => {
   const worksList = [
@@ -58,6 +59,11 @@ const Showcase = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: ref });
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const isEndRefInView = useInView(endRef, {
+    margin: "-100px",
+  });
+
   return (
     <motion.section className="h-screen w-screen">
       <div className="relative h-[700vh]" ref={ref}>
@@ -66,7 +72,11 @@ const Showcase = () => {
             Gallery
           </h1>
         </motion.div>
-        <div className="sticky top-0 flex h-screen items-center gap-4 overflow-hidden lg:top-5">
+        <div
+          className={cn(
+            "sticky top-0 flex h-screen items-center gap-4 overflow-hidden",
+          )}
+        >
           <motion.div style={{ x }} className="flex">
             <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-zinc-300 to-red-100" />
 
@@ -101,7 +111,10 @@ const Showcase = () => {
               className={`flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-100 to-violet-100`}
             >
               <div className="relative h-screen w-screen">
-                <div className="absolute left-0 top-1/2 flex justify-start text-zinc-900">
+                <div
+                  className="absolute left-0 top-1/2 flex justify-start text-zinc-900"
+                  ref={endRef}
+                >
                   <Button
                     variant={"ghost"}
                     className="text-md mb-10 mr-10 p-5 font-semibold text-zinc-600 sm:text-3xl"
