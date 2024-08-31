@@ -140,7 +140,7 @@ const BookingForm = () => {
   };
 
   return (
-    <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh]">
+    <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh] lg:min-h-[150vh]">
       <div
         className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
         style={{ backgroundImage: 'url("/formBG2.png")' }}

@@ -64,20 +64,23 @@ const Navbar = () => {
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
-    if (currentScrollY > 100) {
+
+    if (currentScrollY < lastScrollY && currentScrollY > 100) {
       setIsNavOpen(true);
     } else {
       setIsNavOpen(false);
     }
+
+    setLastScrollY(currentScrollY);
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
   return (
     <>

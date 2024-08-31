@@ -61,12 +61,12 @@ const Showcase = () => {
   return (
     <motion.section className="h-screen w-screen">
       <div className="relative h-[700vh]" ref={ref}>
-        <motion.div className="bg-girlHair2 flex h-screen w-screen items-center justify-center bg-cover bg-fixed bg-center bg-no-repeat text-center">
+        <motion.div className="flex h-screen w-screen items-center justify-center bg-girlHair2 bg-cover bg-fixed bg-center bg-no-repeat text-center">
           <h1 className="bg-black/50 p-10 text-6xl font-black text-zinc-50 opacity-70 backdrop-blur-lg sm:text-9xl">
             Gallery
           </h1>
         </motion.div>
-        <div className="sticky top-0 flex h-screen items-center gap-4 overflow-hidden">
+        <div className="sticky top-5 flex h-screen items-center gap-4 overflow-hidden">
           <motion.div style={{ x }} className="flex">
             <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-zinc-300 to-red-100" />
 
@@ -75,8 +75,8 @@ const Showcase = () => {
                 className={`flex h-screen w-screen items-center justify-center bg-gradient-to-r ${item.backgroundColor}`}
                 key={item.title}
               >
-                <div className="mt-20 flex flex-col justify-center gap-5 text-zinc-600">
-                  <h1 className="justify-center text-xl font-bold md:text-4xl lg:text-4xl xl:text-6xl">
+                <div className="mt-20 flex flex-col justify-center gap-2 text-zinc-600">
+                  <h1 className="justify-center text-xl font-bold md:text-4xl lg:text-3xl xl:text-6xl">
                     {item.title}
                   </h1>
                   <div className="relative h-56 w-72 md:h-64 md:w-96 lg:h-[350px] lg:w-[500px] xl:h-[420px] xl:w-[600px]">
@@ -92,7 +92,7 @@ const Showcase = () => {
                     {item.description}
                   </p>
 
-                  <Button className="mx-auto">See Demo</Button>
+                  {/* <Button className="mx-auto">See Demo</Button> */}
                 </div>
               </div>
             ))}
