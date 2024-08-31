@@ -66,7 +66,7 @@ const Showcase = () => {
             Gallery
           </h1>
         </motion.div>
-        <div className="sticky top-5 flex h-screen items-center gap-4 overflow-hidden">
+        <div className="sticky top-0 flex h-screen items-center gap-4 overflow-hidden lg:top-5">
           <motion.div style={{ x }} className="flex">
             <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-zinc-300 to-red-100" />
 
@@ -75,7 +75,7 @@ const Showcase = () => {
                 className={`flex h-screen w-screen items-center justify-center bg-gradient-to-r ${item.backgroundColor}`}
                 key={item.title}
               >
-                <div className="mt-20 flex flex-col justify-center gap-2 text-zinc-600">
+                <div className="mt-20 flex flex-col justify-center gap-2 text-zinc-600 lg:pt-20 xl:mb-20 xl:mt-0">
                   <h1 className="justify-center text-xl font-bold md:text-4xl lg:text-3xl xl:text-6xl">
                     {item.title}
                   </h1>

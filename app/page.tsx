@@ -53,7 +53,7 @@ export default function Home() {
             <BookingForm />
           </h1>
         </div>
-        <div className="contact h-full min-h-dvh w-full">
+        <div className="contact h-full min-h-dvh w-screen overflow-hidden">
           <Contact />
         </div>
         <div>
