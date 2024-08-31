@@ -276,7 +276,13 @@ const Hero = () => {
                 transition={{ duration: 1, delay: 0.2 }}
                 className="flex w-full justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[450px] md:w-[650px]"
               >
-                <h1 className="p-3 font-bold">Cut & Styling</h1>
+                <Link
+                  to="services"
+                  smooth
+                  className="cursor-pointer p-3 font-bold"
+                >
+                  Cut & Styling
+                </Link>
               </motion.div>
               <motion.div
                 initial={{ x: "-100vw", opacity: 0 }}
@@ -284,7 +290,13 @@ const Hero = () => {
                 transition={{ duration: 1, delay: 0.5 }}
                 className="flex w-[200px] justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[350px] md:w-[550px]"
               >
-                <h1 className="p-3 font-bold">Treatments</h1>
+                <Link
+                  to="services"
+                  smooth
+                  className="cursor-pointer p-3 font-bold"
+                >
+                  Treatments
+                </Link>
               </motion.div>
               <motion.div
                 initial={{ x: "-100vw", opacity: 0 }}
@@ -292,7 +304,13 @@ const Hero = () => {
                 transition={{ duration: 1, delay: 0.8 }}
                 className="flex w-[150px] justify-end bg-white/20 shadow-lg backdrop-blur-lg sm:w-[250px] md:w-[450px]"
               >
-                <h1 className="p-3 font-bold">Coloring</h1>
+                <Link
+                  to="services"
+                  smooth
+                  className="cursor-pointer p-3 font-bold"
+                >
+                  Coloring
+                </Link>
               </motion.div>
             </div>
 

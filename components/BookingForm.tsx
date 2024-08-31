@@ -49,7 +49,7 @@ import { addBooking } from "@/action/booking";
 import { toast } from "sonner";
 import { TService, TServiceItem } from "@/lib/type";
 import { getProduct, getServiceItem } from "@/data/getProduct";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import MySpinner from "./MySpinner";
 import { enGB } from "date-fns/locale";
@@ -58,6 +58,8 @@ const BookingForm = () => {
   const [isPending, startTransition] = useTransition();
   const [service, setService] = useState<TService[] | null>(null);
   const [isTime, setIsTime] = useState(false);
+  const searchParams = useSearchParams();
+  const serviceName = searchParams.get("service");
 
   useEffect(() => {
     (async () => {
@@ -68,6 +70,13 @@ const BookingForm = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(),
+      services: serviceName || "",
+    });
+  }, [serviceName, searchParams]);
+
   const form = useForm<z.infer<typeof BookingFormSchema>>({
     resolver: zodResolver(BookingFormSchema),
     defaultValues: {
@@ -75,7 +84,6 @@ const BookingForm = () => {
       email: "",
       phone: "",
       message: "",
-      confirmEmail: "",
       services: "",
       time: "",
       date: undefined,
@@ -122,17 +130,16 @@ const BookingForm = () => {
       const data = await addBooking(values);
       if (data.success) {
         toast.success("Booking has been made.");
-        // form.reset({
-        //   ...form.getValues(),
-        //   name: "",
-        //   email: "",
-        //   phone: "",
-        //   message: "",
-        //   confirmEmail: "",
-        //   services: "",
-        //   time: "",
-        //   date: undefined,
-        // });
+        form.reset({
+          ...form.getValues(),
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          services: "",
+          time: "",
+          date: undefined,
+        });
       } else {
         toast.error("Something went wrong, fail to book.");
       }
@@ -160,6 +167,143 @@ const BookingForm = () => {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="flex flex-col gap-5">
+                    <FormField
+                      control={form.control}
+                      name="services"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Service</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a service" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {service?.map((item, index) => (
+                                <SelectGroup key={index}>
+                                  <SelectLabel className="border-b-2 border-zinc-700 text-yellow-600">
+                                    {item.name}
+                                  </SelectLabel>
+
+                                  {item.serviceItem.map((item, index) => (
+                                    <SelectItem value={item.name} key={index}>
+                                      {item.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex h-20 flex-col justify-end text-white">
+                          <FormLabel>Pick a date</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "min-w-[250px] bg-transparent text-left font-normal",
+                                    !field.value && "text-muted-foreground",
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) => {
+                                  const today = new Date();
+                                  today.setHours(0, 0, 0, 0);
+                                  date.setHours(0, 0, 0, 0);
+                                  return date < today;
+                                }}
+                                initialFocus
+                                locale={enGB}
+                              />
+                            </PopoverContent>
+                          </Popover>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="time"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Time Slot</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            disabled={isPending}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="disabled:bg-zinc-600 disabled:text-zinc-600">
+                                <SelectValue placeholder="Select a Time Slot" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {slots.map((hour, index) => {
+                                const slotTime = parseInt(
+                                  hour.split(":")[0],
+                                  10,
+                                );
+
+                                const currentTime = new Date();
+                                const currentHour = currentTime.getHours();
+                                const isToday =
+                                  selectedDate &&
+                                  currentTime.toDateString() ===
+                                    new Date(selectedDate).toDateString();
+
+                                return (
+                                  <SelectItem
+                                    key={index}
+                                    value={hour}
+                                    disabled={
+                                      (slotTime <= currentHour + 1 &&
+                                        isToday) ||
+                                      !availableTimeSlots.includes(hour)
+                                    }
+                                  >
+                                    {hour}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-2">
                       <FormField
                         control={form.control}
@@ -215,7 +359,7 @@ const BookingForm = () => {
                           </FormItem>
                         )}
                       />
-                      <FormField
+                      {/* <FormField
                         control={form.control}
                         name="confirmEmail"
                         render={({ field }) => (
@@ -232,145 +376,7 @@ const BookingForm = () => {
                             <FormMessage />
                           </FormItem>
                         )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="services"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Service</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a service" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {service?.map((item, index) => (
-                                  <SelectGroup key={index}>
-                                    <SelectLabel className="border-b-2 border-zinc-700 text-yellow-600">
-                                      {item.name}
-                                    </SelectLabel>
-
-                                    {item.serviceItem.map((item, index) => (
-                                      <SelectItem value={item.name} key={index}>
-                                        {item.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                ))}
-                              </SelectContent>
-                            </Select>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="date"
-                        render={({ field }) => (
-                          <FormItem className="flex h-20 flex-col justify-end text-white">
-                            <FormLabel>Pick a date</FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                      "min-w-[250px] bg-transparent text-left font-normal",
-                                      !field.value && "text-muted-foreground",
-                                    )}
-                                  >
-                                    {field.value ? (
-                                      format(field.value, "PPP")
-                                    ) : (
-                                      <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                  </Button>
-                                </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent
-                                className="w-auto p-0"
-                                align="start"
-                              >
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  disabled={(date) => {
-                                    const today = new Date();
-                                    today.setHours(0, 0, 0, 0);
-                                    date.setHours(0, 0, 0, 0);
-                                    return date < today;
-                                  }}
-                                  initialFocus
-                                  locale={enGB}
-                                />
-                              </PopoverContent>
-                            </Popover>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="time"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Time Slot</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                              disabled={isPending}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="disabled:bg-zinc-600 disabled:text-zinc-600">
-                                  <SelectValue placeholder="Select a Time Slot" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {slots.map((hour, index) => {
-                                  const slotTime = parseInt(
-                                    hour.split(":")[0],
-                                    10,
-                                  );
-
-                                  const currentTime = new Date();
-                                  const currentHour = currentTime.getHours();
-                                  const isToday =
-                                    selectedDate &&
-                                    currentTime.toDateString() ===
-                                      new Date(selectedDate).toDateString();
-
-                                  return (
-                                    <SelectItem
-                                      key={index}
-                                      value={hour}
-                                      disabled={
-                                        (slotTime <= currentHour + 1 &&
-                                          isToday) ||
-                                        !availableTimeSlots.includes(hour)
-                                      }
-                                    >
-                                      {hour}
-                                    </SelectItem>
-                                  );
-                                })}
-                              </SelectContent>
-                            </Select>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      /> */}
                     </div>
                     <FormField
                       control={form.control}
