@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useTransition } from "react";
 import {
   Card,
@@ -27,6 +29,7 @@ import { getProduct } from "@/data/getProduct";
 import MySpinner from "./MySpinner";
 import { Link } from "react-scroll";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "./ui/scroll-area";
 
 const OurService = () => {
   const [service, setService] = useState<TService[] | null>(null);
@@ -86,18 +89,18 @@ const OurService = () => {
                     </CardFooter>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="mt-10 max-w-[80%] rounded-xl sm:mt-0">
+                <DialogContent className="mt-10 max-w-[80%] overflow-y-scroll rounded-xl sm:mt-0">
                   <DialogHeader>
-                    <DialogTitle className="text-3xl font-bold text-yellow-600">
+                    <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
                       {item.name}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                   </DialogHeader>
-                  <div className="flex flex-col justify-center gap-10 text-sm text-zinc-700 sm:text-lg md:text-xl">
+                  <div className="flex flex-col justify-center gap-2 text-sm text-zinc-700 sm:gap-10 sm:text-lg md:text-xl">
                     {item.serviceItem.map(
                       (item, index) =>
                         item.serviceStatus === "Available" && (
-                          <div
+                          <ScrollArea
                             className="mx-5 grid grid-cols-1 items-center justify-between gap-3 border-b-2 border-zinc-200 p-3 sm:grid-cols-4"
                             key={index}
                           >
@@ -120,7 +123,7 @@ const OurService = () => {
                                 </Link>
                               </Button>
                             </DialogTrigger>
-                          </div>
+                          </ScrollArea>
                         ),
                     )}
                   </div>
