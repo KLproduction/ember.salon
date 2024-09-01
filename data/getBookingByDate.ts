@@ -17,7 +17,9 @@ export const getBookingByDate = async (
         lt: endDate,
       },
     },
+    orderBy: {
+      timeSlot: "asc",
+    },
   });
-
   return booking;
 };

@@ -10,15 +10,16 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { Booking } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import AdminCalendar from "./AdminCalendar";
 
 const AdminBookingDate = () => {
   const searchParams = useSearchParams();
   const year = Number(searchParams.get("year"));
   const month = Number(searchParams.get("month"));
   const date = Number(searchParams.get("date"));
-
+  const route = useRouter();
   const [bookings, setBookings] = useState<Booking[] | null>(null);
   const slots = [
     "10:00",
@@ -41,33 +42,41 @@ const AdminBookingDate = () => {
       }
     })();
   }, [searchParams]);
+
   return (
     <>
-      <div className="flex max-h-screen w-full flex-col items-center justify-center overflow-auto bg-zinc-50">
-        <div className="sticky top-0 z-10 flex w-full justify-center border-b-2 border-b-zinc-200 bg-zinc-50/50 p-10 backdrop-blur-lg">
-          <h1>{`Date:${year}-${month}-${date}`}</h1>
+      <div className="flex max-h-screen w-full flex-col items-center justify-center overflow-y-scroll bg-zinc-50">
+        <div className="sticky top-0 z-10 flex w-full flex-col items-center justify-center gap-10 border-b-2 border-b-zinc-200 bg-zinc-50/50 p-10 backdrop-blur-lg">
+          <div className="">
+            <AdminCalendar />
+          </div>
+          <h1 className="flex-1 text-4xl">{`Date: ${year}-${month}-${date}`}</h1>
         </div>
-        <div className="mt-20 pt-[700px]">
+        <div className="w-full overflow-y-scroll p-10">
           {slots.map((item, index) => (
-            <Card key={index} className="mx-10 w-full min-w-[full] p-10">
+            <Card key={index} className="m-10 w-full min-w-[800px]">
               <CardHeader>
-                <Label>Time Slot:{item}</Label>
+                <Label>Time Slot: {item}</Label>
               </CardHeader>
               <CardContent>
-                {bookings
-                  ?.filter((data) => data.timeSlot === item)
-                  .map((booking) => (
-                    <>
-                      {booking && (
-                        <Card className="flex flex-col items-center justify-center md:flex-row">
-                          <div>{booking.name}</div>
-                          <div> {booking.phone}</div>
-                          <div> {booking.service}</div>
-                          <div className="my-3 w-full">{booking.email}</div>
-                        </Card>
-                      )}
-                    </>
-                  ))}
+                {bookings &&
+                bookings.filter((data) => data.timeSlot === item).length > 0 ? (
+                  bookings
+                    .filter((data) => data.timeSlot === item)
+                    .map((booking, index) => (
+                      <Card
+                        className="m-3 grid grid-cols-1 items-center justify-between gap-5 p-3 md:grid-cols-4"
+                        key={index}
+                      >
+                        <div>{booking.service}</div>
+                        <div>{booking.name}</div>
+                        <div>{booking.phone}</div>
+                        <div className="my-3 w-full">{booking.email}</div>
+                      </Card>
+                    ))
+                ) : (
+                  <div className="text-zinc-400">No booking</div>
+                )}
               </CardContent>
             </Card>
           ))}

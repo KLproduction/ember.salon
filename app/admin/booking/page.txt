@@ -13,7 +13,7 @@ const BookingDatePage = () => {
   const searchParams = useSearchParams();
   const date = searchParams.get("date");
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center">
+    <div className="flex h-full min-w-full flex-col items-center justify-center">
       <div className="h-full w-full">
         <AdminBooking />
       </div>

@@ -28,6 +28,7 @@ export default function Home() {
   const ref5 = useRef<HTMLDivElement | null>(null);
   const isRef5Inview = useInView(ref5, { margin: "-100px" });
   const user = useCurrentUser();
+  const now = new Date();
 
   return (
     <>
@@ -67,6 +68,11 @@ export default function Home() {
           ) : (
             <div>
               <Link href={"/auth/login"}>Login</Link>
+              <Link
+                href={`/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`}
+              >
+                Booking
+              </Link>
             </div>
           )}
         </div>

@@ -23,7 +23,7 @@ import Image from "next/image";
 import { BookingFormSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { Button } from "./ui/button";
 import {
   Popover,
@@ -91,6 +91,22 @@ const BookingForm = () => {
   });
 
   const [availableTimeSlots, setAvailableTimeSlots] = useState<string[]>([]);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const calendarRef = useRef<HTMLDivElement | null>(null);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    const target = event.target as Node;
+    if (calendarRef.current && !calendarRef.current.contains(target)) {
+      setIsCalendarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const slots = [
     "10:00",
@@ -204,7 +220,7 @@ const BookingForm = () => {
                       )}
                     />
 
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name="date"
                       render={({ field }) => (
@@ -249,6 +265,56 @@ const BookingForm = () => {
                             </PopoverContent>
                           </Popover>
 
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    /> */}
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex h-20 flex-col justify-end text-white">
+                          <FormLabel>Pick a date</FormLabel>
+                          <div className="relative">
+                            <Button
+                              variant="outline"
+                              className={`min-w-[250px] bg-transparent text-left font-normal ${
+                                !field.value ? "text-muted-foreground" : ""
+                              }`}
+                              onClick={() => setIsCalendarOpen((open) => !open)}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                            {isCalendarOpen && (
+                              <div
+                                className="absolute top-full mt-2 w-auto p-0"
+                                ref={calendarRef}
+                              >
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={(date) => {
+                                    field.onChange(date);
+                                    setIsCalendarOpen(false);
+                                  }}
+                                  disabled={(date) => {
+                                    const today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+                                    date.setHours(0, 0, 0, 0);
+                                    return date < today;
+                                  }}
+                                  initialFocus
+                                  locale={enGB}
+                                  className="bg-zinc-800"
+                                />
+                              </div>
+                            )}
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -359,24 +425,6 @@ const BookingForm = () => {
                           </FormItem>
                         )}
                       />
-                      {/* <FormField
-                        control={form.control}
-                        name="confirmEmail"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Confirm Email:</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                placeholder="Please confirm Your Email"
-                                disabled={isPending}
-                                className="min-w-[250px]"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      /> */}
                     </div>
                     <FormField
                       control={form.control}
