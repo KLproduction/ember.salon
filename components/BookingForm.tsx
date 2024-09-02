@@ -60,12 +60,15 @@ const BookingForm = () => {
   const [isTime, setIsTime] = useState(false);
   const searchParams = useSearchParams();
   const serviceName = searchParams.get("service");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       const data = await getProduct();
+      setIsLoading(true);
       if (data) {
         setService(data);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -164,6 +167,11 @@ const BookingForm = () => {
 
   return (
     <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh] lg:min-h-[150vh]">
+      {isLoading && (
+        <div>
+          <MySpinner />
+        </div>
+      )}
       <div
         className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
         style={{ backgroundImage: 'url("/formBG2.png")' }}

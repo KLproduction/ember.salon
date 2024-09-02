@@ -6,6 +6,11 @@ const SideBar = () => {
   const now = new Date();
   const sideBarList = [
     {
+      name: "Dashboard",
+      path: `/admin`,
+      icon: "",
+    },
+    {
       name: "Booking",
       path: `/admin/booking`,
       icon: "",
@@ -13,6 +18,11 @@ const SideBar = () => {
     {
       name: "Services",
       path: `/admin/services`,
+      icon: "",
+    },
+    {
+      name: "Home Page",
+      path: `/`,
       icon: "",
     },
   ];
