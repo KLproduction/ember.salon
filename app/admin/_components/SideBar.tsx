@@ -1,6 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { BiSolidDashboard } from "react-icons/bi";
+import { AiFillPoundCircle } from "react-icons/ai";
+import { AiTwotoneShop } from "react-icons/ai";
+import { AiOutlineHome } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
 
 const SideBar = () => {
   const now = new Date();
@@ -8,34 +26,51 @@ const SideBar = () => {
     {
       name: "Dashboard",
       path: `/admin`,
-      icon: "",
+      icon: <BiSolidDashboard />,
     },
     {
       name: "Booking",
-      path: `/admin/booking`,
-      icon: "",
+      path: `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`,
+      icon: <AiFillEdit />,
     },
     {
       name: "Services",
       path: `/admin/services`,
-      icon: "",
+      icon: <AiTwotoneShop />,
     },
     {
       name: "Home Page",
       path: `/`,
-      icon: "",
+      icon: <AiOutlineHome />,
     },
   ];
   return (
-    <div className="sticky -left-[100vw] top-0 z-[9999] h-screen w-40 bg-zinc-900 text-yellow-600 duration-200 md:left-0">
-      <div className="flex flex-col gap-5 p-5">
-        {sideBarList.map((item, index) => (
-          <div key={index}>
-            <Link href={item.path}>{item.name}</Link>
-          </div>
-        ))}
-      </div>
-    </div>
+    <Command className="rounded-xl bg-zinc-100 shadow-lg shadow-black/50">
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList className="h-full min-h-[100vh]">
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem className="item flex flex-col justify-start gap-5 p-5">
+            {sideBarList.map((item, index) => (
+              <Link
+                key={index}
+                href={item.path}
+                className="flex w-full cursor-pointer items-center justify-between gap-10 hover:animate-bounce"
+              >
+                {item.name}
+                {item.icon}
+              </Link>
+            ))}
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Settings" className="">
+          <CommandItem>Profile</CommandItem>
+          <CommandItem>Billing</CommandItem>
+          <CommandItem>Settings</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
   );
 };
 

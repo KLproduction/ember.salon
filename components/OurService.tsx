@@ -31,20 +31,25 @@ import { Link } from "react-scroll";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "./ui/scroll-area";
 
-const OurService = () => {
-  const [service, setService] = useState<TService[] | null>(null);
+type OurServiceProps = {
+  service: TService[];
+};
+
+const OurService = ({ service }: OurServiceProps) => {
   const [isPending, startTransition] = useTransition();
 
   const route = useRouter();
 
-  useEffect(() => {
-    startTransition(async () => {
-      const data = await getProduct();
-      if (data) {
-        setService(data);
-      }
-    });
-  }, []);
+  // const [service, setService] = useState<TService[] | null>(null);
+  // useEffect(() => {
+  //   startTransition(async () => {
+  //     const data = await getProduct();
+  //     if (data) {
+  //       setService(data);
+  //     }
+  //   });
+  // }, []);
+
   return (
     <>
       <Card className="flex cursor-pointer flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">

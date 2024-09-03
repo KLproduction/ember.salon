@@ -54,24 +54,28 @@ import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import MySpinner from "./MySpinner";
 import { enGB } from "date-fns/locale";
 
-const BookingForm = () => {
+interface BookingFormProps {
+  service: TService[];
+}
+
+const BookingForm = ({ service }: BookingFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const [service, setService] = useState<TService[] | null>(null);
   const [isTime, setIsTime] = useState(false);
   const searchParams = useSearchParams();
   const serviceName = searchParams.get("service");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const data = await getProduct();
-      setIsLoading(true);
-      if (data) {
-        setService(data);
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+  // const [service, setService] = useState<TService[] | null>(null);
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await getProduct();
+  //     setIsLoading(true);
+  //     if (data) {
+  //       setService(data);
+  //       setIsLoading(false);
+  //     }
+  //   })();
+  // }, []);
 
   useEffect(() => {
     form.reset({

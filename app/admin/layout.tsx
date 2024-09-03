@@ -1,5 +1,6 @@
 import { Toaster } from "sonner";
 import SideBar from "./_components/SideBar";
+import AdminNavbar from "./_components/AdminNavbar";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -7,11 +8,14 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
-    <div className="flex h-full w-full items-center justify-around gap-y-10 bg-zinc-200">
-      <div className="w-1/5">
-        <SideBar />
+    <div className="h-full overflow-hidden">
+      {/* <AdminNavbar /> */}
+      <div className="flex">
+        <div className="hidden h-[100vh] w-[300px] md:block">
+          <SideBar />
+        </div>
+        <div className="w-full p-5 md:max-w-[1140px]">{children}</div>
       </div>
-      <div className="h-screen w-4/5 min-w-[100vw-20rem]">{children}</div>
       <Toaster />
     </div>
   );

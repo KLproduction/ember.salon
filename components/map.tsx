@@ -1,3 +1,5 @@
+"use client";
+
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useState, useCallback } from "react";
 

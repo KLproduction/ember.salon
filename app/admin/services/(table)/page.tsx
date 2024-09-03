@@ -10,7 +10,7 @@ const ServiceTablePage = async () => {
   const data: TServiceItem[] | undefined = await getServiceItem();
 
   return (
-    <div className="container mx-auto pb-20 sm:py-10">
+    <div className="container mx-auto pb-20">
       <div className="flex justify-start p-0">
         <Button className="p-3" asChild>
           <Link href={"/admin/service/add-service"}>Add Service</Link>

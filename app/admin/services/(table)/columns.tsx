@@ -79,7 +79,7 @@ export const columns: ColumnDef<TServiceItem>[] = [
           variant={"ghost"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Product Name
+          Service Name
           {isSortedAsc === "asc" && <AiOutlineCaretUp />}
           {isSortedAsc === "desc" && <AiOutlineCaretDown />}
           {!isSortedAsc && (
@@ -151,7 +151,7 @@ export const columns: ColumnDef<TServiceItem>[] = [
   },
   {
     accessorKey: "id",
-    header: () => <div className="text-center">Product ID</div>,
+    header: () => <div className="text-center">Service ID</div>,
     cell: ({ row }) => {
       const data = row.getValue("id") as number;
       return <div className="text-center">{data}</div>;
