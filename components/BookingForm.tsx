@@ -25,12 +25,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Button } from "./ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
@@ -43,15 +37,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SERVICES } from "@/lib/serviceList";
 import { Textarea } from "./ui/textarea";
 import { addBooking } from "@/action/booking";
 import { toast } from "sonner";
 import { TService, TServiceItem } from "@/lib/type";
-import { getProduct, getServiceItem } from "@/data/getProduct";
 import { useRouter, useSearchParams } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
-import MySpinner from "./MySpinner";
 import { enGB } from "date-fns/locale";
 
 interface BookingFormProps {
@@ -60,22 +51,9 @@ interface BookingFormProps {
 
 const BookingForm = ({ service }: BookingFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const [isTime, setIsTime] = useState(false);
+
   const searchParams = useSearchParams();
   const serviceName = searchParams.get("service");
-  const [isLoading, setIsLoading] = useState(false);
-
-  // const [service, setService] = useState<TService[] | null>(null);
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await getProduct();
-  //     setIsLoading(true);
-  //     if (data) {
-  //       setService(data);
-  //       setIsLoading(false);
-  //     }
-  //   })();
-  // }, []);
 
   useEffect(() => {
     form.reset({
@@ -171,11 +149,6 @@ const BookingForm = ({ service }: BookingFormProps) => {
 
   return (
     <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh] lg:min-h-[150vh]">
-      {isLoading && (
-        <div>
-          <MySpinner />
-        </div>
-      )}
       <div
         className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
         style={{ backgroundImage: 'url("/formBG2.png")' }}

@@ -106,28 +106,30 @@ const OurService = ({ service }: OurServiceProps) => {
                       (item, index) =>
                         item.serviceStatus === "Available" && (
                           <ScrollArea
-                            className="mx-5 grid grid-cols-1 items-center justify-between gap-3 border-b-2 border-zinc-200 p-3 sm:grid-cols-4"
+                            className="mx-5 border-b-2 border-zinc-200 p-3"
                             key={index}
                           >
-                            <h1 className="sm:col-span-2">{item.name}</h1>
-                            <p>{formatPrice(item.price)}</p>
-                            <DialogTrigger asChild>
-                              <Button
-                                asChild
-                                className="flex justify-center bg-yellow-600"
-                                onClick={() =>
-                                  route.push(`/?service=${item.name}`)
-                                }
-                              >
-                                <Link
-                                  to="appointment"
-                                  smooth
-                                  className="cursor-pointer"
+                            <div className="grid grid-cols-1 items-center justify-between gap-3 sm:grid-cols-4">
+                              <h1 className="sm:col-span-2">{item.name}</h1>
+                              <p className="">{formatPrice(item.price)}</p>
+                              <DialogTrigger asChild>
+                                <Button
+                                  asChild
+                                  className="flex justify-center bg-yellow-600"
+                                  onClick={() =>
+                                    route.push(`/?service=${item.name}`)
+                                  }
                                 >
-                                  Booking Online
-                                </Link>
-                              </Button>
-                            </DialogTrigger>
+                                  <Link
+                                    to="appointment"
+                                    smooth
+                                    className="cursor-pointer"
+                                  >
+                                    Booking Online
+                                  </Link>
+                                </Button>
+                              </DialogTrigger>
+                            </div>
                           </ScrollArea>
                         ),
                     )}

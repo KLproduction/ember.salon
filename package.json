@@ -42,6 +42,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "emailjs": "^4.0.3",
+    "embla-carousel-react": "^8.2.0",
     "framer-motion": "^11.3.24",
     "hamburger-react": "^2.5.1",
     "lucide-react": "^0.399.0",
@@ -60,6 +61,7 @@
     "resend": "^3.3.0",
     "sonner": "^1.5.0",
     "stripe": "^16.2.0",
+    "swiper": "^11.1.12",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.13.2",
@@ -67,6 +69,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/google.maps": "^3.55.12",

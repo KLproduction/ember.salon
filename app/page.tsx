@@ -10,11 +10,11 @@ import Footer from "@/components/Footer";
 import NewHero from "@/components/newHero";
 import Map from "@/components/map";
 import Contact from "@/components/Contact";
-import { useCurrentUser } from "@/hooks/use-current-user";
+
 import SignOutBtn from "@/components/auth/SignOutBtn";
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
-import { getProduct, getServiceItem } from "@/data/getProduct";
+import { getProduct } from "@/data/getProduct";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -28,7 +28,6 @@ export default async function Home() {
   // const ref5 = useRef<HTMLDivElement | null>(null);
   // const isRef5Inview = useInView(ref5, { margin: "-100px" });
   const user = await currentUser();
-  const now = new Date();
   const service = await getProduct();
 
   return (
@@ -66,7 +65,9 @@ export default async function Home() {
           ) : (
             <div className="flex flex-col">
               <Link href={"/auth/login"}>Login</Link>
-              <Link href={`/admin`}>ADMIN</Link>
+              <div>
+                <Link href={`/admin`}>ADMIN</Link>
+              </div>
             </div>
           )}
         </div>

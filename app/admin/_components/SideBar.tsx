@@ -19,8 +19,10 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const SideBar = () => {
+  const route = useRouter();
   const now = new Date();
   const sideBarList = [
     {
@@ -55,6 +57,7 @@ const SideBar = () => {
               <Link
                 key={index}
                 href={item.path}
+                onClick={() => route.refresh()}
                 className="flex w-full cursor-pointer items-center justify-between gap-10 hover:animate-bounce"
               >
                 {item.name}

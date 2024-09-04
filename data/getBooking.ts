@@ -16,3 +16,12 @@ export const getBooking = async () => {
 
   return { readBooking, unReadBooking };
 };
+export const getBookingById = async (id: string) => {
+  const booking = await db.booking.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return booking;
+};

@@ -353,18 +353,12 @@ const Hero = () => {
           {/* IMAGE */}
           <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20" />
           <motion.div
-            initial={{ opacity: 0, scale: 1.2 }}
+            initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 4 }}
+            transition={{ duration: 2 }}
             style={{ transformOrigin: "center center" }}
             className="h-screen w-full"
           >
-            {/* <Image
-              src={"/6.PNG"}
-              fill
-              alt="hero"
-              className="z-[-1] h-full w-full bg-right object-cover brightness-50"
-            /> */}
             <div className="h-full w-full bg-girlHair bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
           </motion.div>
         </div>
