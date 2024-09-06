@@ -25,3 +25,8 @@ export const getBookingById = async (id: string) => {
 
   return booking;
 };
+
+export const getAllBooking = async () => {
+  const booking = await db.booking.findMany();
+  return booking;
+};

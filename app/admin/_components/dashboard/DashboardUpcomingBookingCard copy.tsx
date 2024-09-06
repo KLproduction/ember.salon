@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DialogTrigger, Dialog, DialogContent } from "@/components/ui/dialog";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { TService } from "@/lib/type";
@@ -12,39 +12,44 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { format } from "date-fns";
 
 import Image from "next/image";
 import React, { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import BookingDialog from "../BookingDialog";
+import { ResponsiveContainer } from "recharts";
+import { CalendarIcon } from "lucide-react";
 
 type DashboardUpcomingBookingCardProps = {
   service: TService[];
-  todayBooking: Booking[];
+  booking: Booking[];
 };
 
 const DashboardUpcomingBookingCard = ({
   service,
-  todayBooking,
+  booking,
 }: DashboardUpcomingBookingCardProps) => {
   const now = new Date();
   const today = now.toISOString().slice(0, 10);
-  const upcomingBooking = todayBooking.filter((booking) => {
+  const upcomingBooking = booking.filter((booking) => {
     const bookingDateTime = new Date(`${today}T${booking.timeSlot}:00`);
     return bookingDateTime > now;
   });
   return (
     <>
       {upcomingBooking && upcomingBooking.length > 0 ? (
-        <div className="flex w-full min-w-[265px] items-center justify-center sm:flex-row">
-          <Dialog>
-            <DialogTrigger>
-              <Card className="mx-auto min-h-[165px] bg-red-200 p-4 pb-0 text-zinc-700">
-                <CardContent>
-                  <h2 className="text-md mb-4 text-center font-black">
-                    UPCOMING <br /> BOOKING:
-                  </h2>
-
+        <>
+          <Card>
+            <Dialog>
+              <DialogTrigger className="w-full">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Upcoming Bookings
+                  </CardTitle>
+                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent className="flex flex-col gap-3">
                   <div className="flex items-center justify-center gap-5">
                     <h1 className="text-6xl">{upcomingBooking[0].timeSlot}</h1>
                     {service.map((serviceItem) =>
@@ -61,13 +66,15 @@ const DashboardUpcomingBookingCard = ({
                       ) : null,
                     )}
                   </div>
+                  <div>{`Date: ${format(upcomingBooking[0].date, "yyyy MMM dd")}`}</div>
                 </CardContent>
-              </Card>
-            </DialogTrigger>
-            <DialogContent>
-              <BookingDialog booking={upcomingBooking[0]} />
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent>
+                <BookingDialog booking={upcomingBooking[0]} />
+              </DialogContent>
+            </Dialog>
+          </Card>
+
           {/* {todayBooking && todayBooking.length > 0 ? (
           <div className="flex justify-center">
             <>
@@ -119,7 +126,7 @@ const DashboardUpcomingBookingCard = ({
         ) : (
 
         )} */}
-        </div>
+        </>
       ) : (
         <Card className="mx-auto flex min-h-[165px] min-w-[265px] max-w-[265px] justify-center text-zinc-500">
           <CardContent>

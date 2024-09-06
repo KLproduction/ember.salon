@@ -22,7 +22,6 @@ export type TServiceItem = {
 };
 
 export type TBookingChart = {
-  name: string;
-  booking: number;
   date: number;
+  bookings: number;
 };

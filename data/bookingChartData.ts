@@ -1,17 +1,13 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { TBookingChart } from "@/lib/type";
 import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
   startOfDay,
 } from "date-fns";
-
-export type TBookingChart = {
-  date: number;
-  bookings: number;
-};
 
 const bookingChartData = async () => {
   const getBookingByDate = async (date: Date) => {
@@ -42,9 +38,7 @@ const bookingChartData = async () => {
     }
     return data;
   };
-  generateBookingChartData().then((data) => {
-    console.log("DATA:", data);
-  });
+  return generateBookingChartData();
 };
 
 export default bookingChartData;

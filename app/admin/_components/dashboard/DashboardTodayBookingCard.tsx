@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DialogTrigger, Dialog, DialogContent } from "@/components/ui/dialog";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { TService } from "@/lib/type";
@@ -18,6 +18,8 @@ import React, { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import BookingDialog from "../BookingDialog";
 import Link from "next/link";
+import { ResponsiveContainer } from "recharts";
+import { CalendarIcon } from "lucide-react";
 
 type DashboardTodayBookingCardProps = {
   todayBooking: Booking[];
@@ -29,25 +31,21 @@ const DashboardTodayBookingCard = ({
   const now = new Date();
   return (
     <>
-      <div className="flex w-full items-center justify-center sm:flex-row">
+      <Card>
         <Link
           href={`/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`}
         >
-          <Card className="mx-3 min-h-[165px] min-w-[270px] bg-zinc-100 p-4 pb-0 text-zinc-500 sm:min-w-0">
-            <CardContent>
-              <h2 className="text-md mb-4 text-center font-black">
-                TODAY <br /> BOOKING:
-              </h2>
-              <div className="flex items-center justify-center gap-5">
-                <div>
-                  <AiFillBell className="h-10 w-10" />
-                </div>
-                <h1 className="text-6xl">{todayBooking.length}</h1>
-              </div>
-            </CardContent>
-          </Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Today's Bookings
+            </CardTitle>
+            <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <div className="mt-5 text-6xl font-bold">{todayBooking.length}</div>
+          </CardContent>
         </Link>
-      </div>
+      </Card>
     </>
   );
 };

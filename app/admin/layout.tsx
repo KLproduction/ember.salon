@@ -10,13 +10,14 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
   return (
-    <div className="h-full overflow-hidden">
+    <div className="relative h-full">
       {/* <AdminNavbar /> */}
-      <div className="flex">
-        <div className="hidden h-[100vh] w-[300px] md:block">
+      <div className="flex h-full">
+        <div className="hidden h-full min-h-[100vh] w-[300px] md:block">
           <SideBar />
         </div>
-        <div className="container ml-0 w-screen p-5 md:ml-10 md:max-w-[1140px]">
+
+        <div className="container ml-0 w-screen overflow-scroll p-5 md:max-w-[1140px]">
           {children}
         </div>
       </div>
