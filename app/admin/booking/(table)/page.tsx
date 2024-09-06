@@ -30,11 +30,14 @@ const BookingTablePage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between">
-        <div className="flex justify-start">
+      <div className="relative flex w-full flex-col items-center justify-between">
+        <div className="absolute left-[15%]">
           <AdminCalendar />
         </div>
-        <div className="container mx-auto w-4/5 bg-zinc-50 pb-20 sm:py-10">
+        <div className="mt-10">
+          <h1 className="text-4xl text-zinc-700">{`Date: ${year}-${month}-${date}`}</h1>
+        </div>
+        <div className="container w-full bg-white pb-20 md:w-4/6 lg:w-4/5 xl:w-full">
           {bookings && <DataTable columns={columns} data={bookings} />}
         </div>
       </div>

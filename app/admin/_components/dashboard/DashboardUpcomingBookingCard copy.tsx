@@ -36,13 +36,13 @@ const DashboardUpcomingBookingCard = ({
   return (
     <>
       {upcomingBooking && upcomingBooking.length > 0 ? (
-        <div className="flex w-full items-center justify-center sm:flex-row">
+        <div className="flex w-full min-w-[265px] items-center justify-center sm:flex-row">
           <Dialog>
             <DialogTrigger>
-              <Card className="mx-3 min-h-[150px] bg-red-200 p-4 pb-0 text-zinc-700">
+              <Card className="mx-auto min-h-[165px] bg-red-200 p-4 pb-0 text-zinc-700">
                 <CardContent>
                   <h2 className="text-md mb-4 text-center font-black">
-                    UPCOMING BOOKING:
+                    UPCOMING <br /> BOOKING:
                   </h2>
 
                   <div className="flex items-center justify-center gap-5">
@@ -121,9 +121,9 @@ const DashboardUpcomingBookingCard = ({
         )} */}
         </div>
       ) : (
-        <Card className="flex min-h-[150px] w-full max-w-[265px] justify-center text-zinc-500">
+        <Card className="mx-auto flex min-h-[165px] min-w-[265px] max-w-[265px] justify-center text-zinc-500">
           <CardContent>
-            <h1 className="mt-14 p-2 text-xl">No bookings for today.</h1>
+            <h1 className="mt-14 p-1 text-lg">No bookings for today.</h1>
           </CardContent>
         </Card>
       )}

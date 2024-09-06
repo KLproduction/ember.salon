@@ -16,7 +16,7 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
         <div className="hidden h-[100vh] w-[300px] md:block">
           <SideBar />
         </div>
-        <div className="ml-0 w-full p-5 md:ml-10 md:max-w-[1140px]">
+        <div className="container ml-0 w-screen p-5 md:ml-10 md:max-w-[1140px]">
           {children}
         </div>
       </div>

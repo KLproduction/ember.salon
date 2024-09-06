@@ -3,15 +3,16 @@ import { BookingFormSchema } from "@/schemas";
 import { format, addDays, isWithinInterval } from "date-fns";
 import { faker } from "@faker-js/faker";
 import { getServiceItem } from "@/data/getProduct";
+import { addBooking } from "@/action/booking";
 
 export const createDummyBooking = () => {
   const generateRandomDate = () => {
     const today = new Date();
-    const maxDate = addDays(today, 180);
+    const maxDate = addDays(today, 30);
     const randomDate = new Date(
       today.getTime() + Math.random() * (maxDate.getTime() - today.getTime()),
     );
-    return randomDate;
+    return new Date(format(randomDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
   };
 
   const generateRandomTimeSlot = () => {
@@ -31,47 +32,36 @@ export const createDummyBooking = () => {
     return randomSlot;
   };
 
-  const generateDummyBooking = async () => {
-    const name = faker.person.firstName();
-    const email = faker.internet.email();
-    const phone = "01234-154-789";
-    const message = faker.lorem.sentences(2);
-    const date = generateRandomDate();
-    const time = generateRandomTimeSlot();
+  // Directly creating and returning the booking object here
+  const name = faker.person.firstName();
+  const email = faker.internet.email();
+  const phone = "01234154789";
+  const message = faker.lorem.sentences(2);
+  const date = generateRandomDate();
+  const time = generateRandomTimeSlot();
 
-    const servicesArray = [
-      "Cut and Styling",
-      "Milbon Superior Treatment",
-      "Technical Perm",
-      "Base Color or Color Treatment",
-    ];
+  const servicesArray = [
+    "Cut and Styling",
+    "Milbon Superior Treatment",
+    "Technical Perm",
+    "Base Color or Color Treatment",
+  ];
 
-    const getRandomService = () => {
-      const randomIndex = Math.floor(Math.random() * servicesArray.length);
-      return servicesArray[randomIndex];
-    };
-    const services = getRandomService();
-    const booking = {
-      name,
-      email,
-      phone,
-      message,
-      services,
-      date,
-      time,
-    };
-
-    return booking;
+  const getRandomService = () => {
+    const randomIndex = Math.floor(Math.random() * servicesArray.length);
+    return servicesArray[randomIndex];
   };
 
-  const generateDummyBookings = (count: number) => {
-    const dummyBookings = [];
-    for (let i = 0; i < count; i++) {
-      dummyBookings.push(generateDummyBooking());
-    }
-    return dummyBookings;
+  const services = getRandomService();
+  const booking = {
+    name,
+    email,
+    phone,
+    message,
+    services,
+    date,
+    time,
   };
 
-  const dummyBooking = generateDummyBooking();
-  console.log("DUMMY ORDER", dummyBooking);
+  return booking; // Ensure this is returned
 };

@@ -36,7 +36,7 @@ const DashboardTodayBookingCard = ({
           <Card className="mx-3 min-h-[165px] min-w-[270px] bg-zinc-100 p-4 pb-0 text-zinc-500 sm:min-w-0">
             <CardContent>
               <h2 className="text-md mb-4 text-center font-black">
-                TODAY BOOKING:
+                TODAY <br /> BOOKING:
               </h2>
               <div className="flex items-center justify-center gap-5">
                 <div>

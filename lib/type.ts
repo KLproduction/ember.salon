@@ -20,3 +20,9 @@ export type TServiceItem = {
   serviceStatus: $Enums.ServiceStatus;
   categoryName: $Enums.ServiceCategory;
 };
+
+export type TBookingChart = {
+  name: string;
+  booking: number;
+  date: number;
+};
