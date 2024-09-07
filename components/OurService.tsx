@@ -52,7 +52,7 @@ const OurService = ({ service }: OurServiceProps) => {
 
   return (
     <>
-      <Card className="flex cursor-pointer flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
+      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
         <CardHeader className="flex w-auto justify-center text-4xl text-yellow-700 sm:text-6xl">
           Our Services
         </CardHeader>
@@ -73,7 +73,7 @@ const OurService = ({ service }: OurServiceProps) => {
             >
               <Dialog>
                 <DialogTrigger asChild>
-                  <Card className="m-0 my-3 flex flex-col justify-center gap-5 p-3 duration-200 hover:scale-105 sm:m-3">
+                  <Card className="m-0 my-3 flex cursor-pointer flex-col justify-center gap-5 p-3 duration-200 hover:scale-105 sm:m-3">
                     <CardHeader className="flex flex-col gap-3 text-xl font-bold text-yellow-700">
                       <div className="flex justify-center">
                         <img

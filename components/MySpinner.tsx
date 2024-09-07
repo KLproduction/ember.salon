@@ -3,8 +3,8 @@ import { AiOutlineLoading } from "react-icons/ai";
 
 const MySpinner = () => {
   return (
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 backdrop-blur-md">
-      <div className="animate-spin text-6xl text-green-500">
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-white/50 backdrop-blur-md">
+      <div className="animate-spin text-6xl text-yellow-500">
         <AiOutlineLoading />
       </div>
     </div>

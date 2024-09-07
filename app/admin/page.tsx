@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryData from "./_components/dashboard/CategoryData";
+import MySpinner from "@/components/MySpinner";
 
 const AdminPage = async () => {
   const now = new Date();
@@ -62,7 +63,7 @@ const AdminPage = async () => {
     <div className="container mx-auto space-y-6 p-4">
       {/* Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="md:col-span-2">
+        <div className="hover:scale-105 md:col-span-2">
           <DashboardUpcomingBookingCard service={service!} booking={booking} />
         </div>
         <DashboardTodayBookingCard todayBooking={todayBooking} />

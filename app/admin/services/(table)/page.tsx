@@ -11,8 +11,11 @@ const ServiceTablePage = async () => {
 
   return (
     <div className="container mx-auto pb-20">
-      <div className="flex justify-start p-0">
-        <Button className="p-3" asChild>
+      <div className="flex justify-end p-0">
+        <Button
+          className="bg-yellow-700 p-3 text-zinc-50 hover:opacity-50"
+          asChild
+        >
           <Link href={"/admin/service/add-service"}>Add Service</Link>
         </Button>
       </div>

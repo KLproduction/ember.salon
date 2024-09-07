@@ -58,7 +58,7 @@ const SideBar = () => {
                 key={index}
                 href={item.path}
                 onClick={() => route.refresh()}
-                className="flex w-full cursor-pointer items-center justify-between gap-10 hover:ml-5"
+                className="flex w-full cursor-pointer items-center justify-between gap-10"
               >
                 {item.name}
                 {item.icon}
