@@ -30,52 +30,84 @@ const DashboardUpcomingBookingCard = ({
   service,
   booking,
 }: DashboardUpcomingBookingCardProps) => {
-  const now = new Date();
-  const today = now.toISOString().slice(0, 10);
-  const upcomingBooking = booking.filter((booking) => {
-    const bookingDateTime = new Date(`${today}T${booking.timeSlot}:00`);
+  function getFullBookingDateTime(bookingDate: Date, timeSlot: string): Date {
+    const [hours, minutes] = timeSlot.split(":").map(Number);
+    const date = new Date(bookingDate);
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+
+  function isBookingUpcoming(booking: Booking): boolean {
+    const now = new Date();
+    const bookingDateTime = getFullBookingDateTime(
+      booking.date,
+      booking.timeSlot,
+    );
     return bookingDateTime > now;
-  });
+  }
+
+  function sortBookingsByDate(a: Booking, b: Booking): number {
+    const dateA = getFullBookingDateTime(a.date, a.timeSlot);
+    const dateB = getFullBookingDateTime(b.date, b.timeSlot);
+    return dateA.getTime() - dateB.getTime();
+  }
+  const upcomingBookings = booking
+    .filter(isBookingUpcoming)
+    .sort(sortBookingsByDate);
+
+  const nextBooking = upcomingBookings[0];
+
   return (
     <>
-      {upcomingBooking && upcomingBooking.length > 0 ? (
-        <>
-          <Card>
-            <Dialog>
-              <DialogTrigger className="w-full">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Upcoming Bookings
-                  </CardTitle>
-                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className="flex flex-col gap-3">
-                  <div className="flex items-center justify-center gap-5">
-                    <h1 className="text-6xl">{upcomingBooking[0].timeSlot}</h1>
-                    {service.map((serviceItem) =>
-                      serviceItem.serviceItem.some(
-                        (serviceItem) =>
-                          serviceItem.name === upcomingBooking[0].service,
-                      ) ? (
-                        <img
-                          src={serviceItem.image}
-                          alt=""
-                          className="h-10 w-10"
-                          key={serviceItem.id}
-                        />
-                      ) : null,
-                    )}
-                  </div>
-                  <div>{`Date: ${format(upcomingBooking[0].date, "yyyy MMM dd")}`}</div>
-                </CardContent>
-              </DialogTrigger>
-              <DialogContent>
-                <BookingDialog booking={upcomingBooking[0]} />
-              </DialogContent>
-            </Dialog>
-          </Card>
+      {nextBooking ? (
+        <Card>
+          <Dialog>
+            <DialogTrigger className="w-full">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Upcoming Bookings
+                </CardTitle>
+                <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="flex flex-col gap-3">
+                <div className="flex items-center justify-center gap-5">
+                  <h1 className="text-6xl">{nextBooking.timeSlot}</h1>
+                  {service.map((serviceItem) =>
+                    serviceItem.serviceItem.some(
+                      (serviceItem) => serviceItem.name === nextBooking.service,
+                    ) ? (
+                      <img
+                        src={serviceItem.image}
+                        alt=""
+                        className="h-10 w-10"
+                        key={serviceItem.id}
+                      />
+                    ) : null,
+                  )}
+                </div>
+                <div>{`Date: ${format(nextBooking.date, "yyyy MMM dd")}`}</div>
+              </CardContent>
+            </DialogTrigger>
+            <DialogContent>
+              <BookingDialog booking={nextBooking} />
+            </DialogContent>
+          </Dialog>
+        </Card>
+      ) : (
+        <Card className="mx-auto flex min-h-[165px] min-w-[265px] max-w-[265px] justify-center text-zinc-500">
+          <CardContent>
+            <h1 className="mt-14 p-1 text-lg">No bookings for today.</h1>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
+};
 
-          {/* {todayBooking && todayBooking.length > 0 ? (
+export default DashboardUpcomingBookingCard;
+
+{
+  /* {todayBooking && todayBooking.length > 0 ? (
           <div className="flex justify-center">
             <>
               <Carousel className="hidden sm:flex sm:w-[full] md:w-[full] lg:w-[full]">
@@ -125,17 +157,5 @@ const DashboardUpcomingBookingCard = ({
           </div>
         ) : (
 
-        )} */}
-        </>
-      ) : (
-        <Card className="mx-auto flex min-h-[165px] min-w-[265px] max-w-[265px] justify-center text-zinc-500">
-          <CardContent>
-            <h1 className="mt-14 p-1 text-lg">No bookings for today.</h1>
-          </CardContent>
-        </Card>
-      )}
-    </>
-  );
-};
-
-export default DashboardUpcomingBookingCard;
+        )} */
+}

@@ -17,6 +17,7 @@ import {
   LeafIcon,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CategoryData from "./_components/dashboard/CategoryData";
 
 const AdminPage = async () => {
   const now = new Date();
@@ -30,27 +31,36 @@ const AdminPage = async () => {
   const chartData = await bookingChartData();
   const booking = await getAllBooking();
 
-  return (
-    // <div className="container mx-auto space-y-6 p-4">
+  const bookingName = booking.map((item) => item.service);
+  const bookingForCategory = service?.map((serviceCategory) => {
+    const itemsWithCounts = serviceCategory.serviceItem.map((serviceItem) => {
+      const count = bookingName.reduce((acc, currentName) => {
+        return acc + (currentName === serviceItem.name ? 1 : 0);
+      }, 0);
+      return {
+        name: serviceItem.name,
+        count: count,
+      };
+    });
+    return {
+      categoryName: serviceCategory.name,
+      items: itemsWithCounts,
+    };
+  });
 
-    //   <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
-    //     <div className="transition-transform duration-200 hover:scale-105">
-    //       <DashboardUpcomingBookingCard service={service!} booking={booking} />
-    //     </div>
-    //     <div className="transition-transform duration-200 hover:scale-105">
-    //       <DashboardTodayBookingCard todayBooking={todayBooking} />
-    //     </div>
-    //     <div className="transition-transform duration-200 hover:scale-105">
-    //       <DashboardTomorrowBookingCard tomorrowBooking={tomorrowBooking} />
-    //     </div>
-    //   </div>
-    //   {/* Chart */}
-    //   <div className="container w-[100%] overflow-scroll">
-    //     <BookingChart data={chartData} />
-    //   </div>
-    // </div>
+  const totalBookingForCategory = bookingForCategory?.map((cat) => {
+    const totalBooking = cat.items.reduce((acc, booking) => {
+      return acc + booking.count;
+    }, 0);
+    return {
+      categoryName: cat.categoryName,
+      totalBookings: totalBooking,
+    };
+  });
+
+  return (
     <div className="container mx-auto space-y-6 p-4">
-      {/* Header */}
+      {/* Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="md:col-span-2">
           <DashboardUpcomingBookingCard service={service!} booking={booking} />
@@ -59,7 +69,7 @@ const AdminPage = async () => {
         <DashboardTomorrowBookingCard tomorrowBooking={tomorrowBooking} />
       </div>
 
-      {/* Middle - Monthly Booking Chart */}
+      {/* Monthly Booking Chart */}
 
       <BookingChart data={chartData} />
 
@@ -69,36 +79,7 @@ const AdminPage = async () => {
           <CardTitle>Service Categories</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center space-x-4">
-            <div className="flex flex-col items-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <ScissorsIcon className="h-8 w-8" />
-              </div>
-              <span className="mt-2 text-sm font-medium">Cutting</span>
-              <span className="text-xs text-muted-foreground">40%</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <PaintbrushIcon className="h-8 w-8" />
-              </div>
-              <span className="mt-2 text-sm font-medium">Coloring</span>
-              <span className="text-xs text-muted-foreground">30%</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <SparklesIcon className="h-8 w-8" />
-              </div>
-              <span className="mt-2 text-sm font-medium">Treatment</span>
-              <span className="text-xs text-muted-foreground">20%</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <LeafIcon className="h-8 w-8" />
-              </div>
-              <span className="mt-2 text-sm font-medium">Perm</span>
-              <span className="text-xs text-muted-foreground">10%</span>
-            </div>
-          </div>
+          <CategoryData data={totalBookingForCategory!} />
         </CardContent>
       </Card>
     </div>

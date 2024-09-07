@@ -42,9 +42,18 @@ export const createDummyBooking = () => {
 
   const servicesArray = [
     "Cut and Styling",
+    "Cleanse, Styling and Blow Dry Straight",
+    "Cleanse and Up-do",
+    "Olaplex Protective Treatment",
+    "Milbon Linkage Deep Intensive Care Treatment",
     "Milbon Superior Treatment",
-    "Technical Perm",
+    "Milbon Premium Position Treatment",
     "Base Color or Color Treatment",
+    "Protective Technical Bleach",
+    "Creative Highlight",
+    "Balayage / Air Touch",
+    "Touch Perm",
+    "Technical Perm",
   ];
 
   const getRandomService = () => {
@@ -63,5 +72,5 @@ export const createDummyBooking = () => {
     time,
   };
 
-  return booking; // Ensure this is returned
+  return booking;
 };

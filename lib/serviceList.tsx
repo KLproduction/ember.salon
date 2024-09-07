@@ -39,7 +39,7 @@ export const SERVICES = [
       treatment: [
         {
           name: "Olaplex Protective Treatment",
-          price: formatPrice(15),
+          price: formatPrice(150),
         },
         {
           name: "Milbon Linkage Deep Intensive Care Treatment",
