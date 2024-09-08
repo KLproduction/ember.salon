@@ -36,19 +36,7 @@ type OurServiceProps = {
 };
 
 const OurService = ({ service }: OurServiceProps) => {
-  const [isPending, startTransition] = useTransition();
-
   const route = useRouter();
-
-  // const [service, setService] = useState<TService[] | null>(null);
-  // useEffect(() => {
-  //   startTransition(async () => {
-  //     const data = await getProduct();
-  //     if (data) {
-  //       setService(data);
-  //     }
-  //   });
-  // }, []);
 
   return (
     <>
@@ -116,9 +104,11 @@ const OurService = ({ service }: OurServiceProps) => {
                                 <Button
                                   asChild
                                   className="flex justify-center bg-yellow-600"
-                                  onClick={() =>
-                                    route.push(`/?service=${item.name}`)
-                                  }
+                                  onClick={(e) => {
+                                    e.preventDefault(), e.stopPropagation();
+
+                                    route.push(`/?service=${item.name}`);
+                                  }}
                                 >
                                   <Link
                                     to="appointment"
