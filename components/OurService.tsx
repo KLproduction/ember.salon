@@ -105,7 +105,7 @@ const OurService = ({ service }: OurServiceProps) => {
                                   asChild
                                   className="flex justify-center bg-yellow-600"
                                   onClick={(e) => {
-                                    e.preventDefault(), e.stopPropagation();
+                                    e.stopPropagation();
 
                                     route.push(`/?service=${item.name}`);
                                   }}
