@@ -37,6 +37,7 @@ type OurServiceProps = {
 
 const OurService = ({ service }: OurServiceProps) => {
   const route = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <>
@@ -60,7 +61,7 @@ const OurService = ({ service }: OurServiceProps) => {
               key={index}
             >
               <Dialog>
-                <DialogTrigger asChild>
+                <DialogTrigger asChild onClick={() => setIsDialogOpen(true)}>
                   <Card className="m-0 my-3 flex cursor-pointer flex-col justify-center gap-5 p-3 duration-200 hover:scale-105 sm:m-3">
                     <CardHeader className="flex flex-col gap-3 text-xl font-bold text-yellow-700">
                       <div className="flex justify-center">
@@ -82,49 +83,52 @@ const OurService = ({ service }: OurServiceProps) => {
                     </CardFooter>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="mt-10 max-w-[80%] overflow-y-scroll rounded-xl sm:mt-0">
-                  <DialogHeader>
-                    <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
-                      {item.name}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription>
-                  </DialogHeader>
-                  <div className="flex flex-col justify-center gap-2 text-sm text-zinc-700 sm:gap-10 sm:text-lg md:text-xl">
-                    {item.serviceItem.map(
-                      (item, index) =>
-                        item.serviceStatus === "Available" && (
-                          <ScrollArea
-                            className="mx-5 border-b-2 border-zinc-200 p-3"
-                            key={index}
-                          >
-                            <div className="grid grid-cols-1 items-center justify-between gap-3 sm:grid-cols-4">
-                              <h1 className="sm:col-span-2">{item.name}</h1>
-                              <p className="">{formatPrice(item.price)}</p>
-                              <DialogTrigger asChild>
-                                <Button
-                                  asChild
-                                  className="flex justify-center bg-yellow-600"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-
-                                    route.push(`/?service=${item.name}`);
-                                  }}
-                                >
-                                  <Link
-                                    to="appointment"
-                                    smooth
-                                    className="cursor-pointer"
+                {isDialogOpen && (
+                  <DialogContent className="mt-10 max-w-[80%] overflow-y-scroll rounded-xl sm:mt-0">
+                    <DialogHeader>
+                      <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
+                        {item.name}
+                      </DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col justify-center gap-2 text-sm text-zinc-700 sm:gap-10 sm:text-lg md:text-xl">
+                      {item.serviceItem.map(
+                        (item, index) =>
+                          item.serviceStatus === "Available" && (
+                            <ScrollArea
+                              className="mx-5 border-b-2 border-zinc-200 p-3"
+                              key={index}
+                            >
+                              <div className="grid grid-cols-1 items-center justify-between gap-3 sm:grid-cols-4">
+                                <h1 className="sm:col-span-2">{item.name}</h1>
+                                <p className="">{formatPrice(item.price)}</p>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    asChild
+                                    className="flex justify-center bg-yellow-600"
+                                    onClick={(e) => {
+                                      e.preventDefault(),
+                                        e.stopPropagation(),
+                                        setIsDialogOpen(false);
+                                      route.push(`/?service=${item.name}`);
+                                    }}
                                   >
-                                    Booking Online
-                                  </Link>
-                                </Button>
-                              </DialogTrigger>
-                            </div>
-                          </ScrollArea>
-                        ),
-                    )}
-                  </div>
-                </DialogContent>
+                                    <Link
+                                      to="appointment"
+                                      smooth
+                                      className="cursor-pointer"
+                                    >
+                                      Booking Online
+                                    </Link>
+                                  </Button>
+                                </DialogTrigger>
+                              </div>
+                            </ScrollArea>
+                          ),
+                      )}
+                    </div>
+                  </DialogContent>
+                )}
               </Dialog>
             </motion.div>
           ))}
