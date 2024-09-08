@@ -44,6 +44,7 @@ import { TService, TServiceItem } from "@/lib/type";
 import { useRouter, useSearchParams } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import { enGB } from "date-fns/locale";
+import MySpinner from "./MySpinner";
 
 interface BookingFormProps {
   service: TService[];
@@ -396,6 +397,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
           </Card>
         </div>
       </div>
+      {isPending && <MySpinner />}
     </div>
   );
 };
