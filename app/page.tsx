@@ -15,6 +15,7 @@ import SignOutBtn from "@/components/auth/SignOutBtn";
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
+import NewGallery from "@/components/NewGallery";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -42,8 +43,12 @@ export default async function Home() {
           <OurService service={service!} />
         </div>
 
-        <div className="gallery top-0 h-[700vh] w-full items-center justify-center">
+        {/* <div className="gallery top-0 h-[700vh] w-full items-center justify-center">
           <Showcase />
+        </div> */}
+
+        <div className="gallery min-h-[100vh] w-full">
+          <NewGallery />
         </div>
 
         <div className="appointment flex h-full w-full">
@@ -60,16 +65,16 @@ export default async function Home() {
         <div>
           {user ? (
             <div>
+              {user.email}
               <SignOutBtn />
             </div>
           ) : (
             <div className="flex flex-col">
               <Link href={"/auth/login"}>Login</Link>
-              <div>
-                <Link href={`/admin`}>ADMIN</Link>
-              </div>
+              <div></div>
             </div>
           )}
+          <Link href={`/admin`}>ADMIN</Link>
         </div>
       </main>
     </>

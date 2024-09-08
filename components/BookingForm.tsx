@@ -113,7 +113,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
       const availableSlots = [];
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
-        console.log(`Slot: ${slot}, Date: ${selectedDate}, Count: ${count}`);
+
         if (count < 5) {
           availableSlots.push(slot);
         }

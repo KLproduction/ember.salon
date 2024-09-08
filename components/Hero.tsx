@@ -267,7 +267,7 @@ const Hero = () => {
           </div>
         </motion.div>
         {/* TEXT */}
-        <div className="absolute inset-0 h-full w-full">
+        <div className="absolute inset-0 -top-10 h-full w-full">
           <div className="absolute bottom-0 left-0 top-[15rem] z-20 mx-auto flex w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
             <div className="hidden flex-col justify-start gap-3 text-3xl font-bold text-white duration-200 sm:flex sm:gap-10 sm:text-4xl md:text-6xl">
               <motion.div
@@ -324,7 +324,7 @@ const Hero = () => {
               <Button
                 asChild
                 size={"lg"}
-                className="absolute bottom-[50%] ml-[20%] h-28 rounded-xl border border-zinc-50 bg-transparent p-5 text-4xl font-bold text-zinc-50 backdrop-blur-md sm:left-[30%] sm:top-[70%] md:bottom-[20%] md:ml-[10%] lg:ml-0 xl:left-[90%] xl:ml-[10%] xl:text-5xl"
+                className="absolute bottom-[50%] ml-[20%] h-28 rounded-xl border border-zinc-50 bg-yellow-700 p-5 text-4xl font-bold text-zinc-50 backdrop-blur-md sm:left-[30%] sm:top-[70%] md:bottom-[20%] md:ml-[10%] lg:ml-0 xl:left-[90%] xl:ml-[10%] xl:text-5xl"
               >
                 <Link to="appointment" smooth className="cursor-pointer">
                   BOOK ONLINE
@@ -351,17 +351,17 @@ const Hero = () => {
             </motion.div>
           </div>
           {/* IMAGE */}
-          <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20" />
-          <motion.div
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2 }}
-            style={{ transformOrigin: "center center" }}
-            className="h-screen w-full"
-          >
-            <div className="h-full w-full bg-girlHair bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
-          </motion.div>
         </div>
+        {/* <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20" /> */}
+        <motion.div
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2 }}
+          style={{ transformOrigin: "center center" }}
+          className="h-screen w-full"
+        >
+          <div className="h-full w-full bg-girlHair2 bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
+        </motion.div>
       </div>
     </>
   );
