@@ -276,7 +276,9 @@ const BookingForm = ({ service }: BookingFormProps) => {
                           >
                             <FormControl>
                               <SelectTrigger className="disabled:bg-zinc-600 disabled:text-zinc-600">
-                                <SelectValue placeholder="Select a Time Slot" />
+                                <SelectValue
+                                  placeholder={"Select a Time Slot"}
+                                />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -404,7 +406,11 @@ const BookingForm = ({ service }: BookingFormProps) => {
           </Card>
         </div>
       </div>
-      {isPending && <MySpinner />}
+      {isPending && (
+        <div>
+          <MySpinner />
+        </div>
+      )}
     </div>
   );
 };

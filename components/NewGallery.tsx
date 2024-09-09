@@ -7,6 +7,7 @@ const NewGallery = () => {
         <div
           className="box one w-[80%] cursor-pointer bg-center bg-no-repeat object-cover text-transparent brightness-75 hover:brightness-100"
           style={{ backgroundImage: 'url("/g1.png")' }}
+          data-text="Bolden gold under cut"
         ></div>
         <div
           className="box two w-[80%] cursor-pointer bg-center bg-no-repeat object-cover brightness-75 hover:brightness-100"

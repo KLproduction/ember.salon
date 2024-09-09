@@ -38,6 +38,14 @@ type OurServiceProps = {
 const OurService = ({ service }: OurServiceProps) => {
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const onClickHandler = (path: string) => {
+    startTransition(() => {
+      setIsDialogOpen(false);
+      route.push(`/?service=${path}`);
+    });
+  };
 
   return (
     <>
@@ -106,11 +114,8 @@ const OurService = ({ service }: OurServiceProps) => {
                                   <Button
                                     asChild
                                     className="flex justify-center bg-yellow-600"
-                                    onClick={(e) => {
-                                      e.preventDefault(),
-                                        e.stopPropagation(),
-                                        setIsDialogOpen(false);
-                                      route.push(`/?service=${item.name}`);
+                                    onClick={() => {
+                                      onClickHandler(item.name);
                                     }}
                                   >
                                     <Link
