@@ -114,7 +114,9 @@ const OurService = ({ service }: OurServiceProps) => {
                                   <Button
                                     asChild
                                     className="flex justify-center bg-yellow-600"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
                                       onClickHandler(item.name);
                                     }}
                                   >
