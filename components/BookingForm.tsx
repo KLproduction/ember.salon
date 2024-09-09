@@ -111,6 +111,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
 
   useEffect(() => {
     startTransition(async () => {
+      console.log("selectedDate:", selectedDate);
       const availableSlots = [];
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
@@ -219,6 +220,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
                                 !field.value ? "text-muted-foreground" : ""
                               }`}
                               onClick={() => setIsCalendarOpen((open) => !open)}
+                              type="button"
                             >
                               {field.value ? (
                                 format(field.value, "PPP")
@@ -234,7 +236,9 @@ const BookingForm = ({ service }: BookingFormProps) => {
                               >
                                 <Calendar
                                   mode="single"
-                                  selected={field.value}
+                                  selected={
+                                    field.value ? field.value : new Date()
+                                  }
                                   onSelect={(date) => {
                                     field.onChange(date);
                                     setIsCalendarOpen(false);
@@ -247,7 +251,10 @@ const BookingForm = ({ service }: BookingFormProps) => {
                                   }}
                                   initialFocus
                                   locale={enGB}
-                                  className="bg-zinc-800"
+                                  className="z-[50] bg-zinc-100 text-zinc-900"
+                                  defaultMonth={
+                                    selectedDate ? selectedDate : new Date()
+                                  }
                                 />
                               </div>
                             )}

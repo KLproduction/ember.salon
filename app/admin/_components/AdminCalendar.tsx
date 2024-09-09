@@ -98,6 +98,7 @@ const AdminCalendar = () => {
               setIsOpen((open) => !open);
             }}
             variant={"ghost"}
+            type="button"
           >
             <CalendarIcon className="ml-auto h-4 w-4 text-yellow-700" />
           </Button>
