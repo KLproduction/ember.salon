@@ -92,7 +92,7 @@ const OurService = ({ service }: OurServiceProps) => {
                   </Card>
                 </DialogTrigger>
                 {isDialogOpen && (
-                  <DialogContent className="mt-10 max-w-[80%] overflow-y-scroll rounded-xl sm:mt-0">
+                  <DialogContent className="fixed left-[45%] top-[50%] mt-10 max-w-[80%] rounded-xl sm:left-[50%] sm:mt-0 sm:block">
                     <DialogHeader>
                       <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
                         {item.name}
@@ -107,16 +107,16 @@ const OurService = ({ service }: OurServiceProps) => {
                               className="mx-5 border-b-2 border-zinc-200 p-3"
                               key={index}
                             >
-                              <div className="grid grid-cols-1 items-center justify-between gap-3 sm:grid-cols-4">
+                              <div className="flex flex-col items-center justify-between gap-3 sm:grid sm:grid-cols-4">
                                 <h1 className="sm:col-span-2">{item.name}</h1>
                                 <p className="">{formatPrice(item.price)}</p>
                                 <DialogTrigger asChild>
                                   <Button
                                     asChild
-                                    className="flex justify-center bg-yellow-600"
+                                    className="flex max-w-[200px] justify-center bg-yellow-600"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      e.stopPropagation();
+                                      e.stopPropagation;
                                       onClickHandler(item.name);
                                     }}
                                   >
