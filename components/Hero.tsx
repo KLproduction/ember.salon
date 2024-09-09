@@ -354,7 +354,7 @@ const Hero = () => {
         </div>
         {/* <div className="absolute left-0 top-0 z-10 h-full w-full bg-yellow-900/20" /> */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.1 }}
+          initial={{ opacity: 0, scale: 10 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 2 }}
           style={{ transformOrigin: "center center" }}

@@ -8,13 +8,12 @@ export const checkFreeTimeSlot = async (
 ) => {
   if (!date) {
     console.error("Date is undefined, cannot check free time slot.");
-    return 0; // Or handle the error appropriately
+    return 0;
   }
   const normalizedDate = new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1),
   );
 
-  console.log("Checking slot for:", { normalizedDate, timeSlot });
   const count = await db.booking.count({
     where: {
       date: normalizedDate,

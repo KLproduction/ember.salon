@@ -111,7 +111,6 @@ const BookingForm = ({ service }: BookingFormProps) => {
 
   useEffect(() => {
     startTransition(async () => {
-      console.log("selectedDate:", selectedDate);
       const availableSlots = [];
       for (let slot of slots) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
