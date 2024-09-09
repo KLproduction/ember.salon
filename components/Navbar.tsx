@@ -122,7 +122,7 @@ const Navbar = () => {
             ))}
           </div>
           {/* Mobile nav trigger */}
-          <div className="flex min-w-[48px] flex-shrink-0 text-white sm:hidden">
+          <div className="mr-16 flex min-w-[48px] text-white sm:hidden">
             <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
           </div>
         </div>
