@@ -164,153 +164,168 @@ const ServiceDetailsPage = () => {
   }
 
   return (
-    <Card className="w-[300px] text-zinc-600 sm:w-[600px]">
-      <div className="flex justify-end p-5">
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <div>
-              <Button variant={"destructive"}>Delete</Button>
-            </div>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently remove the
-                data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => deleteHandler(serviceId!)}
-                className="bg-red-500"
-              >
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-      <CardHeader className="text-xl font-bold">Service Setting</CardHeader>
-
-      <CardContent>
-        <div className="flex justify-end">
-          <Label className="">Service ID: {product.id}</Label>
+    <div className="my-10 flex h-full w-full justify-center">
+      <Card className="mx-auto w-full max-w-3xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg">
+        <div className="flex justify-end p-5">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div>
+                <Button variant={"destructive"}>Delete</Button>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently remove the
+                  data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => deleteHandler(serviceId!)}
+                  className="bg-red-500 text-zinc-50"
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
-        <Form {...form}>
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={product.name}
-                        disabled={isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="categoryName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder={product.categoryName} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="CUTTING">Cutting</SelectItem>
-                            <SelectItem value="TREATMENT">Treatment</SelectItem>
-                            <SelectItem value="COLORING">Coloring</SelectItem>
-                            <SelectItem value="PERMANENT">Permanent</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price:</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        disabled={isPending}
-                        onChange={(e) =>
-                          field.onChange(
-                            parseFloat(parseFloat(e.target.value).toFixed(2)),
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <CardHeader className="text-xl font-bold text-yellow-700">
+          Service Setting
+        </CardHeader>
 
-              <FormField
-                control={form.control}
-                name="serviceStatus"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder={product.serviceStatus} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="Available">Available</SelectItem>
-                            <SelectItem value="notAvailable">
-                              Not Available
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+        <CardContent>
+          <div className="flex justify-end">
+            <Label className="">Service ID: {product.id}</Label>
+          </div>
+          <Form {...form}>
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder={product.name}
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="categoryName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder={product.categoryName} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="CUTTING">Cutting</SelectItem>
+                              <SelectItem value="TREATMENT">
+                                Treatment
+                              </SelectItem>
+                              <SelectItem value="COLORING">Coloring</SelectItem>
+                              <SelectItem value="PERMANENT">
+                                Permanent
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price:</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          disabled={isPending}
+                          onChange={(e) =>
+                            field.onChange(
+                              parseFloat(parseFloat(e.target.value).toFixed(2)),
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="flex justify-center">
-              <Button type="submit">Save</Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-      <CardFooter className="flex justify-end p-5">
-        <Button asChild variant={"outline"}>
-          <Link href={"/admin/services"}>Back</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+                <FormField
+                  control={form.control}
+                  name="serviceStatus"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder={product.serviceStatus} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="Available">
+                                Available
+                              </SelectItem>
+                              <SelectItem value="notAvailable">
+                                Not Available
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/90"
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className="flex justify-end p-5">
+          <Button asChild variant={"outline"}>
+            <Link href={"/admin/services"}>Back</Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 };
 

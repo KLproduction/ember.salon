@@ -33,7 +33,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="flex min-h-full flex-col items-center">
+      <main className="flex min-h-full flex-col flex-nowrap items-center">
         <Navbar />
         <div className="home flex h-[100vh] w-full items-center justify-center">
           <Hero />
