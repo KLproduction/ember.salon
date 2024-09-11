@@ -48,19 +48,19 @@ const OurService = ({ service }: OurServiceProps) => {
   };
 
   return (
-    <>
-      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-white to-yellow-50 p-5 px-5 sm:mx-10 sm:px-8 md:px-12 lg:px-20 xl:px-48">
+    <div className="bg-gradient-to-b from-zinc-900 to-zinc-700">
+      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-zinc-900 to-zinc-700">
         <CardHeader className="flex w-auto justify-center text-4xl text-yellow-700 sm:text-6xl">
           Our Services
         </CardHeader>
-        <CardDescription className="mb-20 text-zinc-700">
+        <CardDescription className="mb-20 text-zinc-50">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam
           tenetur aspernatur veniam necessitatibus et consequuntur quae
           provident voluptatem saepe voluptatibus pariatur, sapiente facere nisi
           atque qui ab sed repellat.
         </CardDescription>
 
-        <CardContent className="grid grid-cols-1 sm:grid-cols-2">
+        <CardContent className="grid grid-cols-1 p-5 px-5 sm:mx-10 sm:grid-cols-2 sm:px-8 md:px-12 lg:px-20 xl:px-48">
           {service?.map((item, index) => (
             <motion.div
               initial={{ opacity: 0, y: "50px" }}
@@ -141,7 +141,7 @@ const OurService = ({ service }: OurServiceProps) => {
           ))}
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 

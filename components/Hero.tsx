@@ -96,7 +96,7 @@ const Hero = () => {
 
   const route = useRouter();
   return (
-    <>
+    <div className="h-full w-full">
       {/* Mobile nav menu */}
       {isMenuOpen && (
         <motion.div
@@ -141,7 +141,7 @@ const Hero = () => {
           ))}
         </motion.div>
       )}
-      <div className="relative h-full min-h-dvh w-full">
+      <div className="relative h-full w-full">
         <motion.div
           initial={{ y: "-100vw", opacity: 0 }}
           animate={{ y: "0%", opacity: 1 }}
@@ -363,7 +363,7 @@ const Hero = () => {
           <div className="h-full w-full bg-girlHair2 bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
         </motion.div>
       </div>
-    </>
+    </div>
   );
 };
 

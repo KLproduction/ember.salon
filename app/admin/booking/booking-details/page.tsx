@@ -77,6 +77,21 @@ const BookingDetailsPage = () => {
         const data = await getBookingById(bookingId);
         if (data) {
           setBooking(data);
+        }else{
+              return (
+      <div className="flex h-full w-full flex-col items-center justify-center bg-transparent backdrop-blur-xl gap-5">
+        <h1 className="text-4xl">Booking Not Found</h1>
+        <Button
+          onClick={() =>
+            route.push(
+              `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`,
+            )
+          }
+        >
+          Back to Booking
+        </Button>
+      </div>
+    );
         }
       }
     })();
@@ -186,22 +201,7 @@ const BookingDetailsPage = () => {
       }
     });
   };
-  if (!booking?.date) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-5 bg-transparent backdrop-blur-xl">
-        <h1 className="text-4xl">Booking Not Found</h1>
-        <Button
-          onClick={() =>
-            route.push(
-              `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`,
-            )
-          }
-        >
-          Back to Booking
-        </Button>
-      </div>
-    );
-  }
+ 
   return (
     <div className="my-10 flex h-full w-full items-center justify-center py-10">
       <Card className="mx-auto w-full max-w-3xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg">

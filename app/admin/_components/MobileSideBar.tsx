@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logs } from "lucide-react";
+import SignOutBtn from "@/components/auth/SignOutBtn";
 
 const MobileSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,6 +100,9 @@ const MobileSideBar = () => {
                     {item.icon}
                   </Link>
                 ))}
+                <Button asChild className="hover:opacity-50">
+                  <SignOutBtn />
+                </Button>
               </CommandItem>
             </CommandGroup>
             <CommandSeparator />

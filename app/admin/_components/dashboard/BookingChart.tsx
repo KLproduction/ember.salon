@@ -45,7 +45,7 @@ const BookingChart = ({ data }: BookingChartProps) => {
       <Card>
         <CardHeader>
           <CardTitle>{`${format(new Date(), "MMMM")} Bookings`}</CardTitle>
-          <CardDescription> Per Day</CardDescription>
+          <CardDescription className="text-zinc-500"> Per Day</CardDescription>
         </CardHeader>
         <CardContent>
           <div style={{ width: "100%", height: 300 }}>

@@ -2,7 +2,7 @@ import React from "react";
 
 const NewGallery = () => {
   return (
-    <div className="flex min-h-[100vh] items-center justify-center bg-zinc-900 duration-500">
+    <div className="max-w-screen flex min-h-[100vh] items-center justify-center bg-zinc-900 duration-500">
       <div className="gallery-container grid h-[500px] w-[70%] grid-cols-5 transition-all duration-300">
         <div
           className="box one w-[80%] cursor-pointer bg-center bg-no-repeat object-cover text-transparent brightness-75 hover:brightness-100"

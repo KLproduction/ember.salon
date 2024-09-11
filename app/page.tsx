@@ -33,7 +33,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="flex min-h-full flex-col flex-nowrap items-center">
+      <main className="flex min-h-full flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
         <div className="home flex h-[100vh] w-full items-center justify-center">
           <Hero />
@@ -43,11 +43,7 @@ export default async function Home() {
           <OurService service={service!} />
         </div>
 
-        {/* <div className="gallery top-0 h-[700vh] w-full items-center justify-center">
-          <Showcase />
-        </div> */}
-
-        <div className="gallery min-h-[100vh] w-full">
+        <div className="gallery min-h-[100vh] w-screen">
           <NewGallery />
         </div>
 
@@ -61,20 +57,6 @@ export default async function Home() {
         </div>
         <div>
           <Footer />
-        </div>
-        <div>
-          {user ? (
-            <div>
-              {user.email}
-              <SignOutBtn />
-            </div>
-          ) : (
-            <div className="flex flex-col">
-              <Link href={"/auth/login"}>Login</Link>
-              <div></div>
-            </div>
-          )}
-          <Link href={`/admin`}>ADMIN</Link>
         </div>
       </main>
     </>

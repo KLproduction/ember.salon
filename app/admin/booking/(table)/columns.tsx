@@ -76,7 +76,7 @@ export const columns: ColumnDef<Booking>[] = [
       const isSortedAsc = column.getIsSorted();
       return (
         <Button
-          className="flex items-center gap-3"
+          className="flex w-full items-center justify-center gap-3"
           variant={"ghost"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -97,7 +97,7 @@ export const columns: ColumnDef<Booking>[] = [
     header: ({ column }) => {
       const isSortedAsc = column.getIsSorted();
       return (
-        <div className="flex w-full justify-start">
+        <div className="flex w-full items-center justify-center gap-3">
           <Button
             className="gap-3"
             variant={"ghost"}
@@ -121,7 +121,7 @@ export const columns: ColumnDef<Booking>[] = [
     header: ({ column }) => {
       const isSortedAsc = column.getIsSorted();
       return (
-        <div className="flex w-full justify-start">
+        <div className="flex w-full items-center justify-center gap-3">
           <Button
             className="gap-3"
             variant={"ghost"}
@@ -145,7 +145,7 @@ export const columns: ColumnDef<Booking>[] = [
     header: ({ column }) => {
       const isSortedAsc = column.getIsSorted();
       return (
-        <div className="flex w-full justify-start">
+        <div className="flex w-full items-center justify-center gap-3">
           <Button
             className="gap-3"
             variant={"ghost"}
