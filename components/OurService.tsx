@@ -49,11 +49,11 @@ const OurService = ({ service }: OurServiceProps) => {
 
   return (
     <div className="bg-gradient-to-b from-zinc-900 to-zinc-700">
-      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-zinc-900 to-zinc-700">
+      <Card className="flex flex-col items-center justify-center gap-5 overflow-hidden bg-gradient-to-b from-zinc-900 to-zinc-700 pt-20">
         <CardHeader className="flex w-auto justify-center text-4xl text-yellow-700 sm:text-6xl">
           Our Services
         </CardHeader>
-        <CardDescription className="mb-20 text-zinc-50">
+        <CardDescription className="mx-20 mb-20 text-zinc-50">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ipsam
           tenetur aspernatur veniam necessitatibus et consequuntur quae
           provident voluptatem saepe voluptatibus pariatur, sapiente facere nisi
@@ -71,7 +71,7 @@ const OurService = ({ service }: OurServiceProps) => {
               <Dialog>
                 <DialogTrigger asChild onClick={() => setIsDialogOpen(true)}>
                   <Card className="m-0 my-3 flex cursor-pointer flex-col justify-center gap-5 p-3 duration-200 hover:scale-105 sm:m-3">
-                    <CardHeader className="flex flex-col gap-3 text-xl font-bold text-yellow-700">
+                    <CardHeader className="grid gap-3 text-xl font-bold text-yellow-700">
                       <div className="flex justify-center">
                         <img
                           src={item.image || undefined}
@@ -92,7 +92,7 @@ const OurService = ({ service }: OurServiceProps) => {
                   </Card>
                 </DialogTrigger>
                 {isDialogOpen && (
-                  <DialogContent className="fixed left-[45%] top-[50%] mt-10 max-w-[80%] rounded-xl sm:left-[50%] sm:mt-0 sm:block">
+                  <DialogContent className="fixed left-[50%] top-[45%] z-[999999] mt-10 max-w-[80%] overflow-auto rounded-xl sm:mt-0 sm:block">
                     <DialogHeader>
                       <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
                         {item.name}
@@ -104,7 +104,7 @@ const OurService = ({ service }: OurServiceProps) => {
                         (item, index) =>
                           item.serviceStatus === "Available" && (
                             <ScrollArea
-                              className="mx-5 border-b-2 border-zinc-200 p-3"
+                              className="mx-5 overflow-y-scroll border-b-2 border-zinc-200 p-3"
                               key={index}
                             >
                               <div className="flex flex-col items-center justify-between gap-3 sm:grid sm:grid-cols-4">

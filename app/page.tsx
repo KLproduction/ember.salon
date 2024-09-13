@@ -7,7 +7,7 @@ import Hero from "@/components/Hero";
 import OurService from "@/components/OurService";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
-import NewHero from "@/components/newHero";
+
 import Map from "@/components/map";
 import Contact from "@/components/Contact";
 
@@ -16,6 +16,7 @@ import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
+import NewHero from "@/components/NewHero";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -35,11 +36,12 @@ export default async function Home() {
     <>
       <main className="flex min-h-full flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
-        <div className="home flex h-[100vh] w-full items-center justify-center">
-          <Hero />
+        <div className="home flex w-full items-center justify-center">
+          {/* <Hero /> */}
+          <NewHero />
         </div>
 
-        <div className="services flex min-h-[100vh] w-full flex-col">
+        <div className="services w-full">
           <OurService service={service!} />
         </div>
 

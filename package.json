@@ -33,6 +33,7 @@
     "@react-google-maps/api": "^2.19.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
+    "@tabler/icons-react": "^3.16.0",
     "@tanstack/react-table": "^8.19.3",
     "@types/google-map-react": "^2.1.10",
     "@uploadthing/react": "^6.7.2",

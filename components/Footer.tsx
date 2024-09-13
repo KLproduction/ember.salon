@@ -22,7 +22,6 @@ const Footer = async () => {
         <div>
           {user ? (
             <div className="flex flex-col items-center justify-center gap-5">
-              {`Welcome:    ${user.email}`}
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
                 <Button asChild>
                   <Link href={"/admin"}>Dashboard</Link>
