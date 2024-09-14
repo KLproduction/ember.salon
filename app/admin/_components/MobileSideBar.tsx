@@ -68,7 +68,7 @@ const MobileSideBar = () => {
   return (
     <div className="relative h-full w-full">
       <div className="fixed inset-0 z-[9999] h-10 w-10 p-5 opacity-50">
-        <Button onClick={() => setIsOpen((open) => !open)}>
+        <Button onClick={() => setIsOpen((open) => !open)} variant={"ghost"}>
           <Logs />
         </Button>
       </div>
