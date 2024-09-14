@@ -17,6 +17,7 @@ import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
 import AdminBar from "@/components/AdminBar";
+import { cn } from "@/lib/utils";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -56,12 +57,14 @@ export default async function Home() {
         <div className="contact h-full min-h-dvh w-screen overflow-hidden">
           <Contact />
         </div>
-        <div className="pb-12">
+        <div className={cn(user ? "pb-12" : "")}>
           <Footer />
         </div>
-        <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
-          <AdminBar />
-        </div>
+        {user?.email && (
+          <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
+            <AdminBar />
+          </div>
+        )}
       </main>
     </>
   );
