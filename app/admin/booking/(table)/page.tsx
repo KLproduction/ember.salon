@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { TService, TServiceItem } from "@/lib/type";
 import { getProduct, getServiceItem } from "@/data/getProduct";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Booking } from "@prisma/client";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import AdminCalendar from "../../_components/AdminCalendar";
+import BookingDialog from "../../_components/BookingDialog";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const BookingTablePage = () => {
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -18,6 +20,7 @@ const BookingTablePage = () => {
   const year = Number(searchParams.get("year"));
   const month = Number(searchParams.get("month"));
   const date = Number(searchParams.get("date"));
+  const route = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -31,14 +34,40 @@ const BookingTablePage = () => {
   return (
     <>
       <div className="relative flex w-full flex-col items-center justify-between">
-        <div className="absolute left-[15%]">
-          <AdminCalendar />
+        <div className="mt-20 flex w-full items-center justify-between sm:px-20">
+          <Button
+            variant={"ghost"}
+            onClick={() =>
+              route.push(
+                `/admin/booking?year=${year}&month=${month}&date=${date - 1}`,
+              )
+            }
+          >
+            <ChevronLeft className="text-zinc-500" />
+          </Button>
+          <div className="flex flex-col">
+            <div className="">
+              <h1 className="text-4xl text-zinc-700">{`Date: ${year}-${month}-${date}`}</h1>
+            </div>
+
+            <div>
+              <AdminCalendar />
+            </div>
+          </div>
+          <Button
+            variant={"ghost"}
+            onClick={() =>
+              route.push(
+                `/admin/booking?year=${year}&month=${month}&date=${date + 1}`,
+              )
+            }
+          >
+            <ChevronRight className="text-zinc-500" />
+          </Button>
         </div>
-        <div className="mt-10">
-          <h1 className="text-4xl text-zinc-700">{`Date: ${year}-${month}-${date}`}</h1>
-        </div>
-        <div className="container w-full bg-white pb-20 md:w-4/6 lg:w-4/5 xl:w-full">
-          {bookings && <DataTable columns={columns} data={bookings} />}
+        <div className="container mt-20 w-full bg-white pb-20 md:w-4/6 lg:w-4/5 xl:w-full">
+          {/* {bookings && <DataTable columns={columns} data={bookings} />} */}
+          <BookingDialog />
         </div>
       </div>
     </>

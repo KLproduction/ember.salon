@@ -217,7 +217,7 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
         </CardContent>
         <CardFooter className="flex justify-end">
           <Button asChild variant={"outline"}>
-            <Link href={"/admin/products"}>Back</Link>
+            <Link href={"/admin/services"}>Back</Link>
           </Button>
         </CardFooter>
       </Card>

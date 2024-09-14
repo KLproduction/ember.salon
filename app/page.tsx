@@ -17,6 +17,7 @@ import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
 import NewHero from "@/components/NewHero";
+import AdminBar from "@/components/AdminBar";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -37,8 +38,8 @@ export default async function Home() {
       <main className="flex min-h-full flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
         <div className="home flex w-full items-center justify-center">
-          {/* <Hero /> */}
-          <NewHero />
+          <Hero />
+          {/* <NewHero /> */}
         </div>
 
         <div className="services w-full">
@@ -57,8 +58,11 @@ export default async function Home() {
         <div className="contact h-full min-h-dvh w-screen overflow-hidden">
           <Contact />
         </div>
-        <div>
+        <div className="pb-12">
           <Footer />
+        </div>
+        <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
+          <AdminBar />
         </div>
       </main>
     </>

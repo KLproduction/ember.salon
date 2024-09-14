@@ -61,7 +61,7 @@ const AdminCalendar = () => {
         setUnReadBookedDays(unReadBookedDates);
       }
     })();
-  }, []);
+  }, [searchParams]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
