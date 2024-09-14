@@ -104,7 +104,7 @@ const AdminCalendar = () => {
           </Button>
         </div>
         {isOpen && (
-          <div className="absolute top-full z-50 mt-2 w-auto p-0">
+          <div className="absolute -right-[60%] top-full z-50 mt-2 w-auto p-0">
             <Card>
               <Calendar
                 mode="single"
