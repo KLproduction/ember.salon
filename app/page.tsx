@@ -16,7 +16,6 @@ import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
-import NewHero from "@/components/NewHero";
 import AdminBar from "@/components/AdminBar";
 
 export default async function Home() {
@@ -39,7 +38,6 @@ export default async function Home() {
         <Navbar />
         <div className="home flex w-full items-center justify-center">
           <Hero />
-          {/* <NewHero /> */}
         </div>
 
         <div className="services w-full">
