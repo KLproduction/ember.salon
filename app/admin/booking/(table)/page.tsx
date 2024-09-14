@@ -12,6 +12,7 @@ import { getBookingByDate } from "@/data/getBookingByDate";
 import AdminCalendar from "../../_components/AdminCalendar";
 import BookingDialog from "../../_components/BookingDialog";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ShowBookingGrid from "../../_components/ShowBookingGrid";
 
 const BookingTablePage = () => {
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -67,7 +68,7 @@ const BookingTablePage = () => {
         </div>
         <div className="container mt-20 w-full bg-white pb-20 md:w-4/6 lg:w-4/5 xl:w-full">
           {/* {bookings && <DataTable columns={columns} data={bookings} />} */}
-          <BookingDialog />
+          <ShowBookingGrid />
         </div>
       </div>
     </>
