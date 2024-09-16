@@ -78,7 +78,7 @@ function MobileMenu({ isOpen, setIsOpen }: MobileMenuProps) {
       initial="closed"
       animate="opened"
       className={cn(
-        "z-[999999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
+        "fixed z-[999999] flex h-screen w-screen flex-col items-center justify-center gap-8 overflow-visible bg-black/75 text-zinc-50 backdrop-blur-lg",
       )}
     >
       <div className="absolute right-0 top-0 p-20">
@@ -181,9 +181,12 @@ function NavBar() {
 
 function Logo() {
   return (
-    <div className="flex border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 bg-black/20 p-2 backdrop-blur-lg">
+    <div className="flex h-28 border-spacing-y-7 flex-col justify-start border-b-4 border-r-4 border-yellow-600 bg-black/20 p-2 backdrop-blur-lg">
       <h1 className="text-3xl font-bold text-colors-indian-yellow">EMBER</h1>
-      <h1 className="text-lg font-semibold text-zinc-50">HAIR SALON</h1>
+      <h1 className="text-lg font-semibold text-zinc-50">
+        HAIR <br />
+        SALON
+      </h1>
     </div>
   );
 }
@@ -234,8 +237,8 @@ function MobileNav({ isMenuOpen, setIsMenuOpen }: MobileNavProps) {
 
 function HeroContent() {
   return (
-    <div className="absolute inset-0 -top-10 h-full w-full">
-      <div className="absolute bottom-0 left-0 top-[15rem] z-20 mx-auto flex w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
+    <div className="absolute inset-0 -top-10 z-10 h-full w-full">
+      <div className="absolute bottom-0 left-0 top-[15rem] mx-auto flex h-[50%] w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
         <HeroText />
         <HeroButton />
       </div>
@@ -272,11 +275,12 @@ function HeroText() {
 function HeroButton() {
   return (
     <>
+      {/* Pad Screen */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2, delay: 1 }}
-        className="hidden h-full w-full sm:flex"
+        className="z-10 hidden h-full w-full sm:flex"
       >
         <Button
           asChild
@@ -288,11 +292,12 @@ function HeroButton() {
           </Link>
         </Button>
       </motion.div>
+      {/* Mobile Screen */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2, delay: 1 }}
-        className="flex w-full justify-center gap-5 sm:hidden"
+        className="z-10 flex h-full w-full justify-center gap-5 sm:hidden"
       >
         <Button
           size="lg"

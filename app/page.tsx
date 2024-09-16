@@ -45,7 +45,7 @@ export default async function Home() {
           <OurService service={service!} />
         </div>
 
-        <div className="gallery min-h-[100vh] w-screen">
+        <div className="gallery min-h-[100vh] w-screen overflow-y-hidden">
           <NewGallery />
         </div>
 

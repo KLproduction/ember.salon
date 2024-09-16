@@ -9,9 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, ChevronUp, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { cn } from "@/lib/utils";
 
 type AdminBarProps = {};
 
@@ -19,17 +20,74 @@ const AdminBar = () => {
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUnreadMessage, setIsUnreadMessage] = useState(false);
+
   return (
-    <div className="flex h-full w-full items-center justify-between bg-white/75 backdrop-blur-md">
-      <h1 className="mx-5 text-zinc-500 sm:mx-20">Admin Bar</h1>
-      <div className="flex items-center gap-5">
-        <Button onClick={() => route.push("/admin")}>Admin Dashboard</Button>
-        <div className="h-8 w-1 border-r-2 border-zinc-500" />
-        <MessageBox />
-        <SignOutBtn />
+    <div className="relative z-[1000000] h-full w-full">
+      {/* Midden screen */}
+      <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
+        <h1 className="mx-5 text-zinc-500 sm:mx-20">Admin Bar</h1>
+        <div className="flex items-center gap-5">
+          <Button onClick={() => route.push("/admin")}>Admin Dashboard</Button>
+          <div className="h-8 w-1 border-r-2 border-zinc-500" />
+          <MessageBox />
+          <SignOutBtn />
+        </div>
       </div>
+      {/* Mobile Screen */}
+      <MobileAdminBar />
     </div>
   );
+
+  function MobileAdminBar() {
+    const DropdownMenu = () => {
+      return (
+        <div
+          className={cn(
+            "fixed bottom-0 right-0 z-[1000000] w-full bg-white/75 p-3 backdrop-blur-md",
+          )}
+        >
+          <div className="flex items-center justify-between gap-5">
+            <Button onClick={() => route.push("/admin")} variant={"outline"}>
+              Admin Dashboard
+            </Button>
+
+            <MessageBox />
+            <SignOutBtn />
+          </div>
+        </div>
+      );
+    };
+
+    return (
+      <div className="absolute bottom-0 right-0 z-[70] h-12 w-full bg-white/75 backdrop-blur-md md:hidden">
+        {/* <Button
+          asChild
+          variant={"ghost"}
+          className="my-auto flex h-full cursor-pointer items-center justify-center gap-5 hover:bg-transparent"
+          onClick={() => setIsAdminBarOpen((perv) => !perv)}
+        >
+          <div className="">
+            <div className="text-zinc-500">Admin Bar</div>
+            <ChevronUp
+              className={cn(
+                isAdminBarOpen ? "flex" : "hidden",
+                "text-zinc-500",
+              )}
+            />
+            <ChevronDown
+              className={cn(
+                isAdminBarOpen ? "hidden" : "flex",
+                "text-zinc-500",
+              )}
+            />
+          </div>
+        </Button> */}
+        <div>
+          <DropdownMenu />
+        </div>
+      </div>
+    );
+  }
 
   function MessageBox() {
     return (

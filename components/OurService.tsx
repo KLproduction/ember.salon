@@ -92,7 +92,7 @@ const OurService = ({ service }: OurServiceProps) => {
                   </Card>
                 </DialogTrigger>
                 {isDialogOpen && (
-                  <DialogContent className="fixed left-[50%] top-[45%] z-[999999] mt-10 max-w-[80%] overflow-auto rounded-xl sm:mt-0 sm:block">
+                  <DialogContent className="fixed left-[50%] top-[45%] z-[999999] mt-10 max-h-[80%] max-w-[80%] overflow-auto rounded-xl sm:mt-0 sm:block">
                     <DialogHeader>
                       <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
                         {item.name}
