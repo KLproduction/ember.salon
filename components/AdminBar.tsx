@@ -41,11 +41,7 @@ const AdminBar = () => {
   function MobileAdminBar() {
     const DropdownMenu = () => {
       return (
-        <div
-          className={cn(
-            "fixed bottom-0 right-0 z-[1000000] w-full bg-white/75 p-3 backdrop-blur-md",
-          )}
-        >
+        <div className={cn("w-full p-3")}>
           <div className="flex items-center justify-between gap-5">
             <Button onClick={() => route.push("/admin")} variant={"outline"}>
               Admin Dashboard
@@ -59,7 +55,7 @@ const AdminBar = () => {
     };
 
     return (
-      <div className="absolute bottom-0 right-0 z-[70] h-12 w-full bg-white/75 backdrop-blur-md md:hidden">
+      <div className="just absolute bottom-0 right-0 z-[70] flex h-12 w-full items-center bg-white/75 backdrop-blur-md md:hidden">
         {/* <Button
           asChild
           variant={"ghost"}
