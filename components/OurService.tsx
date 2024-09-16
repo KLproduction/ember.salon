@@ -27,9 +27,10 @@ import { formatPrice } from "@/lib/formatPrice";
 import { TService } from "@/lib/type";
 import { getProduct } from "@/data/getProduct";
 import MySpinner from "./MySpinner";
-import { Link } from "react-scroll";
+
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "./ui/scroll-area";
+import Link from "next/link";
 
 type OurServiceProps = {
   service: TService[];
@@ -37,13 +38,16 @@ type OurServiceProps = {
 
 const OurService = ({ service }: OurServiceProps) => {
   const route = useRouter();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const [isPending, startTransition] = useTransition();
 
   const onClickHandler = (path: string) => {
     startTransition(() => {
-      setIsDialogOpen(false);
       route.push(`/?service=${path}`);
+      const element = document.getElementsByClassName("appointment")[0];
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     });
   };
 
@@ -69,7 +73,7 @@ const OurService = ({ service }: OurServiceProps) => {
               key={index}
             >
               <Dialog>
-                <DialogTrigger asChild onClick={() => setIsDialogOpen(true)}>
+                <DialogTrigger asChild>
                   <Card className="m-0 my-3 flex cursor-pointer flex-col justify-center gap-5 p-3 duration-200 hover:scale-105 sm:m-3">
                     <CardHeader className="grid gap-3 text-xl font-bold text-yellow-700">
                       <div className="flex justify-center">
@@ -91,51 +95,44 @@ const OurService = ({ service }: OurServiceProps) => {
                     </CardFooter>
                   </Card>
                 </DialogTrigger>
-                {isDialogOpen && (
-                  <DialogContent className="fixed left-[50%] top-[45%] z-[999999] mt-10 max-h-[80%] max-w-[80%] overflow-auto rounded-xl sm:mt-0 sm:block">
-                    <DialogHeader>
-                      <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
-                        {item.name}
-                      </DialogTitle>
-                      <DialogDescription></DialogDescription>
-                    </DialogHeader>
-                    <div className="flex flex-col justify-center gap-2 text-sm text-zinc-700 sm:gap-10 sm:text-lg md:text-xl">
-                      {item.serviceItem.map(
-                        (item, index) =>
-                          item.serviceStatus === "Available" && (
-                            <ScrollArea
-                              className="mx-5 overflow-y-scroll border-b-2 border-zinc-200 p-3"
-                              key={index}
-                            >
-                              <div className="flex flex-col items-center justify-between gap-3 sm:grid sm:grid-cols-4">
-                                <h1 className="sm:col-span-2">{item.name}</h1>
-                                <p className="">{formatPrice(item.price)}</p>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    asChild
-                                    className="flex max-w-[200px] justify-center bg-yellow-600"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation;
-                                      onClickHandler(item.name);
-                                    }}
-                                  >
-                                    <Link
-                                      to="appointment"
-                                      smooth
-                                      className="cursor-pointer"
-                                    >
-                                      Booking Online
-                                    </Link>
-                                  </Button>
-                                </DialogTrigger>
-                              </div>
-                            </ScrollArea>
-                          ),
-                      )}
-                    </div>
-                  </DialogContent>
-                )}
+
+                <DialogContent className="fixed left-[50%] top-[45%] z-[999999] mt-10 max-h-[80%] max-w-[80%] overflow-auto rounded-xl sm:mt-0 sm:block">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl font-bold text-yellow-600 sm:text-3xl">
+                      {item.name}
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <div className="flex flex-col justify-center gap-2 text-sm text-zinc-700 sm:gap-10 sm:text-lg md:text-xl">
+                    {item.serviceItem.map(
+                      (item, index) =>
+                        item.serviceStatus === "Available" && (
+                          <ScrollArea
+                            className="mx-5 overflow-y-scroll border-b-2 border-zinc-200 p-3"
+                            key={index}
+                          >
+                            <div className="flex flex-col items-center justify-between gap-3 sm:grid sm:grid-cols-4">
+                              <h1 className="sm:col-span-2">{item.name}</h1>
+                              <p className="">{formatPrice(item.price)}</p>
+                              <DialogTrigger asChild>
+                                <Button
+                                  asChild
+                                  className="flex max-w-[200px] justify-center bg-yellow-600"
+                                  onClick={(e) => {
+                                    onClickHandler(item.name);
+                                  }}
+                                >
+                                  <Link href={"#appointment"} scroll={false}>
+                                    Booking Online
+                                  </Link>
+                                </Button>
+                              </DialogTrigger>
+                            </div>
+                          </ScrollArea>
+                        ),
+                    )}
+                  </div>
+                </DialogContent>
               </Dialog>
             </motion.div>
           ))}

@@ -49,7 +49,7 @@ export default async function Home() {
           <NewGallery />
         </div>
 
-        <div className="appointment flex h-full w-full">
+        <div className="appointment flex h-full w-full" id="appointment">
           <h1>
             <BookingForm service={service!} />
           </h1>
