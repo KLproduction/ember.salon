@@ -30,7 +30,7 @@ import MySpinner from "./MySpinner";
 
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "./ui/scroll-area";
-import Link from "next/link";
+import { Link } from "react-scroll";
 
 type OurServiceProps = {
   service: TService[];
@@ -122,7 +122,11 @@ const OurService = ({ service }: OurServiceProps) => {
                                     onClickHandler(item.name);
                                   }}
                                 >
-                                  <Link href={"#appointment"} scroll={false}>
+                                  <Link
+                                    to="appointment"
+                                    smooth
+                                    className="cursor-pointer"
+                                  >
                                     Booking Online
                                   </Link>
                                 </Button>
