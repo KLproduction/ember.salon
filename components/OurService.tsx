@@ -43,7 +43,7 @@ const OurService = ({ service }: OurServiceProps) => {
 
   const onClickHandler = (path: string) => {
     startTransition(() => {
-      route.push(`/?service=${path}`);
+      route.push(`/?service=${path}`, { scroll: false });
       const element = document.getElementsByClassName("appointment")[0];
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
@@ -116,19 +116,12 @@ const OurService = ({ service }: OurServiceProps) => {
                               <p className="">{formatPrice(item.price)}</p>
                               <DialogTrigger asChild>
                                 <Button
-                                  asChild
                                   className="flex max-w-[200px] justify-center bg-yellow-600"
                                   onClick={(e) => {
                                     onClickHandler(item.name);
                                   }}
                                 >
-                                  <Link
-                                    to="appointment"
-                                    smooth
-                                    className="cursor-pointer"
-                                  >
-                                    Booking Online
-                                  </Link>
+                                  Booking Online
                                 </Button>
                               </DialogTrigger>
                             </div>
