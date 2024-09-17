@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { db } from "./db";
+import { format } from "date-fns";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -15,7 +16,7 @@ export const sendConfirmationEmail = async (
   time: string,
   service: string,
 ) => {
-  const formattedDate = date.toLocaleDateString();
+  const formattedDate = format(date, "dd/MM/yyyy");
 
   const htmlContent = `
         <!DOCTYPE html>
