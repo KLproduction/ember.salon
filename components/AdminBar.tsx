@@ -22,7 +22,7 @@ const AdminBar = () => {
   const [isUnreadMessage, setIsUnreadMessage] = useState(false);
 
   return (
-    <div className="relative z-[1000000] h-full w-full">
+    <div className="relative z-[99999] h-full w-full">
       {/* Midden screen */}
       <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
         <h1 className="mx-5 text-zinc-500 sm:mx-20">Admin Bar</h1>

@@ -57,11 +57,11 @@ export default function Hero() {
 
   return (
     <div className="relative h-screen w-full">
+      <BackgroundImage />
       <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       <DesktopNav />
       <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <HeroContent />
-      <BackgroundImage />
     </div>
   );
 }
@@ -237,7 +237,7 @@ function MobileNav({ isMenuOpen, setIsMenuOpen }: MobileNavProps) {
 
 function HeroContent() {
   return (
-    <div className="absolute inset-0 -top-10 z-10 h-full w-full">
+    <div className="absolute inset-0 -top-10 h-full w-full">
       <div className="absolute bottom-0 left-0 top-[15rem] mx-auto flex h-[50%] w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
         <HeroText />
         <HeroButton />
@@ -280,7 +280,7 @@ function HeroButton() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2, delay: 1 }}
-        className="z-10 hidden h-full w-full sm:flex"
+        className="hidden h-full w-full sm:flex"
       >
         <Button
           asChild
@@ -320,7 +320,7 @@ function BackgroundImage() {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 2 }}
       style={{ transformOrigin: "center center" }}
-      className="h-screen w-full"
+      className="z-[-100] h-screen w-full"
     >
       <div className="h-full w-full bg-girlHair2 bg-cover bg-fixed bg-center bg-no-repeat brightness-50"></div>
     </motion.div>
