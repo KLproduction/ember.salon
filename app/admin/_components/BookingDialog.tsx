@@ -23,7 +23,7 @@ const BookingDialog = ({ booking }: BookingDialogProps) => {
   };
 
   return (
-    <div className="w-full rounded-lg bg-white p-6 shadow-lg">
+    <div className="w-full max-w-[320px] rounded-lg bg-white p-6 shadow-lg">
       <div className="mx-10 flex flex-col gap-6">
         <div className="flex items-center justify-between gap-10 border-b pb-4">
           <h1 className="text-xl font-semibold text-gray-700">

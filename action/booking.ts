@@ -2,6 +2,7 @@
 
 import { getProductByID } from "@/data/getProduct";
 import { db } from "@/lib/db";
+import { sendConfirmationEmail } from "@/lib/mail";
 import { BookingFormSchema } from "@/schemas";
 import { IdCardIcon } from "@radix-ui/react-icons";
 import * as z from "zod";
@@ -27,6 +28,13 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
         message: values.message || null,
       },
     });
+    await sendConfirmationEmail(
+      values.email,
+      values.phone,
+      values.date,
+      values.time,
+      values.services,
+    );
     return { success: true };
   } catch (e) {
     console.error("Fail to book:", e);

@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   Form,
   FormField,
@@ -45,6 +45,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import { enGB } from "date-fns/locale";
 import MySpinner from "./MySpinner";
+import { sendConfirmationEmail } from "@/lib/mail";
+import BookingFormLoader from "./BookingFormLoader";
 
 interface BookingFormProps {
   service: TService[];
@@ -52,7 +54,8 @@ interface BookingFormProps {
 
 const BookingForm = ({ service }: BookingFormProps) => {
   const [isPending, startTransition] = useTransition();
-
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const isFormInView = useInView(formRef);
   const searchParams = useSearchParams();
   const serviceName = searchParams.get("service");
 
@@ -72,7 +75,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
       message: "",
       services: "",
       time: "",
-      date: undefined,
+      date: new Date(),
     },
   });
 
@@ -140,16 +143,17 @@ const BookingForm = ({ service }: BookingFormProps) => {
           message: "",
           services: "",
           time: "",
-          date: undefined,
+          date: new Date(),
         });
-      } else {
-        toast.error("Something went wrong, fail to book.");
       }
     });
   };
 
   return (
-    <div className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh] lg:min-h-[150vh]">
+    <div
+      className="relative flex min-h-[230vh] w-screen items-center justify-center md:min-h-[120vh] lg:min-h-[150vh]"
+      ref={formRef}
+    >
       <div
         className="absolute inset-0 h-full w-full bg-fixed bg-center bg-no-repeat"
         style={{ backgroundImage: 'url("/formBG2.png")' }}
@@ -245,8 +249,11 @@ const BookingForm = ({ service }: BookingFormProps) => {
                                   disabled={(date) => {
                                     const today = new Date();
                                     today.setHours(0, 0, 0, 0);
-                                    date.setHours(0, 0, 0, 0);
-                                    return date < today;
+
+                                    const compareDate = new Date(date);
+                                    compareDate.setHours(0, 0, 0, 0);
+
+                                    return compareDate < today;
                                   }}
                                   initialFocus
                                   locale={enGB}
@@ -405,9 +412,9 @@ const BookingForm = ({ service }: BookingFormProps) => {
           </Card>
         </div>
       </div>
-      {isPending && (
+      {isPending && isFormInView && (
         <div>
-          <MySpinner />
+          <BookingFormLoader />
         </div>
       )}
     </div>

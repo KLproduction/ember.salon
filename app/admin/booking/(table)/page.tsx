@@ -48,7 +48,7 @@ const BookingTablePage = () => {
           </Button>
           <div className="flex flex-col">
             <div className="">
-              <h1 className="text-4xl text-zinc-700">{`Date: ${year}-${month}-${date}`}</h1>
+              <h1 className="text-4xl text-zinc-700">{` ${year}-${month}-${date}`}</h1>
             </div>
 
             <div>

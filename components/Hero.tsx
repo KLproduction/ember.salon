@@ -277,8 +277,8 @@ function HeroButton() {
     <>
       {/* Pad Screen */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ x: "200px", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 2, delay: 1 }}
         className="hidden h-full w-full sm:flex"
       >
