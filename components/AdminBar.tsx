@@ -9,10 +9,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { MessageCircle, ChevronUp, ChevronDown } from "lucide-react";
+
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
+import {
+  MessageCircle,
+  Calendar,
+  Clock,
+  Scissors,
+  Palette,
+  Waves,
+  Sparkles,
+} from "lucide-react";
 
 type AdminBarProps = {};
 

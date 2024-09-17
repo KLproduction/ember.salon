@@ -5,6 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { Card } from "./ui/card";
+import { motion } from "framer-motion";
 const NewGallery = () => {
   return (
     <>
@@ -77,7 +79,16 @@ const NewGallery = () => {
 
     return (
       <div className="max-w-screen flex min-h-[100vh] items-center justify-center overflow-hidden bg-zinc-900 duration-500 md:hidden">
-        <div className="relative h-full w-full">
+        <motion.div
+          className="relative h-full w-full"
+          initial={{ x: "-200px", opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2 }}
+        >
+          <div className="absolute top-5 z-10 flex w-full justify-center text-4xl font-black text-zinc-50">
+            OUR WORK
+          </div>
           <div
             ref={sliderRef}
             className={cn(
@@ -86,18 +97,18 @@ const NewGallery = () => {
             )}
           >
             {slides.map((slide, index) => (
-              <div
+              <Card
                 key={index}
                 className={cn(
-                  "flex min-h-[100vh] min-w-[100vw] items-center justify-center bg-zinc-900",
+                  "flex min-h-[100vh] min-w-[100vw] items-center justify-center rounded-xl bg-zinc-900 p-10",
                 )}
               >
                 <div
-                  className="h-full w-full cursor-pointer bg-center bg-no-repeat object-cover"
+                  className="h-full w-full bg-center bg-no-repeat object-cover"
                   style={{ backgroundImage: `url(${slide.img})` }}
                   data-text={slide.text}
                 ></div>
-              </div>
+              </Card>
             ))}
           </div>
           <div className="absolute bottom-10 flex w-full items-center justify-between p-4">
@@ -116,7 +127,7 @@ const NewGallery = () => {
               <ChevronRight className="h-12 w-12" />
             </Button>
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   }
