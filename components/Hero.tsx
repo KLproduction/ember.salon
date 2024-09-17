@@ -57,8 +57,8 @@ export default function Hero() {
 
   return (
     <div className="relative h-screen w-full">
-      <BackgroundImage />
       <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+      <BackgroundImage />
       <DesktopNav />
       <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <HeroContent />

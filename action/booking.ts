@@ -34,6 +34,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
       values.date,
       values.time,
       values.services,
+      values.message,
     );
     return { success: true };
   } catch (e) {

@@ -123,7 +123,6 @@ const BookingForm = ({ service }: BookingFormProps) => {
           availableSlots.push(slot);
         }
       }
-      setIsChecking(true);
       setAvailableTimeSlots(availableSlots);
       form.reset({
         ...form.getValues(),
@@ -137,7 +136,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
     startTransition(async () => {
       const data = await addBooking(values);
       if (data.success) {
-        toast.success("Booking has been made.");
+        toast.success("Confirm email has been Sent.");
         form.reset({
           ...form.getValues(),
           name: "",
@@ -225,7 +224,9 @@ const BookingForm = ({ service }: BookingFormProps) => {
                               className={`min-w-[250px] bg-transparent text-left font-normal ${
                                 !field.value ? "text-muted-foreground" : ""
                               }`}
-                              onClick={() => setIsCalendarOpen((open) => !open)}
+                              onClick={() => {
+                                setIsCalendarOpen((open) => !open);
+                              }}
                               type="button"
                             >
                               {field.value ? (
@@ -248,6 +249,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
                                   onSelect={(date) => {
                                     field.onChange(date);
                                     setIsCalendarOpen(false);
+                                    setIsChecking(true);
                                   }}
                                   disabled={(date) => {
                                     const today = new Date();
@@ -420,7 +422,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
           <BookingFormLoader />
         </div>
       )}
-      {isPending && isFormInView && (
+      {isPending && isFormInView && !IsChecking && (
         <div>
           <MySpinner />
         </div>

@@ -15,8 +15,15 @@ export const sendConfirmationEmail = async (
   date: Date,
   time: string,
   service: string,
+  message?: string,
 ) => {
   const formattedDate = format(date, "dd/MM/yyyy");
+  const messageContent = message
+    ? `<tr>
+       <td style="padding: 8px; border-bottom: 1px solid #ddd;">Message:</td>
+       <td style="padding: 8px; border-bottom: 1px solid #ddd;">${message}</td>
+     </tr>`
+    : "";
 
   const htmlContent = `
         <!DOCTYPE html>
@@ -50,9 +57,11 @@ export const sendConfirmationEmail = async (
                 <td style="padding: 8px;">Service:</td>
                 <td style="padding: 8px;">${service}</td>
               </tr>
+              ${messageContent}
             </table>
             <p>If you have any questions, feel free to contact us.</p>
-            <p style="text-align: center; font-size: 12px; color: #777;">Thank you!<br>Shimg Solutions Team</p>
+            <p style="text-align: center; font-size: 12px; color: #777;">Thank you!<br>Ember Salon Team</p>
+
           </div>
         </body>
         </html>
