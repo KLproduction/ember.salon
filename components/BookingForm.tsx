@@ -58,6 +58,7 @@ const BookingForm = ({ service }: BookingFormProps) => {
   const isFormInView = useInView(formRef);
   const searchParams = useSearchParams();
   const serviceName = searchParams.get("service");
+  const [IsChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
     form.reset({
@@ -122,11 +123,13 @@ const BookingForm = ({ service }: BookingFormProps) => {
           availableSlots.push(slot);
         }
       }
+      setIsChecking(true);
       setAvailableTimeSlots(availableSlots);
       form.reset({
         ...form.getValues(),
         time: "",
       });
+      setIsChecking(false);
     });
   }, [selectedDateTrigger]);
 
@@ -412,9 +415,14 @@ const BookingForm = ({ service }: BookingFormProps) => {
           </Card>
         </div>
       </div>
-      {isPending && isFormInView && (
+      {IsChecking && isFormInView && (
         <div>
           <BookingFormLoader />
+        </div>
+      )}
+      {isPending && isFormInView && (
+        <div>
+          <MySpinner />
         </div>
       )}
     </div>
