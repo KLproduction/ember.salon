@@ -146,13 +146,13 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-zinc-200 text-xs">
+          <TableBody className="bg-zinc-100 text-xs">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="border-b-2 border-zinc-500 text-start"
+                  className="border-b-2 border-zinc-500 text-center"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

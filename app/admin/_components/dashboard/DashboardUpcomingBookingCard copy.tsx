@@ -88,7 +88,7 @@ const DashboardUpcomingBookingCard = ({
                 <div>{`Date: ${format(nextBooking.date, "yyyy MMM dd")}`}</div>
               </CardContent>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="flex items-center justify-center">
               <BookingDialog booking={nextBooking} />
             </DialogContent>
           </Dialog>

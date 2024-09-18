@@ -1,6 +1,15 @@
 import { ServiceCategory, UserRole } from "@prisma/client";
 import * as z from "zod";
 
+export const ServiceAddingSchema = z.object({
+  name: z.string().min(1, { message: "Please enter service name." }),
+  price: z.number(),
+  serviceStatus: z.enum(["Available", "notAvailable"]),
+  categoryName: z.enum(["CUTTING", "TREATMENT", "COLORING", "PERMANENT"]),
+  categoryId: z.string(),
+  id: z.string(),
+});
+
 export const BookingSettingSchema = z.object({
   timeSlot: z.enum([
     "10:00",

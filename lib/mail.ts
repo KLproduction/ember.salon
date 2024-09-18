@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { db } from "./db";
+import { format } from "date-fns";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -7,6 +8,78 @@ const baseURL =
   process.env.NODE_ENV === "production"
     ? process.env.NEXT_PUBLIC_PRODUCTION_URL
     : process.env.NEXT_PUBLIC_SERVER_URL;
+
+export const sendConfirmationEmail = async (
+  email: string,
+  phone: string,
+  date: Date,
+  time: string,
+  service: string,
+  message?: string,
+) => {
+  const formattedDate = format(date, "dd/MM/yyyy");
+  const messageContent = message
+    ? `<tr>
+       <td style="padding: 8px; border-bottom: 1px solid #ddd;">Message:</td>
+       <td style="padding: 8px; border-bottom: 1px solid #ddd;">${message}</td>
+     </tr>`
+    : "";
+
+  const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Booking Confirmation</title>
+        </head>
+        <body style="background-color: #f4f4f4; font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px;">
+          <div style="background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #333;">Your Booking is Confirmed</h2>
+            <p>Dear Customer,</p>
+            <p>Thank you for booking with us. Here are your booking details:</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">Email:</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${email}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">Phone Number:</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${phone}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">Booked Date:</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${formattedDate}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">Booked Time:</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${time}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px;">Service:</td>
+                <td style="padding: 8px;">${service}</td>
+              </tr>
+              ${messageContent}
+            </table>
+            <p>If you have any questions, feel free to contact us.</p>
+            <p style="text-align: center; font-size: 12px; color: #777;">Thank you!<br>Ember Salon Team</p>
+
+          </div>
+        </body>
+        </html>
+        `;
+
+  try {
+    await resend.emails.send({
+      from: "EmberSalon@shimgsolution.com",
+      to: email,
+      subject: "Your Booking is confirm",
+      html: htmlContent,
+    });
+    return { success: true, message: "Confirmation Email Sent." };
+  } catch (e) {
+    console.error(e);
+    return { success: false, message: "Confirmation Email Not able to Send." };
+  }
+};
 
 export const sendVerificationEmail = async (
   email: string,

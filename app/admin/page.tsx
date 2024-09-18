@@ -60,7 +60,7 @@ const AdminPage = async () => {
   });
 
   return (
-    <div className="container mx-auto space-y-6 p-4">
+    <div className="container mx-auto space-y-6 bg-zinc-900 p-4">
       {/* Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="hover:scale-105 md:col-span-2">

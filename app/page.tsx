@@ -7,7 +7,7 @@ import Hero from "@/components/Hero";
 import OurService from "@/components/OurService";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
-import NewHero from "@/components/newHero";
+
 import Map from "@/components/map";
 import Contact from "@/components/Contact";
 
@@ -16,6 +16,8 @@ import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
+import AdminBar from "@/components/AdminBar";
+import { cn } from "@/lib/utils";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -33,25 +35,21 @@ export default async function Home() {
 
   return (
     <>
-      <main className="flex min-h-full flex-col flex-nowrap items-center">
+      <main className="flex min-h-full flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
-        <div className="home flex h-[100vh] w-full items-center justify-center">
+        <div className="home flex w-full items-center justify-center">
           <Hero />
         </div>
 
-        <div className="services flex min-h-[100vh] w-full flex-col">
+        <div className="services w-full">
           <OurService service={service!} />
         </div>
 
-        {/* <div className="gallery top-0 h-[700vh] w-full items-center justify-center">
-          <Showcase />
-        </div> */}
-
-        <div className="gallery min-h-[100vh] w-full">
+        <div className="gallery min-h-[100vh] w-screen overflow-y-hidden">
           <NewGallery />
         </div>
 
-        <div className="appointment flex h-full w-full">
+        <div className="appointment flex h-full w-full" id="appointment">
           <h1>
             <BookingForm service={service!} />
           </h1>
@@ -59,23 +57,14 @@ export default async function Home() {
         <div className="contact h-full min-h-dvh w-screen overflow-hidden">
           <Contact />
         </div>
-        <div>
+        <div className={cn(user ? "pb-12" : "")}>
           <Footer />
         </div>
-        <div>
-          {user ? (
-            <div>
-              {user.email}
-              <SignOutBtn />
-            </div>
-          ) : (
-            <div className="flex flex-col">
-              <Link href={"/auth/login"}>Login</Link>
-              <div></div>
-            </div>
-          )}
-          <Link href={`/admin`}>ADMIN</Link>
-        </div>
+        {user?.email && (
+          <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
+            <AdminBar />
+          </div>
+        )}
       </main>
     </>
   );

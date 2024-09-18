@@ -10,16 +10,16 @@ const ServiceTablePage = async () => {
   const data: TServiceItem[] | undefined = await getServiceItem();
 
   return (
-    <div className="container mx-auto pb-20">
-      <div className="flex justify-end p-0">
+    <div className="container mx-auto flex flex-col pb-10">
+      {data && <DataTable columns={columns} data={data} />}
+      <div className="mt-10 flex justify-end">
         <Button
-          className="bg-yellow-700 p-3 text-zinc-50 hover:opacity-50"
+          className="w-full bg-yellow-500 p-3 text-zinc-50 hover:opacity-50"
           asChild
         >
-          <Link href={"/admin/service/add-service"}>Add Service</Link>
+          <Link href={"/admin/services/add-service"}>Add Service</Link>
         </Button>
       </div>
-      {data && <DataTable columns={columns} data={data} />}
     </div>
   );
 };

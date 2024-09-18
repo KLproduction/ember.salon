@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import SignOutBtn from "@/components/auth/SignOutBtn";
 
 const SideBar = () => {
   const route = useRouter();
@@ -64,6 +65,9 @@ const SideBar = () => {
                 {item.icon}
               </Link>
             ))}
+            <Button asChild className="hover:opacity-50">
+              <SignOutBtn />
+            </Button>
           </CommandItem>
         </CommandGroup>
         <CommandSeparator />

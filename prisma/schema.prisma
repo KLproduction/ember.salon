@@ -41,11 +41,12 @@ model User {
 }
 
 model Category {
-  id          String        @id @default(cuid())
-  name        String
-  description String
-  image       String
-  serviceItem ServiceItem[]
+  id              String           @id @default(cuid())
+  name            String
+  description     String
+  ServiceCategory ServiceCategory?
+  image           String
+  serviceItem     ServiceItem[]
 }
 
 model ServiceItem {
