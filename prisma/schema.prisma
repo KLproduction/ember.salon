@@ -60,17 +60,28 @@ model ServiceItem {
 }
 
 model Booking {
-  id        String   @id @default(cuid())
-  name      String
-  phone     String
-  email     String
-  service   String
-  timeSlot  String
-  date      DateTime
-  message   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isRead    Boolean  @default(false)
+  id           String        @id @default(cuid())
+  name         String
+  phone        String
+  email        String
+  service      String
+  timeSlot     String
+  date         DateTime
+  message      String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  isRead       Boolean       @default(false)
+  adminMessage AdminMessage?
+}
+
+model AdminMessage {
+  id            String   @id @default(cuid())
+  isMessageRead Boolean  @default(false)
+  bookingId     String   @unique
+  bookings      Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+
+  @@map("adminMessage")
 }
 
 model Account {

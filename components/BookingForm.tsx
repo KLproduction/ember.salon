@@ -47,6 +47,7 @@ import { enGB } from "date-fns/locale";
 import MySpinner from "./MySpinner";
 import { sendConfirmationEmail } from "@/lib/mail";
 import BookingFormLoader from "./BookingFormLoader";
+import { addAdminMessage } from "@/action/addAdminMessage";
 
 interface BookingFormProps {
   service: TService[];
@@ -137,6 +138,9 @@ const BookingForm = ({ service }: BookingFormProps) => {
       const data = await addBooking(values);
       if (data.success) {
         toast.success("Confirm email has been Sent.");
+        if (data.booking) {
+          await addAdminMessage(data.booking?.id);
+        }
         form.reset({
           ...form.getValues(),
           name: "",

@@ -18,6 +18,8 @@ import { getProduct } from "@/data/getProduct";
 import NewGallery from "@/components/NewGallery";
 import AdminBar from "@/components/AdminBar";
 import { cn } from "@/lib/utils";
+import { getAdminMessage } from "@/data/getAdminMessage";
+import { getAllBooking } from "@/data/getBooking";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -32,6 +34,8 @@ export default async function Home() {
   // const isRef5Inview = useInView(ref5, { margin: "-100px" });
   const user = await currentUser();
   const service = await getProduct();
+  const AdminMessage = await getAdminMessage();
+  const bookings = await getAllBooking();
 
   return (
     <>
@@ -62,7 +66,7 @@ export default async function Home() {
         </div>
         {user?.email && (
           <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
-            <AdminBar />
+            <AdminBar messages={AdminMessage} bookings={bookings} />
           </div>
         )}
       </main>

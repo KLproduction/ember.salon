@@ -17,7 +17,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
       ),
     );
     console.log("Saving booking for:", { dateWithoutTime });
-    await db.booking.create({
+    const booking = await db.booking.create({
       data: {
         name: values.name,
         email: values.email,
@@ -36,7 +36,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
       values.services,
       values.message,
     );
-    return { success: true };
+    return { booking, success: true };
   } catch (e) {
     console.error("Fail to book:", e);
     return { success: false };

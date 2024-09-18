@@ -108,7 +108,7 @@ const OurService = ({ service }: OurServiceProps) => {
                       (item, index) =>
                         item.serviceStatus === "Available" && (
                           <ScrollArea
-                            className="mx-5 overflow-y-scroll border-b-2 border-zinc-200 p-3"
+                            className="mx-5 border-b-2 border-zinc-200 p-3 md:overflow-hidden"
                             key={index}
                           >
                             <div className="flex flex-col items-center justify-between gap-3 sm:grid sm:grid-cols-4">

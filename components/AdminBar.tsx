@@ -22,11 +22,24 @@ import {
   Palette,
   Waves,
   Sparkles,
+  LeafIcon,
+  PaintbrushIcon,
+  SparklesIcon,
 } from "lucide-react";
 
-type AdminBarProps = {};
+import { AdminMessage, Booking } from "@prisma/client";
+import { Message } from "postcss";
+import { format } from "date-fns";
+import { changeMessageIsRead } from "@/action/message";
+import { Card } from "./ui/card";
+import { ScrollArea } from "./ui/scroll-area";
 
-const AdminBar = () => {
+type AdminBarProps = {
+  bookings: Booking[];
+  messages: AdminMessage[];
+};
+
+const AdminBar = ({ messages, bookings }: AdminBarProps) => {
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUnreadMessage, setIsUnreadMessage] = useState(false);
@@ -96,12 +109,38 @@ const AdminBar = () => {
   }
 
   function MessageBox() {
+    const unReadDB = messages.filter(
+      (message) => message.isMessageRead === false,
+    );
+    const readDB = messages.filter((message) => message.isMessageRead === true);
+    const [unRead, setUnRead] = useState(unReadDB);
+    const [read, setRead] = useState(readDB);
+
+    const onToggleRead = async (messageId: string) => {
+      await changeMessageIsRead(messageId).then(() => {
+        setUnRead((prevUnRead) =>
+          prevUnRead.map((message) =>
+            message.id === messageId
+              ? { ...message, isMessageRead: !message.isMessageRead }
+              : message,
+          ),
+        );
+        setRead((prevRead) =>
+          prevRead.map((message) =>
+            message.id === messageId
+              ? { ...message, isMessageRead: !message.isMessageRead }
+              : message,
+          ),
+        );
+      });
+    };
+
     return (
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <Button variant="ghost" size="icon" className="relative">
             <MessageCircle className="h-5 w-5" />
-            {isUnreadMessage && (
+            {unRead.length > 0 && (
               <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-green-500" />
             )}
           </Button>
@@ -115,18 +154,100 @@ const AdminBar = () => {
               <TabsTrigger value="new">New Messages</TabsTrigger>
               <TabsTrigger value="read">Read Messages</TabsTrigger>
             </TabsList>
-            <TabsContent value="new">
-              <div className="mt-4">
-                {/* Add content for new messages here */}
-                <p>You have new messages.</p>
-              </div>
-            </TabsContent>
-            <TabsContent value="read">
-              <div className="mt-4">
-                {/* Add content for read messages here */}
-                <p>Your read messages.</p>
-              </div>
-            </TabsContent>
+
+            <ScrollArea className="max-h-[500px] overflow-scroll">
+              {/* Unread Messages Tab */}
+              <TabsContent value="new">
+                {unRead.map((message, index) => {
+                  const unReadMessageBooking = bookings.find(
+                    (booking) => booking.id === message.bookingId,
+                  );
+
+                  if (unReadMessageBooking) {
+                    return (
+                      <Card
+                        className="my-3 flex items-center space-x-4 border-b p-4 last:border-b-0"
+                        key={index}
+                      >
+                        <div className="flex-grow">
+                          <p className="font-semibold">
+                            {unReadMessageBooking.service} Appointment
+                          </p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <Calendar className="mr-1 h-4 w-4" />
+                            <span className="mr-2">
+                              {format(unReadMessageBooking.date, "PPP")}
+                            </span>
+                            <Clock className="mr-1 h-4 w-4" />
+                            <span>{unReadMessageBooking.timeSlot}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm text-gray-500">
+                            {message.isMessageRead ? "Read" : "Unread"}
+                          </span>
+                          <Switch
+                            checked={message.isMessageRead}
+                            onCheckedChange={() => onToggleRead(message.id)}
+                            aria-label={`Mark message as ${
+                              message.isMessageRead ? "unread" : "read"
+                            }`}
+                          />
+                        </div>
+                      </Card>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </TabsContent>
+
+              {/* Read Messages Tab */}
+              <TabsContent value="read">
+                {read.map((message, index) => {
+                  const readMessageBooking = bookings.find(
+                    (booking) => booking.id === message.bookingId,
+                  );
+
+                  if (readMessageBooking) {
+                    return (
+                      <Card
+                        className="flex items-center space-x-4 border-b p-4 last:border-b-0"
+                        key={index}
+                      >
+                        <div className="flex-grow">
+                          <p className="font-semibold">
+                            {readMessageBooking.service} Appointment
+                          </p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <Calendar className="mr-1 h-4 w-4" />
+                            <span className="mr-2">
+                              {format(readMessageBooking.date, "PPP")}
+                            </span>
+                            <Clock className="mr-1 h-4 w-4" />
+                            <span>{readMessageBooking.timeSlot}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm text-gray-500">
+                            {message.isMessageRead ? "Read" : "Unread"}
+                          </span>
+                          <Switch
+                            checked={message.isMessageRead}
+                            onCheckedChange={() => onToggleRead(message.id)}
+                            aria-label={`Mark message as ${
+                              message.isMessageRead ? "unread" : "read"
+                            }`}
+                          />
+                        </div>
+                      </Card>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </TabsContent>
+            </ScrollArea>
           </Tabs>
         </DialogContent>
       </Dialog>
