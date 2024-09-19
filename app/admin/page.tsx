@@ -1,5 +1,4 @@
 import React from "react";
-import AdminBooking from "./_components/AdminBooking";
 
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { getProduct } from "@/data/getProduct";
@@ -8,17 +7,9 @@ import DashboardTodayBookingCard from "./_components/dashboard/DashboardTodayBoo
 import DashboardTomorrowBookingCard from "./_components/dashboard/DashboardTomorrowBookingCard ";
 import BookingChart from "./_components/dashboard/BookingChart";
 import bookingChartData from "@/data/bookingChartData";
-import { getAllBooking, getBooking } from "@/data/getBooking";
-import {
-  CalendarIcon,
-  ScissorsIcon,
-  PaintbrushIcon,
-  SparklesIcon,
-  LeafIcon,
-} from "lucide-react";
+import { getAllBooking } from "@/data/getBooking";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryData from "./_components/dashboard/CategoryData";
-import MySpinner from "@/components/MySpinner";
 
 const AdminPage = async () => {
   const now = new Date();
@@ -26,11 +17,16 @@ const AdminPage = async () => {
   const month = now.getMonth() + 1;
   const date = now.getDate();
   const nextDate = now.getDate() + 1;
-  const todayBooking = await getBookingByDate(year, month, date);
-  const service = await getProduct();
-  const tomorrowBooking = await getBookingByDate(year, month, nextDate);
-  const chartData = await bookingChartData();
-  const booking = await getAllBooking();
+
+  // Fetch all data in parallel
+  const [todayBooking, service, tomorrowBooking, chartData, booking] =
+    await Promise.all([
+      getBookingByDate(year, month, date),
+      getProduct(),
+      getBookingByDate(year, month, nextDate),
+      bookingChartData(),
+      getAllBooking(),
+    ]);
 
   const bookingName = booking.map((item) => item.service);
   const bookingForCategory = service?.map((serviceCategory) => {

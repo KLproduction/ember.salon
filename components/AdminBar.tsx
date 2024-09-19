@@ -1,7 +1,7 @@
 "use client";
 import SignOutBtn from "./auth/SignOutBtn";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -42,14 +42,22 @@ const AdminBar = () => {
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUnreadMessage, setIsUnreadMessage] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="relative z-[99999] h-full w-full">
       {/* Midden screen */}
       <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
         <h1 className="mx-5 text-zinc-500 sm:mx-20">Admin Bar</h1>
-        <div className="flex items-center gap-5">
-          <Button onClick={() => route.push("/admin")}>Admin Dashboard</Button>
+        <div className="flex items-center gap-5 p-3">
+          {!pathname.includes("admin") ? (
+            <Button onClick={() => route.push("/admin")}>
+              Admin Dashboard
+            </Button>
+          ) : (
+            <Button onClick={() => route.push("/")}>Home Page</Button>
+          )}
+
           <div className="h-8 w-1 border-r-2 border-zinc-500" />
           <MessageBox />
           <SignOutBtn />
@@ -102,8 +110,6 @@ const AdminBar = () => {
         if (message) {
           setMessages(message);
         }
-        console.log("BOOK:", bookings);
-        console.log("MESS:", messages);
       })();
     }, []);
 

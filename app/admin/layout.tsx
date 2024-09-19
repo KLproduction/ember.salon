@@ -25,6 +25,9 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
         <div className="container ml-0 w-screen overflow-auto p-5 md:max-w-[1140px]">
           {children}
         </div>
+        <div className="fixed bottom-0 w-screen">
+          <AdminBar />
+        </div>
       </div>
       <Toaster />
     </div>

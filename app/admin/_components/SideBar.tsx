@@ -65,6 +65,7 @@ const SideBar = () => {
                 {item.icon}
               </Link>
             ))}
+
             <Button asChild className="hover:opacity-50">
               <SignOutBtn />
             </Button>
