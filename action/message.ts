@@ -26,3 +26,15 @@ export const changeMessageIsRead = async (id: string) => {
     return { success: false };
   }
 };
+
+export const deleteMessage = async (id: string) => {
+  try {
+    await db.adminMessage.delete({
+      where: { id },
+    });
+    return { success: true };
+  } catch (e) {
+    console.error(e);
+    return { success: false };
+  }
+};

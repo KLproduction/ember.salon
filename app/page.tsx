@@ -66,7 +66,7 @@ export default async function Home() {
         </div>
         {user?.email && (
           <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
-            <AdminBar messages={AdminMessage} bookings={bookings} />
+            <AdminBar  />
           </div>
         )}
       </main>

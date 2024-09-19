@@ -4,6 +4,7 @@ import AdminNavbar from "./_components/AdminNavbar";
 import { getProduct } from "@/data/getProduct";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import MobileSideBar from "./_components/MobileSideBar";
+import AdminBar from "@/components/AdminBar";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
