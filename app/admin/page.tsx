@@ -1,4 +1,5 @@
 import React from "react";
+import AdminBooking from "./_components/AdminBooking";
 
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { getProduct } from "@/data/getProduct";
@@ -7,9 +8,17 @@ import DashboardTodayBookingCard from "./_components/dashboard/DashboardTodayBoo
 import DashboardTomorrowBookingCard from "./_components/dashboard/DashboardTomorrowBookingCard ";
 import BookingChart from "./_components/dashboard/BookingChart";
 import bookingChartData from "@/data/bookingChartData";
-import { getAllBooking } from "@/data/getBooking";
+import { getAllBooking, getBooking } from "@/data/getBooking";
+import {
+  CalendarIcon,
+  ScissorsIcon,
+  PaintbrushIcon,
+  SparklesIcon,
+  LeafIcon,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryData from "./_components/dashboard/CategoryData";
+import MySpinner from "@/components/MySpinner";
 
 const AdminPage = async () => {
   const now = new Date();
