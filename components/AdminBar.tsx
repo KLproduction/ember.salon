@@ -34,9 +34,10 @@ import { format } from "date-fns";
 import { changeMessageIsRead, deleteMessage } from "@/action/message";
 import { Card } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
-import { getAllBooking } from "@/data/getBooking";
+import { getAllBooking, getBooking } from "@/data/getBooking";
 import { getAdminMessage } from "@/data/getAdminMessage";
 import { motion } from "framer-motion";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const AdminBar = () => {
   const route = useRouter();
@@ -99,9 +100,12 @@ const AdminBar = () => {
     const [unRead, setUnRead] = useState<AdminMessage[]>();
     const [read, setRead] = useState<AdminMessage[]>();
     const deleRef = useRef<HTMLDivElement | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRouting, setIsRouting] = useState(false);
 
     useEffect(() => {
       (async () => {
+        setIsLoading(true);
         const data = await getAllBooking();
         if (data) {
           setBookings(data);
@@ -110,6 +114,7 @@ const AdminBar = () => {
         if (message) {
           setMessages(message);
         }
+        setIsLoading(false);
       })();
     }, []);
 
@@ -162,9 +167,11 @@ const AdminBar = () => {
     };
 
     const handleOnClick = (booking: Booking) => {
+      setIsRouting(true);
       route.push(
         `/admin/booking?year=${booking.date.getFullYear()}&month=${booking.date.getMonth() + 1}&date=${booking.date.getDate()}`,
       );
+      setIsRouting(false);
     };
 
     const renderMessage = (
@@ -212,11 +219,13 @@ const AdminBar = () => {
                 {booking.message && (
                   <Dialog>
                     <DialogTrigger
-                      className={"rounded-full bg-green-500 p-2 text-zinc-50"}
+                      className={
+                        "rounded-full border border-zinc-500 p-1 text-zinc-500 hover:bg-green-500 hover:text-zinc-50"
+                      }
                       disabled={!booking.message}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      message
+                      Message
                     </DialogTrigger>
                     <DialogContent>
                       <DialogTitle>Message:</DialogTitle>
@@ -271,33 +280,49 @@ const AdminBar = () => {
               <TabsTrigger value="new">New Messages</TabsTrigger>
               <TabsTrigger value="read">Read Messages</TabsTrigger>
             </TabsList>
-            <ScrollArea className="h-[400px] overflow-y-auto pr-4">
-              <TabsContent value="new" className="mt-0">
-                {unRead && unRead.length === 0 ? (
-                  <p className="text-center text-gray-500">No new messages</p>
-                ) : (
-                  unRead?.map((message, index) =>
-                    renderMessage(
-                      message,
-                      index,
-                      bookings?.find((b) => b.id === message.bookingId),
-                    ),
-                  )
-                )}
-              </TabsContent>
-              <TabsContent value="read" className="mt-0">
-                {read && read.length === 0 ? (
-                  <p className="text-center text-gray-500">No read messages</p>
-                ) : (
-                  read?.map((message, index) =>
-                    renderMessage(
-                      message,
-                      index,
-                      bookings?.find((b) => b.id === message.bookingId),
-                    ),
-                  )
-                )}
-              </TabsContent>
+            <ScrollArea className="relative h-[400px] overflow-y-auto pr-4">
+              {isLoading ? (
+                <div className="absolute flex h-full w-full items-center justify-center">
+                  <AiOutlineLoading
+                    className="animate-spin text-6xl text-yellow-500"
+                    aria-label="Loading"
+                    role="status"
+                  />
+                </div>
+              ) : (
+                <>
+                  <TabsContent value="new" className="mt-0">
+                    {unRead && unRead.length === 0 ? (
+                      <p className="text-center text-gray-500">
+                        No new messages
+                      </p>
+                    ) : (
+                      unRead?.map((message, index) =>
+                        renderMessage(
+                          message,
+                          index,
+                          bookings?.find((b) => b.id === message.bookingId),
+                        ),
+                      )
+                    )}
+                  </TabsContent>
+                  <TabsContent value="read" className="mt-0">
+                    {read && read.length === 0 ? (
+                      <p className="text-center text-gray-500">
+                        No read messages
+                      </p>
+                    ) : (
+                      read?.map((message, index) =>
+                        renderMessage(
+                          message,
+                          index,
+                          bookings?.find((b) => b.id === message.bookingId),
+                        ),
+                      )
+                    )}
+                  </TabsContent>
+                </>
+              )}
             </ScrollArea>
           </Tabs>
         </DialogContent>

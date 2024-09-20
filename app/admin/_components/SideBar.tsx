@@ -49,10 +49,10 @@ const SideBar = () => {
   ];
   return (
     <Command className="rounded-xl bg-zinc-100 shadow-lg shadow-black/50">
-      <CommandInput placeholder="Type a command or search..." />
+      {/* <CommandInput placeholder="Type a command or search..." /> */}
       <CommandList className="h-full min-h-[100vh]">
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
+        <CommandGroup heading="Dashboard pages">
           <CommandItem className="item flex flex-col justify-start gap-5 p-5">
             {sideBarList.map((item, index) => (
               <Link
@@ -71,12 +71,12 @@ const SideBar = () => {
             </Button>
           </CommandItem>
         </CommandGroup>
-        <CommandSeparator />
+        {/* <CommandSeparator />
         <CommandGroup heading="Settings" className="">
           <CommandItem>Profile</CommandItem>
           <CommandItem>Billing</CommandItem>
           <CommandItem>Settings</CommandItem>
-        </CommandGroup>
+        </CommandGroup> */}
       </CommandList>
     </Command>
   );

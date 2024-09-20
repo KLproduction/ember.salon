@@ -17,6 +17,7 @@ import {
   AiOutlineClockCircle,
   AiOutlineClose,
 } from "react-icons/ai";
+import { ArrowRight, ChevronDown, MoveRight } from "lucide-react";
 
 const navIcons = [
   { name: "instagram", icon: <AiFillInstagram />, path: "/" },
@@ -56,12 +57,13 @@ export default function Hero() {
   const router = useRouter();
 
   return (
-    <div className="relative h-screen w-full">
+    <div className="relative h-screen max-h-[1080px] w-full">
       <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       <BackgroundImage />
       <DesktopNav />
       <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <HeroContent />
+      {/* <HeroContent /> */}
+      <NewHeroContent />
     </div>
   );
 }
@@ -235,16 +237,129 @@ function MobileNav({ isMenuOpen, setIsMenuOpen }: MobileNavProps) {
   );
 }
 
-function HeroContent() {
+function NewHeroContent() {
   return (
-    <div className="absolute inset-0 -top-10 h-full w-full">
-      <div className="absolute bottom-0 left-0 top-[15rem] mx-auto flex h-[50%] w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
-        <HeroText />
-        <HeroButton />
+    <div className="container absolute inset-0 top-20 mx-auto flex h-full flex-col items-center justify-center text-center">
+      <div className="hidden pb-10 sm:flex">
+        <AnimatedTitle />
+      </div>
+      <motion.p
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mb-10 hidden w-full text-xl text-zinc-200 sm:text-2xl md:mb-2 lg:block"
+      >
+        Discover Your Best Look With Our Professional Salon Services. <br />
+        Transforming Hair With Expert{" "}
+        <span className="text-pink-300">Cuts,</span>{" "}
+        <span className="text-pink-300">Colors,</span> and{" "}
+        <span className="text-pink-300">Treatments.</span>
+      </motion.p>
+      <div className="flex w-full flex-col items-end justify-end gap-10 xl:mr-[100px]">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Button
+            asChild
+            size="lg"
+            variant={"outline"}
+            className="flex flex-col items-center border-2 border-yellow-500 bg-transparent p-5 text-2xl text-yellow-500 backdrop-blur-md"
+          >
+            <Link
+              to="services"
+              smooth
+              className="flex cursor-pointer flex-col items-center"
+            >
+              <span className="font-black">Explore Our Services</span>
+            </Link>
+          </Button>
+        </motion.div>
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Button className="bg-white/75 p-5 text-3xl font-black text-yellow-700 backdrop-blur-md">
+            <div>
+              <Link
+                to="appointment"
+                smooth
+                className="flex cursor-pointer items-center justify-center gap-3"
+              >
+                <span className="font-black">BOOK ONLINE</span>
+                <ArrowRight className="animate-bounce-horizontal" />
+              </Link>
+            </div>
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
 }
+
+function AnimatedTitle() {
+  const words = ["EMBER", "HAIR", "SALON"];
+  const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
+    }),
+  };
+
+  const child = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100,
+      },
+    },
+    hidden: {
+      opacity: 0,
+      y: 200,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100,
+      },
+    },
+  };
+
+  return (
+    <motion.h1
+      className="mb-2 text-5xl font-bold text-zinc-50 sm:text-6xl md:text-8xl"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
+      {words.map((word, index) => (
+        <motion.span
+          variants={child}
+          key={index}
+          className={cn("mr-5 inline-block")}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.h1>
+  );
+}
+
+// function HeroContent() {
+//   return (
+//     <div className="absolute inset-0 -top-10 h-full w-full">
+//       <div className="absolute bottom-0 left-0 top-[15rem] mx-auto flex h-[50%] w-full justify-start gap-10 sm:top-[20rem] sm:w-2/3 sm:gap-20 md:flex-col lg:flex-row">
+//         <HeroText />
+//         <HeroButton />
+//       </div>
+//     </div>
+//   );
+// }
 
 function HeroText() {
   return (
@@ -288,7 +403,7 @@ function HeroButton() {
           className="absolute bottom-[50%] ml-[20%] h-28 rounded-xl border border-zinc-50 bg-yellow-700 p-5 text-4xl font-bold text-zinc-50 backdrop-blur-md sm:left-[30%] sm:top-[70%] md:bottom-[20%] md:ml-[10%] lg:ml-0 xl:left-[90%] xl:ml-[10%] xl:text-5xl"
         >
           <Link to="appointment" smooth className="cursor-pointer">
-            BOOK ONLINE
+            <span className="font-black">BOOK ONLINE</span>
           </Link>
         </Button>
       </motion.div>
