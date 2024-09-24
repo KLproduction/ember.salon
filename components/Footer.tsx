@@ -14,7 +14,10 @@ const Footer = async () => {
           <h1 className="text-3xl font-bold text-colors-indian-yellow">
             EMBER
           </h1>
-          <h1 className="text-lg font-semibold text-zinc-50"> HAIR SALON</h1>
+          <h1 className="text-lg font-semibold text-zinc-50">
+            {" "}
+            HAIR <br /> SALON
+          </h1>
         </div>
         <div className="col-span-4 text-white">
           <h1>&copy; 2024 Copy reserve ShimG.solution</h1>

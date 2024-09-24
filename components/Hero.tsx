@@ -240,20 +240,20 @@ function MobileNav({ isMenuOpen, setIsMenuOpen }: MobileNavProps) {
 function NewHeroContent() {
   return (
     <div className="container absolute inset-0 top-20 mx-auto flex h-full flex-col items-center justify-center text-center">
-      <div className="hidden pb-10 sm:flex">
+      <div className="hidden sm:flex">
         <AnimatedTitle />
       </div>
       <motion.p
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mb-10 hidden w-full text-xl text-zinc-200 sm:text-2xl md:mb-2 lg:block"
+        className="hidden w-full pb-10 text-xl text-zinc-300 sm:text-lg md:mb-2 lg:block"
       >
         Discover Your Best Look With Our Professional Salon Services. <br />
         Transforming Hair With Expert{" "}
-        <span className="text-pink-300">Cuts,</span>{" "}
-        <span className="text-pink-300">Colors,</span> and{" "}
-        <span className="text-pink-300">Treatments.</span>
+        <span className="text-2xl font-bold text-pink-100">Cuts,</span>{" "}
+        <span className="text-2xl font-bold text-pink-100">Colors,</span> and{" "}
+        <span className="text-2xl font-bold text-pink-100">Treatments.</span>
       </motion.p>
       <div className="flex w-full flex-col items-end justify-end gap-10 xl:mr-[100px]">
         <motion.div
