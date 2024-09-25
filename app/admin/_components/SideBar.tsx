@@ -19,16 +19,19 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SignOutBtn from "@/components/auth/SignOutBtn";
+import { useEffect, useState } from "react";
+import MySpinner from "@/components/MySpinner";
 
 const SideBar = () => {
   const route = useRouter();
   const now = new Date();
+
   const sideBarList = [
     {
       name: "Dashboard",
-      path: `/admin`,
+      path: `/admin/dashboard`,
       icon: <BiSolidDashboard />,
     },
     {
@@ -47,6 +50,26 @@ const SideBar = () => {
       icon: <AiOutlineHome />,
     },
   ];
+
+  const pathname = usePathname();
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (
+      pathname.includes("booking") ||
+      pathname.includes("services") ||
+      pathname.includes("dashboard")
+    ) {
+      setLoading(false);
+    }
+  }, [pathname]);
+  if (isLoading) {
+    return (
+      <div>
+        <MySpinner />
+      </div>
+    );
+  }
   return (
     <Command className="rounded-xl bg-zinc-100 shadow-lg shadow-black/50">
       {/* <CommandInput placeholder="Type a command or search..." /> */}
@@ -58,7 +81,9 @@ const SideBar = () => {
               <Link
                 key={index}
                 href={item.path}
-                onClick={() => route.refresh()}
+                onClick={() => {
+                  route.refresh(), setLoading(true);
+                }}
                 className="flex w-full cursor-pointer items-center justify-between gap-10 hover:ml-10"
               >
                 {item.name}

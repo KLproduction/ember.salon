@@ -116,7 +116,7 @@ const OurService = ({ service }: OurServiceProps) => {
                               <p className="">{formatPrice(item.price)}</p>
                               <DialogTrigger asChild>
                                 <Button
-                                  className="flex max-w-[200px] justify-center bg-yellow-600"
+                                  className="flex max-w-[200px] justify-center text-zinc-900"
                                   onClick={(e) => {
                                     onClickHandler(item.name);
                                   }}

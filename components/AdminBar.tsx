@@ -38,25 +38,47 @@ import { getAllBooking, getBooking } from "@/data/getBooking";
 import { getAdminMessage } from "@/data/getAdminMessage";
 import { motion } from "framer-motion";
 import { AiOutlineLoading } from "react-icons/ai";
+import MySpinner from "./MySpinner";
 
 const AdminBar = () => {
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUnreadMessage, setIsUnreadMessage] = useState(false);
   const pathname = usePathname();
+  const [isLoading, setLoading] = useState(false);
 
+  const onClickHandlerAdmin = () => {
+    setLoading(true);
+    route.push("/admin/dashboard");
+  };
+  const onClickHandlerHome = () => {
+    route.push("/");
+  };
+
+  useEffect(() => {
+    if (pathname.includes("admin")) {
+      setLoading(false);
+    }
+  }, [pathname]);
+  if (isLoading) {
+    return (
+      <div>
+        <MySpinner />
+      </div>
+    );
+  }
   return (
     <div className="relative z-[99999] h-full w-full">
       {/* Midden screen */}
       <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
-        <h1 className="mx-5 text-zinc-500 sm:mx-20">Admin Bar</h1>
-        <div className="flex items-center gap-5 p-3">
+        <h1 className="ml-5 text-zinc-500 sm:ml-20">Admin Bar</h1>
+        <div className="mr-20 flex items-center gap-5 p-3">
           {!pathname.includes("admin") ? (
-            <Button onClick={() => route.push("/admin")}>
+            <Button onClick={() => onClickHandlerAdmin()}>
               Admin Dashboard
             </Button>
           ) : (
-            <Button onClick={() => route.push("/")}>Home Page</Button>
+            <Button onClick={() => onClickHandlerHome()}>Home Page</Button>
           )}
 
           <div className="h-8 w-1 border-r-2 border-zinc-500" />

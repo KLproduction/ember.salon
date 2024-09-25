@@ -64,11 +64,11 @@ export default async function Home() {
         <div className={cn(user ? "pb-12" : "")}>
           <Footer />
         </div>
-        {user?.email && (
-          <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
-            <AdminBar />
-          </div>
-        )}
+        {/* {user?.email && (
+        )} */}
+        <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
+          <AdminBar />
+        </div>
       </main>
     </>
   );
