@@ -20,6 +20,7 @@ import AdminBar from "@/components/AdminBar";
 import { cn } from "@/lib/utils";
 import { getAdminMessage } from "@/data/getAdminMessage";
 import { getAllBooking } from "@/data/getBooking";
+import ThumbnailSlider from "@/components/thumbnial";
 
 export default async function Home() {
   // const ref1 = useRef<HTMLDivElement | null>(null);
@@ -41,24 +42,25 @@ export default async function Home() {
     <>
       <main className="flex min-h-full flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
-        <div className="home flex w-full items-center justify-center">
+        <ThumbnailSlider />
+        {/* <div className="home flex w-full items-center justify-center">
           <Hero />
-        </div>
+        </div> */}
 
         <div className="services w-full">
           <OurService service={service!} />
         </div>
 
-        <div className="gallery min-h-[100vh] w-screen overflow-y-hidden">
+        {/* <div className="gallery min-h-[100vh] w-full overflow-y-hidden">
           <NewGallery />
-        </div>
+        </div> */}
 
         <div className="appointment flex h-full w-full" id="appointment">
           <h1>
             <BookingForm service={service!} />
           </h1>
         </div>
-        <div className="contact h-full min-h-dvh w-screen overflow-hidden">
+        <div className="contact h-full min-h-dvh w-full overflow-hidden">
           <Contact />
         </div>
         <div className={cn(user ? "pb-12" : "")}>

@@ -190,12 +190,22 @@ const AdminBar = () => {
 
     const handleOnClick = (booking: Booking) => {
       setIsRouting(true);
-      route.push(
-        `/admin/booking?year=${booking.date.getFullYear()}&month=${booking.date.getMonth() + 1}&date=${booking.date.getDate()}`,
-      );
-      setIsRouting(false);
+      const bookingPage = `/admin/booking?year=${booking.date.getFullYear()}&month=${booking.date.getMonth() + 1}&date=${booking.date.getDate()}`;
+      route.push(bookingPage);
+      if (pathname.match(bookingPage)) {
+        setIsRouting(false);
+      }
     };
+    
+    if (isRouting) {
+      return (
+        <div>
+          <MySpinner />
+        </div>
+      );
+    }
 
+    
     const renderMessage = (
       message: AdminMessage,
       index: number,
@@ -257,13 +267,15 @@ const AdminBar = () => {
                 )}
               </div>
             </div>
-            <Button
-              className="mt-5 flex w-full items-center justify-center"
-              variant={"outline"}
-              onClick={() => handleOnClick(booking)}
-            >
-              View Booking
-            </Button>
+            <DialogTrigger asChild>
+              <Button
+                className="mt-5 flex w-full items-center justify-center"
+                variant={"outline"}
+                onClick={() => handleOnClick(booking)}
+              >
+                View Booking
+              </Button>
+            </DialogTrigger>
             <div
               className="absolute right-0 top-0 rounded-full p-0 text-xs font-black"
               ref={deleRef}
@@ -282,6 +294,8 @@ const AdminBar = () => {
         </motion.div>
       );
     };
+
+   
 
     return (
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
