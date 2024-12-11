@@ -12,7 +12,7 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
   return (
-    <div className="relative h-full">
+    <div className="relative h-full w-full bg-white">
       {/* <AdminNavbar /> */}
       <div className="flex h-full">
         <div className="hidden h-full min-h-[100vh] w-[300px] md:block">
