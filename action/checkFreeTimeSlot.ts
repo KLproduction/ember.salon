@@ -11,7 +11,7 @@ export const checkFreeTimeSlot = async (
     return 0;
   }
   const normalizedDate = new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1),
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
   );
 
   const count = await db.booking.count({
@@ -20,5 +20,6 @@ export const checkFreeTimeSlot = async (
       timeSlot: timeSlot,
     },
   });
+
   return count;
 };

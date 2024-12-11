@@ -1,3 +1,6 @@
+"use client";
+
+import { useCategoryData } from "@/hooks/dashboard";
 import {
   LeafIcon,
   PaintbrushIcon,
@@ -21,6 +24,8 @@ const CategoryData = ({ data }: CategoryDataProps) => {
     (item) => (item.totalBookings / totalBooking) * 100,
   );
   percentages = percentages.map((percentage) => Math.round(percentage));
+
+  // const { data: catData } = useCategoryData();
 
   return (
     <div className="flex w-full flex-col items-center justify-around gap-5 md:flex-row">

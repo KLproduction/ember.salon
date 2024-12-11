@@ -138,3 +138,11 @@ model TwoFactorConfirmation {
 
   @@unique([userId])
 }
+
+model Thumbnail {
+  id             String @id @default(cuid())
+  image          String
+  ThumbnailImage String
+  title          String
+  description    String
+}

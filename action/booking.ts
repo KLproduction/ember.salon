@@ -16,7 +16,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
         values.date.getDate(),
       ),
     );
-    console.log("Saving booking for:", { dateWithoutTime });
+
     const booking = await db.booking.create({
       data: {
         name: values.name,
@@ -28,17 +28,156 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
         message: values.message || null,
       },
     });
-    await sendConfirmationEmail(
-      values.email,
-      values.phone,
-      values.date,
-      values.time,
-      values.services,
-      values.message,
-    );
-    return { booking, success: true };
+    if (booking) {
+      await sendConfirmationEmail(
+        values.email,
+        values.phone,
+        values.date,
+        values.time,
+        values.services,
+        values.message,
+      );
+
+      return {
+        booking,
+        status: 200,
+        message: "Booking confirmed. Check your email for confirmation",
+      };
+    }
   } catch (e) {
     console.error("Fail to book:", e);
-    return { success: false };
+    return { status: 400, message: "Something went wrong, fail to book." };
   }
+};
+
+export const onLoadUpcomingBookings = async () => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcomingBookings = await db.booking.findMany({
+      where: {
+        date: {
+          gte: today,
+        },
+      },
+    });
+    if (upcomingBookings && upcomingBookings.length > 0) {
+      const now = new Date();
+
+      // Filter and adjust booking times
+      const futureBookings = upcomingBookings
+        .map((booking) => {
+          const [hour, minute] = booking.timeSlot.split(":").map(Number);
+          const bookingDateTime = new Date(booking.date);
+          bookingDateTime.setHours(hour, minute, 0, 0); // Set hours and minutes
+
+          return { ...booking, bookingDateTime }; // Attach adjusted DateTime
+        })
+        .filter((booking) => booking.bookingDateTime > now); // Filter past bookings
+
+      if (futureBookings.length > 0) {
+        // Find the most upcoming booking
+        const mostUpcomingBooking = futureBookings.reduce((closest, booking) =>
+          booking.bookingDateTime < closest.bookingDateTime ? booking : closest,
+        );
+
+        return {
+          mostUpcomingBooking,
+          status: 200,
+        };
+      }
+    }
+    return {
+      status: 404,
+    };
+  } catch (e) {
+    return {
+      status: 400,
+    };
+  }
+};
+
+export const onLoadTodayBooking = async () => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    const todayBookingCount = await db.booking.count({
+      where: {
+        date: {
+          gte: today,
+          lt: tomorrow,
+        },
+      },
+    });
+    if (todayBookingCount) {
+      return {
+        todayBookingCount,
+        status: 200,
+      };
+    }
+    return {
+      todayBookingCount: 0,
+      status: 200,
+    };
+  } catch {
+    return {
+      status: 400,
+    };
+  }
+};
+
+export const onLoadTomorrowBooing = async () => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    const dayAfterTomorrow = new Date();
+    dayAfterTomorrow.setDate(today.getDate() + 2);
+    dayAfterTomorrow.setHours(0, 0, 0, 0);
+
+    const tomorrowBookingCount = await db.booking.count({
+      where: {
+        date: {
+          gte: tomorrow,
+          lt: dayAfterTomorrow,
+        },
+      },
+    });
+    if (tomorrowBookingCount) {
+      return {
+        tomorrowBookingCount,
+        status: 200,
+      };
+    }
+    return {
+      tomorrowBookingCount: 0,
+
+      status: 200,
+    };
+  } catch {
+    return {
+      status: 400,
+    };
+  }
+};
+
+export const onLoadCategoryData = async () => {
+  try {
+    const bookings = await db.booking.groupBy({
+      by: ["service"],
+      _count: {
+        service: true, // Count how many times each service appears
+      },
+    });
+
+    return {
+      bookings,
+    };
+  } catch {}
 };

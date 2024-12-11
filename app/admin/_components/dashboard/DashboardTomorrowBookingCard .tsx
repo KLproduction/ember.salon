@@ -1,24 +1,15 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Booking } from "@prisma/client";
-
-import React, { useState } from "react";
-
 import Link from "next/link";
-import { AiOutlineScissor } from "react-icons/ai";
-import { ResponsiveContainer } from "recharts";
 import { CalendarIcon } from "lucide-react";
+import { useTomorrowBooking } from "@/hooks/dashboard";
 
-type DashboardTomorrowBookingCardProps = {
-  tomorrowBooking: Booking[];
-};
-
-const DashboardTomorrowBookingCard = ({
-  tomorrowBooking,
-}: DashboardTomorrowBookingCardProps) => {
+const DashboardTomorrowBookingCard = () => {
   const now = new Date();
+  const { data } = useTomorrowBooking();
+  const tomorrowBookingCount = data?.tomorrowBookingCount;
+
   return (
     <>
       <Card>
@@ -33,7 +24,7 @@ const DashboardTomorrowBookingCard = ({
           </CardHeader>
           <CardContent className="flex items-center justify-center">
             <div className="mt-5 text-6xl font-bold">
-              {tomorrowBooking.length}
+              {tomorrowBookingCount}
             </div>
           </CardContent>
         </Link>

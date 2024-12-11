@@ -23,6 +23,8 @@ import { usePathname, useRouter } from "next/navigation";
 import SignOutBtn from "@/components/auth/SignOutBtn";
 import { useEffect, useState } from "react";
 import MySpinner from "@/components/MySpinner";
+import { MessageBox } from "@/components/AdminBar/MessageBox";
+import { Separator } from "@/components/ui/separator";
 
 const SideBar = () => {
   const route = useRouter();
@@ -63,6 +65,7 @@ const SideBar = () => {
       setLoading(false);
     }
   }, [pathname]);
+
   if (isLoading) {
     return (
       <div>
@@ -90,18 +93,16 @@ const SideBar = () => {
                 {item.icon}
               </Link>
             ))}
-
+            <Separator />
+            <div className="flex w-full items-center justify-center">
+              <MessageBox />
+            </div>
+            <Separator />
             <Button asChild className="hover:opacity-50">
               <SignOutBtn />
             </Button>
           </CommandItem>
         </CommandGroup>
-        {/* <CommandSeparator />
-        <CommandGroup heading="Settings" className="">
-          <CommandItem>Profile</CommandItem>
-          <CommandItem>Billing</CommandItem>
-          <CommandItem>Settings</CommandItem>
-        </CommandGroup> */}
       </CommandList>
     </Command>
   );

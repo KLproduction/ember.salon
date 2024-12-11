@@ -20,15 +20,12 @@ import BookingDialog from "../BookingDialog";
 import Link from "next/link";
 import { ResponsiveContainer } from "recharts";
 import { CalendarIcon } from "lucide-react";
+import { useTodayBooking } from "@/hooks/dashboard";
 
-type DashboardTodayBookingCardProps = {
-  todayBooking: Booking[];
-};
-
-const DashboardTodayBookingCard = ({
-  todayBooking,
-}: DashboardTodayBookingCardProps) => {
+const DashboardTodayBookingCard = () => {
   const now = new Date();
+  const { data } = useTodayBooking();
+  const todayBookingCount = data?.todayBookingCount;
   return (
     <>
       <Card>
@@ -42,7 +39,7 @@ const DashboardTodayBookingCard = ({
             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="flex items-center justify-center">
-            <div className="mt-5 text-6xl font-bold">{todayBooking.length}</div>
+            <div className="mt-5 text-6xl font-bold">{todayBookingCount}</div>
           </CardContent>
         </Link>
       </Card>
