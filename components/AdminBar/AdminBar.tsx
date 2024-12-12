@@ -70,7 +70,7 @@ const AdminBar = () => {
   }
 
   return (
-    <div className="relative z-[99999] h-full w-full">
+    <div className="relative z-0 h-12 w-full">
       {/* Midden screen */}
       <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
         <h1 className="ml-5 text-zinc-500 sm:ml-20">Admin Bar</h1>

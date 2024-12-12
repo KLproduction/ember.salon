@@ -9,8 +9,6 @@ import {
   CardHeader,
 } from "./ui/card";
 import { Button } from "./ui/button";
-import { AiOutlineArrowRight } from "react-icons/ai";
-
 import { motion } from "framer-motion";
 import {
   Dialog,
@@ -21,17 +19,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { formatPrice } from "@/lib/formatPrice";
-import { TService } from "@/lib/type";
-import { getProduct } from "@/data/getProduct";
-import MySpinner from "./MySpinner";
 
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "./ui/scroll-area";
-import { Link } from "react-scroll";
 import { useService } from "@/hooks/service";
+import { once } from "events";
 
 const OurService = () => {
   const route = useRouter();
@@ -60,6 +54,7 @@ const OurService = () => {
             initial={{ opacity: 0, x: "200px" }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 + index * 0.2 }}
+            viewport={{ once: true }}
             key={index}
           >
             <Dialog>

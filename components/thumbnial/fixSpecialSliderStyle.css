@@ -16,7 +16,13 @@ body {
 .fix-carousel .fix-list .fix-item:nth-child(1) {
   z-index: 1;
 }
-
+.fix-carousel .fix-list .fix-item:nth-child(0) .content,
+.fix-carousel .fix-list .fix-item:nth-child(2) .content,
+.fix-carousel .fix-list .fix-item:nth-child(3) .content,
+.fix-carousel .fix-list .fix-item:nth-child(4) .content,
+.fix-carousel .fix-list .fix-item:nth-child(5) .content {
+  opacity: 0;
+}
 .fix-carousel .fix-list .fix-item:nth-child(1) .author,
 .fix-carousel .fix-list .fix-item:nth-child(1) .title,
 .fix-carousel .fix-list .fix-item:nth-child(1) .topic,

@@ -63,7 +63,7 @@ export default async function Home() {
         <div className="contact h-full w-full overflow-hidden">
           <Contact />
         </div>
-        <div className={cn(user ? "pb-12" : "")}>
+        <div className={"pb-12"}>
           <Footer />
         </div>
 

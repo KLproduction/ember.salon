@@ -39,14 +39,11 @@ const AdminPage = async () => {
   const nextDate = now.getDate() + 1;
 
   // Fetch all data in parallel
-  const [todayBooking, service, tomorrowBooking, chartData, booking] =
-    await Promise.all([
-      getBookingByDate(year, month, date),
-      getProduct(),
-      getBookingByDate(year, month, nextDate),
-      bookingChartData(),
-      getAllBooking(),
-    ]);
+  const [service, chartData, booking] = await Promise.all([
+    getProduct(),
+    bookingChartData(),
+    getAllBooking(),
+  ]);
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
