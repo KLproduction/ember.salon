@@ -48,7 +48,6 @@ export default async function Home() {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <main className="flex flex-col flex-nowrap items-center overflow-y-hidden">
         <Navbar />
-
         <ThumbnailSlider />
 
         <div className="services w-full">
@@ -63,11 +62,11 @@ export default async function Home() {
         <div className="contact h-full w-full overflow-hidden">
           <Contact />
         </div>
-        <div className={"pb-12"}>
+        <div>
           <Footer />
         </div>
 
-        <div className="fixed bottom-0 left-0 h-12 min-w-[100vw]">
+        <div className="sticky bottom-0 left-0 h-12 min-w-[100vw]">
           <AdminBar />
         </div>
       </main>

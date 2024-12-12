@@ -4,6 +4,7 @@ import {
   onLoadTomorrowBooing,
   onLoadUpcomingBookings,
 } from "@/action/booking";
+import bookingChartData from "@/data/bookingChartData";
 import { getAllBooking } from "@/data/getBooking";
 import { getProduct } from "@/data/getProduct";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -46,6 +47,16 @@ export const useCategoryData = () => {
     queryKey: ["category-Data"],
     queryFn: async () => {
       return await onLoadCategoryData();
+    },
+  });
+  return { data, isFetching };
+};
+
+export const useBookingChartData = () => {
+  const { data, isFetching } = useQuery({
+    queryKey: ["chartData"],
+    queryFn: async () => {
+      return await bookingChartData();
     },
   });
   return { data, isFetching };

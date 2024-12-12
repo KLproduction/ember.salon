@@ -22,9 +22,7 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
           <MobileSideBar />
         </div>
 
-        <div className="container ml-0 w-screen overflow-auto p-5 md:max-w-[1140px]">
-          {children}
-        </div>
+        <div className="mx-auto w-full overflow-auto p-5">{children}</div>
       </div>
       <Toaster />
     </div>

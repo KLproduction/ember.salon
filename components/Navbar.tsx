@@ -8,6 +8,7 @@ import Hamburger from "hamburger-react";
 import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import Logo from "./Logo";
+import AdminBar from "./AdminBar/AdminBar";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(true);
@@ -120,6 +121,7 @@ const Navbar = () => {
           </Link>
         </div>
       </nav>
+
       {/* Mobile nav menu */}
       {isMenuOpen && (
         <motion.div

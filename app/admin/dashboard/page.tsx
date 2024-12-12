@@ -25,6 +25,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import {
+  onLoadCategoryData,
   onLoadTodayBooking,
   onLoadTomorrowBooing,
   onLoadUpcomingBookings,
@@ -32,18 +33,6 @@ import {
 import DashboardUpcomingBookingCard from "../_components/dashboard/DashboardUpcomingBookingCard";
 
 const AdminPage = async () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-  const nextDate = now.getDate() + 1;
-
-  // Fetch all data in parallel
-  const [service, chartData, booking] = await Promise.all([
-    getProduct(),
-    bookingChartData(),
-    getAllBooking(),
-  ]);
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -75,31 +64,9 @@ const AdminPage = async () => {
     queryFn: () => onLoadTodayBooking(),
   });
 
-  const bookingName = booking.map((item) => item.service);
-  const bookingForCategory = service?.map((serviceCategory) => {
-    const itemsWithCounts = serviceCategory.serviceItem.map((serviceItem) => {
-      const count = bookingName.reduce((acc, currentName) => {
-        return acc + (currentName === serviceItem.name ? 1 : 0);
-      }, 0);
-      return {
-        name: serviceItem.name,
-        count: count,
-      };
-    });
-    return {
-      categoryName: serviceCategory.name,
-      items: itemsWithCounts,
-    };
-  });
-
-  const totalBookingForCategory = bookingForCategory?.map((cat) => {
-    const totalBooking = cat.items.reduce((acc, booking) => {
-      return acc + booking.count;
-    }, 0);
-    return {
-      categoryName: cat.categoryName,
-      totalBookings: totalBooking,
-    };
+  await queryClient.prefetchQuery({
+    queryKey: ["category-Data"],
+    queryFn: () => onLoadCategoryData(),
   });
 
   return (
@@ -116,7 +83,7 @@ const AdminPage = async () => {
 
         {/* Monthly Booking Chart */}
 
-        <BookingChart data={chartData} />
+        <BookingChart />
 
         {/* Footer - Service Categories Chart */}
         <Card>
@@ -124,7 +91,7 @@ const AdminPage = async () => {
             <CardTitle>Service Categories</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategoryData data={totalBookingForCategory!} />
+            <CategoryData />
           </CardContent>
         </Card>
       </div>

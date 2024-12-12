@@ -169,6 +169,7 @@ export const onLoadTomorrowBooing = async () => {
 
 export const onLoadCategoryData = async () => {
   try {
+    // Fetch all bookings grouped by service name
     const bookings = await db.booking.groupBy({
       by: ["service"],
       _count: {
@@ -176,8 +177,45 @@ export const onLoadCategoryData = async () => {
       },
     });
 
-    return {
-      bookings,
-    };
-  } catch {}
+    // Fetch all service categories with their items
+    const categories = await db.category.findMany({
+      include: {
+        serviceItem: true, // Include associated service items
+      },
+    });
+
+    // Combine bookings with service categories
+    const bookingForCategory = categories.map((category) => {
+      const itemsWithCounts = category.serviceItem.map((serviceItem) => {
+        const bookingCount =
+          bookings.find((booking) => booking.service === serviceItem.name)
+            ?._count.service || 0;
+
+        return {
+          name: serviceItem.name,
+          count: bookingCount,
+        };
+      });
+
+      return {
+        categoryName: category.name,
+        items: itemsWithCounts,
+      };
+    });
+
+    // Calculate total bookings for each category
+    const totalBookingForCategory = bookingForCategory.map((cat) => {
+      const totalBooking = cat.items.reduce((acc, item) => acc + item.count, 0);
+
+      return {
+        categoryName: cat.categoryName,
+        totalBookings: totalBooking,
+      };
+    });
+
+    return { totalBookingForCategory };
+  } catch (error) {
+    console.error("Error fetching booking data:", error);
+    throw new Error("Failed to fetch booking data.");
+  }
 };

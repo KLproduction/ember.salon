@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { ScrollArea } from "./ui/scroll-area";
 import { useService } from "@/hooks/service";
 import { once } from "events";
+import AdminBar from "./AdminBar/AdminBar";
 
 const OurService = () => {
   const route = useRouter();
@@ -66,7 +67,7 @@ const OurService = () => {
                       alt=""
                       className="absolute inset-0 h-full w-full object-cover object-center brightness-50 transition-all duration-200 group-hover:scale-110 group-hover:brightness-90"
                     />
-                    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl text-zinc-50 transition-all duration-100 group-hover:text-4xl">
+                    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl text-zinc-50 transition-all duration-100 group-hover:text-2xl">
                       {item.name.toUpperCase()}
                     </div>
                   </CardContent>

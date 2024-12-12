@@ -8,28 +8,23 @@ import {
   SparklesIcon,
 } from "lucide-react";
 
-type CategoryDataProps = {
-  data: {
-    categoryName: string;
-    totalBookings: number;
-  }[];
-};
+const CategoryData = () => {
+  const { data } = useCategoryData();
 
-const CategoryData = ({ data }: CategoryDataProps) => {
-  const totalBooking = data.reduce((acc, item) => {
+  if (!data) return null;
+
+  const totalBooking = data?.totalBookingForCategory.reduce((acc, item) => {
     return acc + item.totalBookings;
   }, 0);
 
-  let percentages = data.map(
+  let percentages = data?.totalBookingForCategory.map(
     (item) => (item.totalBookings / totalBooking) * 100,
   );
   percentages = percentages.map((percentage) => Math.round(percentage));
 
-  // const { data: catData } = useCategoryData();
-
   return (
     <div className="flex w-full flex-col items-center justify-around gap-5 md:flex-row">
-      {data.map((item, index) => {
+      {data.totalBookingForCategory.map((item, index) => {
         return (
           <div
             className="flex items-center justify-center space-x-4"
