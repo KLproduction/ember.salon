@@ -25,42 +25,38 @@ const BookingDialog = ({ booking }: BookingDialogProps) => {
 
   return (
     <div className="w-full bg-transparent p-3">
-      <div className="mx-10 flex flex-col gap-6">
+      <div className="mx-10 flex flex-col gap-6 text-foreground">
         <div className="flex items-center justify-between gap-10 border-b pb-4">
-          <h1 className="text-xl font-semibold text-gray-700">
+          <h1 className="text-xl font-semibold">
             {`Date: ${formatDate(booking.date)}`}
           </h1>
-          <h1 className="text-xl font-semibold text-gray-700">
+          <h1 className="text-xl font-semibold">
             {`Time: ${booking.timeSlot}`}
           </h1>
         </div>
         <div className="flex flex-col items-start gap-3">
-          <h2 className="text-lg font-bold text-gray-600">Content Details:</h2>
+          <h2 className="text-lg font-bold">Content Details:</h2>
           <div className="flex items-center gap-2">
             <User />
-            <p className="text-md text-gray-600">{booking.name}</p>
+            <p className="text-md">{booking.name}</p>
           </div>
           <div className="flex items-center gap-2">
             <Phone />
-            <p className="text-md text-gray-600">{booking.phone}</p>
+            <p className="text-md">{booking.phone}</p>
           </div>
           <div className="flex items-center gap-2">
             <MessageCircle />
-            <p className="text-md text-gray-600">{booking.email}</p>
+            <p className="text-md">{booking.email}</p>
           </div>
         </div>
         <div className="mt-4 flex flex-col">
-          <p className="text-lg font-bold text-gray-700">Service:</p>
-          <p className="text-md text-gray-600">{booking.service}</p>
+          <p className="text-lg font-bold">Service:</p>
+          <p className="text-md">{booking.service}</p>
         </div>
         <div className="mt-6">
-          <p className="text-lg font-bold text-gray-600">Booked at:</p>
-          <p className="text-md text-gray-600">
-            {formatDate(booking.createdAt)}
-          </p>
-          <p className="text-md text-gray-600">
-            {formatTime(booking.createdAt)}
-          </p>
+          <p className="text-lg font-bold">Booked at:</p>
+          <p className="text-md">{formatDate(booking.createdAt)}</p>
+          <p className="text-md">{formatTime(booking.createdAt)}</p>
         </div>
       </div>
     </div>

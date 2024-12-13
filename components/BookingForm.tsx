@@ -60,15 +60,15 @@ const BookingForm = () => {
         style={{ backgroundImage: 'url("/formBG2.png")' }}
       >
         <div className="flex flex-col items-center justify-center">
-          <Card className="mx-4 my-12 flex max-h-full flex-col items-center justify-center bg-black/90 text-zinc-50 backdrop-blur-sm sm:mx-8 md:mx-12 lg:mx-20 xl:mx-48">
+          <Card className="mx-0 my-12 flex max-h-full flex-col items-center justify-center bg-black/90 text-zinc-50 backdrop-blur-sm sm:mx-8 md:mx-12 lg:mx-20 xl:mx-48">
             <CardHeader className="flex items-center justify-center px-4 text-4xl font-black text-orange-500 sm:px-8 md:px-12 lg:px-20 xl:px-48">
               BOOK ONLINE
-              <CardDescription className="mt-10 font-semibold text-zinc-50">
+              <CardDescription className="mt-10 max-w-[80%] font-semibold text-zinc-50">
                 Choose your service, pick a convenient date and time, and let us
                 take care of the rest.
               </CardDescription>
             </CardHeader>
-            <CardContent className="w-full px-4 sm:px-8 md:px-10 lg:px-20 xl:px-48">
+            <CardContent className="w-full max-w-[80%] px-4 sm:px-8 md:px-10 lg:px-20 xl:px-48">
               <form onSubmit={onSubmit}>
                 <div className="flex flex-col gap-5 text-zinc-50">
                   {/* Service Selection */}

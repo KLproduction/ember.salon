@@ -63,6 +63,8 @@ export const useBookingMessage = (messageId: string | null) => {
     deleteMessageMutate(messageId);
   };
 
+  const onViewMessage = (messageId: string) => {};
+
   return {
     readBooking,
     unReadBooking,

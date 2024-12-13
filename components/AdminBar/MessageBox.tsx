@@ -39,6 +39,7 @@ import { motion } from "framer-motion";
 import { AiOutlineLoading } from "react-icons/ai";
 import MySpinner from "../MySpinner";
 import { useBookingMessage } from "@/hooks/booking";
+import BookingDialog from "@/app/admin/_components/BookingDialog";
 export const MessageBox = () => {
   const deleRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -117,15 +118,20 @@ export const MessageBox = () => {
               )}
             </div>
           </div>
-          <DialogTrigger asChild>
-            <Button
-              className="mt-5 flex w-full items-center justify-center"
-              variant={"outline"}
-              // onClick={() => handleOnClick(booking)}
-            >
-              View Booking
-            </Button>
-          </DialogTrigger>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                className="mt-5 flex w-full items-center justify-center"
+                variant={"outline"}
+                onClick={(e) => e.stopPropagation()}
+              >
+                View Booking
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <BookingDialog booking={booking} />
+            </DialogContent>
+          </Dialog>
           <div
             className="absolute right-0 top-0 rounded-full p-0 text-xs font-black"
             ref={deleRef}
@@ -159,7 +165,7 @@ export const MessageBox = () => {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="text-foreground sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Messages</DialogTitle>
         </DialogHeader>

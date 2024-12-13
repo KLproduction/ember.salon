@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { setIsRead } from "@/action/setIsRead";
 import { toast } from "sonner";
 import MySpinner from "@/components/MySpinner";
+import { Separator } from "@/components/ui/separator";
 
 type BookingDialogProps = {
   bookings: Booking[];
@@ -175,25 +176,28 @@ const ShowBookingGrid = () => {
                           key={index}
                           className="mb-6 border-b pb-6 last:border-b-0"
                         >
-                          <h3 className="mb-2 font-semibold">
-                            Booking {index + 1}
-                          </h3>
-                          <div className="grid gap-2">
-                            <div className="flex items-center gap-2">
-                              <UsersIcon className="h-4 w-4 text-gray-500" />
-                              <span>{booking.name}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <MailIcon className="h-4 w-4 text-gray-500" />
-                              <span>{booking.email}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <PhoneIcon className="h-4 w-4 text-gray-500" />
-                              <span>{booking.phone}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Scissors className="h-4 w-4 text-gray-500" />
-                              <span>{booking.service}</span>
+                          <div>
+                            <Separator className="mb-6 text-zinc-900" />
+                            <h3 className="mb-2 font-semibold">
+                              Booking - {index + 1}
+                            </h3>
+                            <div className="grid gap-2">
+                              <div className="flex items-center gap-2">
+                                <UsersIcon className="h-4 w-4 text-gray-500" />
+                                <span>{booking.name}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <MailIcon className="h-4 w-4 text-gray-500" />
+                                <span>{booking.email}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <PhoneIcon className="h-4 w-4 text-gray-500" />
+                                <span>{booking.phone}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Scissors className="h-4 w-4 text-gray-500" />
+                                <span>{booking.service}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
