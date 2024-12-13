@@ -55,6 +55,7 @@ export const useBookingChartData = () => {
     queryFn: async () => {
       return await bookingChartData();
     },
+    enabled: false,
   });
   return { data, isFetching };
 };

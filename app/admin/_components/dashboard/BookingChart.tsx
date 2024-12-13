@@ -48,44 +48,34 @@ const BookingChart = () => {
           <CardDescription className="text-zinc-500"> Per Day</CardDescription>
         </CardHeader>
         <CardContent>
-          {isFetching ? (
-            <div className="flex h-full w-full items-center justify-center">
-              <AiOutlineLoading
-                className="animate-spin text-6xl text-yellow-500"
-                aria-label="Loading"
-                role="status"
-              />
-            </div>
-          ) : (
-            <div style={{ width: "100%", height: 300 }}>
-              <ResponsiveContainer>
-                <LineChart width={1100} height={300} data={chartData}>
-                  <Line
-                    type={"monotone"}
-                    dataKey={"bookings"}
-                    stroke="#DAA520"
-                    strokeWidth={4}
-                  />
-                  <CartesianGrid stroke="#cccc" />
-                  <XAxis
-                    dataKey={"date"}
-                    label={{
-                      value: "Date",
-                      position: "insideBottom",
-                      offset: -3,
-                    }}
-                  />
-                  <YAxis
-                    label={{
-                      value: "Bookings",
-                      angle: -90,
-                      position: "insideLeft",
-                    }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          )}
+          <div style={{ width: "100%", height: 300 }}>
+            <ResponsiveContainer>
+              <LineChart width={1100} height={300} data={chartData}>
+                <Line
+                  type={"monotone"}
+                  dataKey={"bookings"}
+                  stroke="#DAA520"
+                  strokeWidth={4}
+                />
+                <CartesianGrid stroke="#cccc" />
+                <XAxis
+                  dataKey={"date"}
+                  label={{
+                    value: "Date",
+                    position: "insideBottom",
+                    offset: -3,
+                  }}
+                />
+                <YAxis
+                  label={{
+                    value: "Bookings",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </>

@@ -19,7 +19,7 @@ const DashboardUpcomingBookingCard = () => {
 
   return (
     <>
-      {isFetched && nextBooking ? (
+      {nextBooking ? (
         <Card>
           <Dialog>
             <DialogTrigger className="w-full">

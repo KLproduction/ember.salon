@@ -33,17 +33,17 @@ import {
 import DashboardUpcomingBookingCard from "../_components/dashboard/DashboardUpcomingBookingCard";
 
 const AdminPage = async () => {
-  // const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
 
   // await queryClient.prefetchQuery({
   //   queryKey: ["service"],
   //   queryFn: () => getProduct(),
   // });
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["chartData"],
-  //   queryFn: () => bookingChartData(),
-  // });
+  await queryClient.prefetchQuery({
+    queryKey: ["chartData"],
+    queryFn: () => bookingChartData(),
+  });
   // await queryClient.prefetchQuery({
   //   queryKey: ["booking"],
   //   queryFn: () => getAllBooking(),
@@ -70,32 +70,32 @@ const AdminPage = async () => {
   // });
 
   return (
-    // <HydrationBoundary state={dehydrate(queryClient)}>
-    <div className="container mx-auto space-y-6 p-4">
-      {/* Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="md:col-span-2">
-          <DashboardUpcomingBookingCard />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="container mx-auto space-y-6 p-4">
+        {/* Cards */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="md:col-span-2">
+            <DashboardUpcomingBookingCard />
+          </div>
+          <DashboardTodayBookingCard />
+          <DashboardTomorrowBookingCard />
         </div>
-        <DashboardTodayBookingCard />
-        <DashboardTomorrowBookingCard />
+
+        {/* Monthly Booking Chart */}
+
+        <BookingChart />
+
+        {/* Footer - Service Categories Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Service Categories</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CategoryData />
+          </CardContent>
+        </Card>
       </div>
-
-      {/* Monthly Booking Chart */}
-
-      <BookingChart />
-
-      {/* Footer - Service Categories Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Service Categories</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CategoryData />
-        </CardContent>
-      </Card>
-    </div>
-    // </HydrationBoundary>
+    </HydrationBoundary>
   );
 };
 
