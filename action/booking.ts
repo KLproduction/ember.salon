@@ -7,7 +7,10 @@ import { BookingFormSchema } from "@/schemas";
 import { IdCardIcon } from "@radix-ui/react-icons";
 import * as z from "zod";
 
-export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
+export const addBooking = async (
+  values: z.infer<typeof BookingFormSchema>,
+  isDummy?: boolean,
+) => {
   try {
     const dateWithoutTime = new Date(
       Date.UTC(
@@ -28,7 +31,7 @@ export const addBooking = async (values: z.infer<typeof BookingFormSchema>) => {
         message: values.message || null,
       },
     });
-    if (booking) {
+    if (booking && !isDummy) {
       await sendConfirmationEmail(
         values.email,
         values.phone,

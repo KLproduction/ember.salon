@@ -19,6 +19,9 @@ import {
   PhoneIcon,
   MailIcon,
   Scissors,
+  Book,
+  BookAIcon,
+  CalendarCheck2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TIMESLOT } from "@/lib/serviceList";
@@ -27,6 +30,7 @@ import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { setIsRead } from "@/action/setIsRead";
 import { toast } from "sonner";
+import MySpinner from "@/components/MySpinner";
 
 type BookingDialogProps = {
   bookings: Booking[];
@@ -102,7 +106,7 @@ const ShowBookingGrid = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MySpinner />;
   if (error) return <p>Error loading bookings.</p>;
   return (
     <div className="flex h-screen bg-transparent">
@@ -126,13 +130,16 @@ const ShowBookingGrid = () => {
                       <CardTitle className="flex items-center justify-between">
                         <span>{timeslot}</span>
                         {bookings[timeslot] && (
-                          <span className="text-sm font-normal text-gray-500">
-                            {bookings[timeslot].length} booking(s)
+                          <span className="flex items-center gap-3 text-sm font-normal text-gray-500">
+                            <h1 className="font-bold">
+                              {bookings[timeslot].length}
+                            </h1>
+                            <CalendarCheck2 />
                           </span>
                         )}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="text-zinc-900">
                       {bookings[timeslot] ? (
                         <div className="space-y-2">
                           {bookings[timeslot].map((booking, index) => (
@@ -162,7 +169,7 @@ const ShowBookingGrid = () => {
                     <DialogHeader>
                       <DialogTitle>Booking Details - {timeslot}</DialogTitle>
                     </DialogHeader>
-                    <ScrollArea className="mt-4 max-h-[60vh]">
+                    <ScrollArea className="mt-4 max-h-[60vh] border-b-[1px] border-zinc-500">
                       {bookings[timeslot].map((booking, index) => (
                         <div
                           key={index}

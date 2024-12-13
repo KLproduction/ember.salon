@@ -27,6 +27,8 @@ import {
   SparklesIcon,
   Trash2,
   Trash,
+  Mail,
+  MailOpen,
 } from "lucide-react";
 
 import { AdminMessage, Booking } from "@prisma/client";
@@ -147,9 +149,13 @@ export const MessageBox = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
-          <MessageCircle className="h-5 w-5" />
-          {unReadBooking && unReadBooking.length > 0 && (
-            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-green-500" />
+          {unReadBooking && unReadBooking.length > 0 ? (
+            <>
+              <Mail className="h-5 w-5" />
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-green-500" />
+            </>
+          ) : (
+            <MailOpen />
           )}
         </Button>
       </DialogTrigger>

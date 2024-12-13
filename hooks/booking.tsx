@@ -101,7 +101,7 @@ export const useBookingForm = () => {
       message: "",
       services: serviceName || undefined,
       time: "",
-      date: new Date(),
+      date: undefined,
     },
   });
 
@@ -160,7 +160,6 @@ export const useBookingForm = () => {
   const query = useQueryClient();
   const { mutate: onSubmitMutate, isPending: isSubmitting } = useMutation({
     mutationFn: async (values: z.infer<typeof BookingFormSchema>) => {
-      console.log("CLICKED");
       return await addBooking(values);
     },
     onSuccess: async (data) => {
