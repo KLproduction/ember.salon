@@ -110,10 +110,10 @@ const ShowBookingGrid = () => {
   if (loading) return <MySpinner />;
   if (error) return <p>Error loading bookings.</p>;
   return (
-    <div className="flex h-screen bg-transparent">
-      <Card className="flex-1 p-4 lg:p-8">
-        <ScrollArea className="h-[calc(100vh-120px)]">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex h-full bg-transparent">
+      <div className="flex-1 p-2 md:p-4 lg:p-8">
+        <div className="h-[calc(100vh-120px)] w-full">
+          <div className="grid gap-4 pb-12 md:grid-cols-2 lg:grid-cols-3">
             {timeslots.map((timeslot) => (
               <Dialog
                 key={timeslot}
@@ -166,7 +166,7 @@ const ShowBookingGrid = () => {
                   </Card>
                 </DialogTrigger>
                 {bookings[timeslot] && (
-                  <DialogContent className="sm:max-w-[500px]">
+                  <DialogContent className="w-full">
                     <DialogHeader>
                       <DialogTitle>Booking Details - {timeslot}</DialogTitle>
                     </DialogHeader>
@@ -208,8 +208,8 @@ const ShowBookingGrid = () => {
               </Dialog>
             ))}
           </div>
-        </ScrollArea>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

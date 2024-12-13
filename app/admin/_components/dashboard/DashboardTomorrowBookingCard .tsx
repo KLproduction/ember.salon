@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { CalendarIcon } from "lucide-react";
 import { useTomorrowBooking } from "@/hooks/dashboard";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const DashboardTomorrowBookingCard = () => {
   const now = new Date();
-  const { data } = useTomorrowBooking();
+  const { data, isFetching } = useTomorrowBooking();
   const tomorrowBookingCount = data?.tomorrowBookingCount;
 
   return (
@@ -23,9 +24,19 @@ const DashboardTomorrowBookingCard = () => {
             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="flex items-center justify-center">
-            <div className="mt-5 text-6xl font-bold">
-              {tomorrowBookingCount}
-            </div>
+            {isFetching ? (
+              <div className="flex h-full w-full items-center justify-center">
+                <AiOutlineLoading
+                  className="animate-spin text-6xl text-yellow-500"
+                  aria-label="Loading"
+                  role="status"
+                />
+              </div>
+            ) : (
+              <div className="mt-5 text-6xl font-bold">
+                {tomorrowBookingCount}
+              </div>
+            )}
           </CardContent>
         </Link>
       </Card>

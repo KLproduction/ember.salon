@@ -33,69 +33,69 @@ import {
 import DashboardUpcomingBookingCard from "../_components/dashboard/DashboardUpcomingBookingCard";
 
 const AdminPage = async () => {
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["service"],
-    queryFn: () => getProduct(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["service"],
+  //   queryFn: () => getProduct(),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["chartData"],
-    queryFn: () => bookingChartData(),
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["booking"],
-    queryFn: () => getAllBooking(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["chartData"],
+  //   queryFn: () => bookingChartData(),
+  // });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["booking"],
+  //   queryFn: () => getAllBooking(),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["upcoming-Booking"],
-    queryFn: () => onLoadUpcomingBookings(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["upcoming-Booking"],
+  //   queryFn: () => onLoadUpcomingBookings(),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["tomorrow-Booking"],
-    queryFn: () => onLoadTomorrowBooing(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["tomorrow-Booking"],
+  //   queryFn: () => onLoadTomorrowBooing(),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["today-Booking"],
-    queryFn: () => onLoadTodayBooking(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["today-Booking"],
+  //   queryFn: () => onLoadTodayBooking(),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["category-Data"],
-    queryFn: () => onLoadCategoryData(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["category-Data"],
+  //   queryFn: () => onLoadCategoryData(),
+  // });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="container mx-auto space-y-6 p-4">
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="md:col-span-2">
-            <DashboardUpcomingBookingCard />
-          </div>
-          <DashboardTodayBookingCard />
-          <DashboardTomorrowBookingCard />
+    // <HydrationBoundary state={dehydrate(queryClient)}>
+    <div className="container mx-auto space-y-6 p-4">
+      {/* Cards */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="md:col-span-2">
+          <DashboardUpcomingBookingCard />
         </div>
-
-        {/* Monthly Booking Chart */}
-
-        <BookingChart />
-
-        {/* Footer - Service Categories Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Service Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CategoryData />
-          </CardContent>
-        </Card>
+        <DashboardTodayBookingCard />
+        <DashboardTomorrowBookingCard />
       </div>
-    </HydrationBoundary>
+
+      {/* Monthly Booking Chart */}
+
+      <BookingChart />
+
+      {/* Footer - Service Categories Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Service Categories</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CategoryData />
+        </CardContent>
+      </Card>
+    </div>
+    // </HydrationBoundary>
   );
 };
 

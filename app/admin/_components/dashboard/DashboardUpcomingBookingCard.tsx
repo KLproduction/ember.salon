@@ -9,16 +9,17 @@ import BookingDialog from "../BookingDialog";
 import { CalendarIcon } from "lucide-react";
 import { useUpcomingBooking } from "@/hooks/dashboard";
 import MySpinner from "@/components/MySpinner";
+import { AiOutlineLoading } from "react-icons/ai";
 
 type DashboardUpcomingBookingCardProps = {};
 
 const DashboardUpcomingBookingCard = () => {
-  const { data: upcomingBooking, isFetching } = useUpcomingBooking();
+  const { data: upcomingBooking, isFetching, isFetched } = useUpcomingBooking();
   const nextBooking = upcomingBooking?.mostUpcomingBooking;
 
   return (
     <>
-      {nextBooking ? (
+      {isFetched && nextBooking ? (
         <Card>
           <Dialog>
             <DialogTrigger className="w-full">
@@ -28,12 +29,24 @@ const DashboardUpcomingBookingCard = () => {
                 </CardTitle>
                 <CalendarIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent className="flex flex-col gap-3">
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <h1 className="text-6xl">{nextBooking.timeSlot}</h1>
-                  <p className="font-semibold">{nextBooking.service}</p>
-                </div>
-                <div className="flex w-full justify-end text-sm">{`Date: ${format(nextBooking.date, "dd MMM yy")}`}</div>
+              <CardContent className="dur flex flex-col gap-3 transition-all">
+                {isFetching ? (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <AiOutlineLoading
+                      className="animate-spin text-6xl text-yellow-500"
+                      aria-label="Loading"
+                      role="status"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center justify-center gap-1">
+                      <h1 className="text-6xl">{nextBooking.timeSlot}</h1>
+                      <p className="font-semibold">{nextBooking.service}</p>
+                    </div>
+                    <div className="flex w-full justify-end text-sm">{`Date: ${format(nextBooking.date, "dd MMM yy")}`}</div>
+                  </>
+                )}
               </CardContent>
             </DialogTrigger>
             <DialogContent className="flex items-center justify-center">

@@ -10,14 +10,13 @@ import { getProduct } from "@/data/getProduct";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useUpcomingBooking = () => {
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, isFetched } = useQuery({
     queryKey: ["upcoming-Booking"],
     queryFn: async () => {
       return await onLoadUpcomingBookings();
     },
-    enabled: false,
   });
-  return { data, isFetching };
+  return { data, isFetching, isFetched };
 };
 
 export const useTodayBooking = () => {
@@ -26,20 +25,18 @@ export const useTodayBooking = () => {
     queryFn: async () => {
       return await onLoadTodayBooking();
     },
-    enabled: false,
   });
   return { data, isFetching };
 };
 
 export const useTomorrowBooking = () => {
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, isFetched } = useQuery({
     queryKey: ["tomorrow-Booking"],
     queryFn: async () => {
       return await onLoadTomorrowBooing();
     },
-    enabled: false,
   });
-  return { data, isFetching };
+  return { data, isFetching, isFetched };
 };
 
 export const useCategoryData = () => {
