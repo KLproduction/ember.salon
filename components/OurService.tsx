@@ -71,8 +71,13 @@ const OurService = () => {
                       {item.name.toUpperCase()}
                     </div>
                   </CardContent>
-                  <CardFooter className="absolute bottom-0 right-1/2 hidden translate-x-1/2 group-hover:block">
-                    <Button variant="outline">Pricing</Button>
+                  <CardFooter className="absolute bottom-0 right-1/2 translate-x-1/2">
+                    <Button
+                      variant="outline"
+                      className="border-2 border-orange-500 bg-transparent text-zinc-50"
+                    >
+                      See Price
+                    </Button>
                   </CardFooter>
                 </Card>
               </DialogTrigger>
