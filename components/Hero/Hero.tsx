@@ -46,7 +46,7 @@ const Hero = () => {
             SALON
           </motion.span>
           <motion.span
-            initial={{ opacity: 0, scale: 500 }}
+            initial={{ opacity: 0, scale: 10 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 1 }}
             className="absolute right-[6%] top-[49%] text-3xl tracking-widest text-zinc-200"
