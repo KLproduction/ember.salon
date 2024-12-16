@@ -9,7 +9,7 @@ import Logo from "./Logo";
 const Footer = async () => {
   const user = await currentUser();
   return (
-    <div className="w-screen bg-zinc-800 text-zinc-50">
+    <div className="w-screen bg-zinc-900 text-zinc-50">
       <div className="flex flex-col items-center justify-around gap-5 p-5">
         <Logo />
         <div className="text-white">

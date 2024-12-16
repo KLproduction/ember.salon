@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 
 const Contact = () => {
   return (
-    <div className="flex h-full w-full flex-col bg-zinc-900 bg-fixed bg-center bg-no-repeat object-cover text-zinc-50">
+    <div className="flex h-full w-full flex-col bg-zinc-800 bg-fixed bg-center bg-no-repeat object-cover text-zinc-50">
       <div className="my-12 flex w-full justify-center text-3xl sm:text-6xl md:mb-0">
         <h1 className="font-black text-orange-500">CONTACT US</h1>
       </div>

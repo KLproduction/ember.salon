@@ -29,6 +29,7 @@ import { useBookingForm } from "@/hooks/booking";
 import { TIMESLOT } from "@/lib/serviceList";
 import { Label } from "recharts";
 import { enGB } from "date-fns/locale";
+import { FormError } from "./form-error";
 
 const BookingForm = () => {
   const {
@@ -72,12 +73,10 @@ const BookingForm = () => {
               <form onSubmit={onSubmit}>
                 <div className="flex flex-col gap-5 text-zinc-50">
                   {/* Service Selection */}
-                  {/* <div>
-                    <label className="block font-medium">Service</label>
-
+                  <div>
                     <select
                       {...register("services")}
-                      className="w-full rounded border bg-transparent p-2"
+                      className="w-full rounded-xl border bg-transparent p-2"
                     >
                       <option value="" disabled className="bg-transparent">
                         Select a service
@@ -86,7 +85,7 @@ const BookingForm = () => {
                         <optgroup
                           label={item.name}
                           key={index}
-                          className="font-bold text-zinc-900"
+                          className="font-bold text-orange-500"
                         >
                           {item.serviceItem.map((serviceItem, subIndex) => (
                             <option
@@ -100,41 +99,11 @@ const BookingForm = () => {
                         </optgroup>
                       ))}
                     </select>
-                  </div> */}
-
-                  <div>
-                    <Label>Service</Label>
-                    <Select
-                      onValueChange={(value) => {
-                        setValue("services", value);
-                      }}
-                      value={getValues("services")}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={
-                            getValues("services") || "Select a service"
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {service?.map((item, index) => (
-                          <div key={index}>
-                            <SelectItem value={item.name} disabled>
-                              {item.name}
-                            </SelectItem>
-                            {item.serviceItem.map((serviceItem, subIndex) => (
-                              <SelectItem
-                                key={`${index}-${subIndex}`}
-                                value={serviceItem.name}
-                              >
-                                {serviceItem.name}
-                              </SelectItem>
-                            ))}
-                          </div>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    {errors.services && (
+                      <div className="mt-2">
+                        <FormError message={errors.services.message} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Date Selection */}
@@ -190,58 +159,18 @@ const BookingForm = () => {
                       )}
                     </div>
                     {/* Optional validation message */}
-                    {errors && (
-                      <p className="mt-1 text-sm text-red-500">
-                        {errors.date?.message}
-                      </p>
+                    {errors.date && (
+                      <div className="mt-2">
+                        <FormError message={errors.date.message} />
+                      </div>
                     )}
                   </div>
 
                   {/* Time Slot Selection */}
                   <div>
-                    <Label>Time Slot</Label>
-                    <Select
-                      onValueChange={(value) => setValue("time", value)}
-                      value={getValues("time")}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={
-                            getValues("time") || "Select a time slot"
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {TIMESLOT.map((hour, index) => {
-                          const slotTime = parseInt(hour.split(":")[0], 10);
-                          const currentTime = new Date();
-                          const currentHour = currentTime.getHours();
-                          const isToday =
-                            selectedDate &&
-                            currentTime.toDateString() ===
-                              new Date(selectedDate).toDateString();
-
-                          return (
-                            <SelectItem
-                              key={index}
-                              value={hour}
-                              disabled={
-                                (slotTime <= currentHour + 1 && isToday) ||
-                                !availableTimeSlots.includes(hour)
-                              }
-                            >
-                              {hour}
-                            </SelectItem>
-                          );
-                        })}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  {/* <div>
-                    <label className="block font-medium">Time Slot</label>
                     <select
                       {...register("time")}
-                      className="w-full rounded border p-2"
+                      className="w-full rounded-xl border bg-transparent p-2"
                       disabled={isSubmitting}
                     >
                       <option value="" disabled>
@@ -260,7 +189,7 @@ const BookingForm = () => {
                           <option
                             key={index}
                             value={hour}
-                            className="disabled:text-red-500"
+                            className="text-zinc-800 disabled:text-zinc-500"
                             disabled={
                               (slotTime <= currentHour + 1 && isToday) ||
                               !availableTimeSlots.includes(hour)
@@ -271,7 +200,12 @@ const BookingForm = () => {
                         );
                       })}
                     </select>
-                  </div> */}
+                    {errors.time && (
+                      <div className="mt-2">
+                        <FormError message={errors.time.message} />
+                      </div>
+                    )}
+                  </div>
 
                   {/* Name Input */}
                   <div>
@@ -287,6 +221,11 @@ const BookingForm = () => {
                       }
                       disabled={isSubmitting}
                     />
+                    {errors.name && (
+                      <div className="mt-2">
+                        <FormError message={errors.name.message} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Phone Input */}
@@ -299,6 +238,11 @@ const BookingForm = () => {
                       placeholder="Please Enter Your Phone Number"
                       disabled={isSubmitting}
                     />
+                    {errors.phone && (
+                      <div className="mt-2">
+                        <FormError message={errors.phone.message} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Email Input */}
@@ -311,6 +255,11 @@ const BookingForm = () => {
                       placeholder="Please Enter Your Email"
                       disabled={isSubmitting}
                     />
+                    {errors.email && (
+                      <div className="mt-2">
+                        <FormError message={errors.email.message} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Message Textarea */}
@@ -323,6 +272,11 @@ const BookingForm = () => {
                       placeholder="Additional message"
                       disabled={isSubmitting}
                     />
+                    {errors.message && (
+                      <div className="mt-2">
+                        <FormError message={errors.message.message} />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <Button

@@ -15,6 +15,8 @@ export const useUpcomingBooking = () => {
     queryFn: async () => {
       return await onLoadUpcomingBookings();
     },
+    staleTime: 60 * 1000 * 5,
+    refetchInterval: 1000 * 60 * 10,
   });
   return { data, isFetching, isFetched };
 };
@@ -25,6 +27,8 @@ export const useTodayBooking = () => {
     queryFn: async () => {
       return await onLoadTodayBooking();
     },
+    staleTime: 60 * 1000 * 5,
+    refetchInterval: 1000 * 60 * 10,
   });
   return { data, isFetching };
 };
@@ -35,6 +39,8 @@ export const useTomorrowBooking = () => {
     queryFn: async () => {
       return await onLoadTomorrowBooing();
     },
+    staleTime: 60 * 1000 * 5,
+    refetchInterval: 1000 * 60 * 10,
   });
   return { data, isFetching, isFetched };
 };
@@ -45,6 +51,7 @@ export const useCategoryData = () => {
     queryFn: async () => {
       return await onLoadCategoryData();
     },
+    staleTime: 60 * 1000 * 60,
   });
   return { data, isFetching };
 };

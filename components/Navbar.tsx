@@ -20,9 +20,14 @@ const Navbar = () => {
       name: "Home",
       path: "home",
     },
+
     {
-      name: "Services",
-      path: "services",
+      name: "About Us",
+      path: "about-us",
+    },
+    {
+      name: "Pricing",
+      path: "pricing",
     },
 
     {
@@ -97,7 +102,7 @@ const Navbar = () => {
                   <Link
                     to={item.path}
                     smooth={true}
-                    offset={-100}
+                    offset={0}
                     duration={500}
                     className="cursor-pointer"
                   >
@@ -113,7 +118,7 @@ const Navbar = () => {
           </div>
           <Link to="appointment" smooth>
             <Button
-              className="border-2 border-orange-500 bg-transparent px-3 py-1 text-orange-500 hover:animate-bounce hover:bg-orange-500 hover:text-zinc-50"
+              className="border-2 border-orange-500 bg-transparent px-3 py-1 text-orange-500 hover:animate-accordion-up hover:bg-orange-500 hover:text-zinc-50"
               variant={"ghost"}
             >
               Book Online
@@ -155,7 +160,7 @@ const Navbar = () => {
                 <Link
                   to={item.path}
                   smooth={true}
-                  offset={-90}
+                  offset={-200}
                   duration={500}
                   className="cursor-pointer"
                 >

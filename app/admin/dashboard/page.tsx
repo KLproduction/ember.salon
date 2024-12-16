@@ -43,6 +43,7 @@ const AdminPage = async () => {
   await queryClient.prefetchQuery({
     queryKey: ["chartData"],
     queryFn: () => bookingChartData(),
+    staleTime: 60 * 1000 * 60,
   });
   // await queryClient.prefetchQuery({
   //   queryKey: ["booking"],

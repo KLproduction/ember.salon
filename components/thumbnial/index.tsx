@@ -135,7 +135,7 @@ const ThumbnailSlider = () => {
   return (
     <div
       className={cn(
-        "fix-carousel home relative mt-16 h-screen w-full overflow-hidden",
+        "fix-carousel services relative h-screen w-full overflow-hidden",
         isNext ? "next next-move" : "",
         isPrev ? "prev prev-move" : "",
       )}
@@ -169,8 +169,8 @@ const ThumbnailSlider = () => {
                   className="border-[1px] border-zinc-50 bg-transparent font-semibold text-zinc-50 backdrop-blur-sm"
                   asChild
                 >
-                  <Link to="services" smooth className="cursor-pointer">
-                    OUR SERVICES
+                  <Link to="pricing" smooth className="cursor-pointer">
+                    SEE PRICE
                   </Link>
                 </Button>
               </div>
