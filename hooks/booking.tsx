@@ -101,7 +101,7 @@ export const useBookingForm = () => {
       email: "",
       phone: "",
       message: "",
-      services: serviceName || undefined,
+      services: "",
       time: "",
       date: undefined,
     },
@@ -168,12 +168,12 @@ export const useBookingForm = () => {
       query.invalidateQueries({ queryKey: ["booking"] });
       reset();
 
-      return await addAdminMessage(data?.booking?.id!);
+      await addAdminMessage(data?.booking?.id!);
+      route.push("/");
     },
     onSettled: (data) => {
       if (data?.status === 200) {
         toast.success(data.message);
-        route.push("/");
       } else {
         toast.error(data?.message);
       }

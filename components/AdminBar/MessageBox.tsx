@@ -110,7 +110,7 @@ export const MessageBox = () => {
                   >
                     Message
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="text-zinc-900">
                     <DialogTitle>Message:</DialogTitle>
                     {booking.message}
                   </DialogContent>
