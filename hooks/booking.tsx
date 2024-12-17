@@ -94,6 +94,7 @@ export const useBookingForm = () => {
     setValue,
     getValues,
     watch,
+    ...rest
   } = useForm<z.infer<typeof BookingFormSchema>>({
     resolver: zodResolver(BookingFormSchema),
     defaultValues: {
@@ -201,5 +202,6 @@ export const useBookingForm = () => {
     setValue,
     errors,
     formRef,
+    ...rest,
   };
 };

@@ -86,13 +86,13 @@ const BookingForm = () => {
                         <optgroup
                           label={item.name}
                           key={index}
-                          className="font-bold text-zinc-900"
+                          className="font-bold text-orange-700"
                         >
                           {item.serviceItem.map((serviceItem, subIndex) => (
                             <option
                               key={subIndex}
                               value={serviceItem.name}
-                              className="text-zinc-900"
+                              className="text-xs text-zinc-900"
                             >
                               {serviceItem.name}
                             </option>
