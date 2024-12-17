@@ -107,7 +107,7 @@ const BookingForm = () => {
                     )}
                   </div>
 
-                  {/* <div>
+                  <div>
                     <Label>Service</Label>
                     <Select
                       onValueChange={(value) => {
@@ -138,7 +138,7 @@ const BookingForm = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                  </div> */}
+                  </div>
 
                   {/* Date Selection */}
                   <div className="flex h-20 flex-col justify-end text-white">
