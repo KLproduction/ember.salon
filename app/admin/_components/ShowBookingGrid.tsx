@@ -168,9 +168,11 @@ const ShowBookingGrid = () => {
                 {bookings[timeslot] && (
                   <DialogContent className="w-full">
                     <DialogHeader>
-                      <DialogTitle>Booking Details - {timeslot}</DialogTitle>
+                      <DialogTitle className="text-zinc-900">
+                        Booking Details - {timeslot}
+                      </DialogTitle>
                     </DialogHeader>
-                    <ScrollArea className="mt-4 max-h-[60vh] border-b-[1px] border-zinc-500">
+                    <ScrollArea className="mt-4 max-h-[60vh] border-b-[4px] border-zinc-500">
                       {bookings[timeslot].map((booking, index) => (
                         <div
                           key={index}
@@ -178,25 +180,33 @@ const ShowBookingGrid = () => {
                         >
                           <div>
                             <Separator className="mb-6 text-zinc-900" />
-                            <h3 className="mb-2 font-semibold">
+                            <h3 className="mb-2 font-semibold text-zinc-900">
                               Booking - {index + 1}
                             </h3>
                             <div className="grid gap-2">
                               <div className="flex items-center gap-2">
                                 <UsersIcon className="h-4 w-4 text-gray-500" />
-                                <span>{booking.name}</span>
+                                <span className="text-zinc-900">
+                                  {booking.name}
+                                </span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <MailIcon className="h-4 w-4 text-gray-500" />
-                                <span>{booking.email}</span>
+                                <span className="text-zinc-900">
+                                  {booking.email}
+                                </span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <PhoneIcon className="h-4 w-4 text-gray-500" />
-                                <span>{booking.phone}</span>
+                                <span className="text-zinc-900">
+                                  {booking.phone}
+                                </span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <Scissors className="h-4 w-4 text-gray-500" />
-                                <span>{booking.service}</span>
+                                <span className="text-zinc-900">
+                                  {booking.service}
+                                </span>
                               </div>
                             </div>
                           </div>
