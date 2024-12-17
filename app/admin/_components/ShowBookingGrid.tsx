@@ -174,10 +174,7 @@ const ShowBookingGrid = () => {
                     </DialogHeader>
                     <ScrollArea className="mt-4 max-h-[60vh] border-b-[4px] border-zinc-500">
                       {bookings[timeslot].map((booking, index) => (
-                        <div
-                          key={index}
-                          className="mb-6 border-b pb-6 last:border-b-0"
-                        >
+                        <div key={index} className="mb-6 pb-6">
                           <div>
                             <Separator className="mb-6 text-zinc-900" />
                             <h3 className="mb-2 font-semibold text-zinc-900">
