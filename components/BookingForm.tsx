@@ -31,6 +31,7 @@ import { Label } from "recharts";
 import { enGB } from "date-fns/locale";
 import { FormError } from "./form-error";
 import { error } from "console";
+import { get } from "http";
 
 const BookingForm = () => {
   const {
@@ -51,7 +52,7 @@ const BookingForm = () => {
     fetchAvailableSlots,
     formRef,
   } = useBookingForm();
-
+  console.log(getValues("services"));
   return (
     <div
       className="flex h-full w-full items-center justify-center"
@@ -74,7 +75,7 @@ const BookingForm = () => {
               <form onSubmit={onSubmit}>
                 <div className="flex flex-col gap-5 text-zinc-50">
                   {/* Service Selection */}
-                  <div>
+                  {/* <div>
                     <select
                       {...register("services")}
                       className="w-full rounded-2xl border bg-transparent p-2"
@@ -105,7 +106,7 @@ const BookingForm = () => {
                         <FormError message={errors.services.message} />
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
                   <div>
                     <Label>Service</Label>
@@ -117,9 +118,7 @@ const BookingForm = () => {
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue
-                          placeholder={
-                            getValues("services") || "Select a service"
-                          }
+                          placeholder={watch("services") || "Select a service"}
                         />
                       </SelectTrigger>
                       <SelectContent>
@@ -203,7 +202,7 @@ const BookingForm = () => {
                   </div>
 
                   {/* Time Slot Selection */}
-                  {/* <div>
+                  <div>
                     <Label>Time Slot</Label>
                     <Select
                       onValueChange={(value) => setValue("time", value)}
@@ -211,9 +210,7 @@ const BookingForm = () => {
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue
-                          placeholder={
-                            getValues("time") || "Select a time slot"
-                          }
+                          placeholder={watch("time") || "Select a time slot"}
                         />
                       </SelectTrigger>
                       <SelectContent>
@@ -241,8 +238,8 @@ const BookingForm = () => {
                         })}
                       </SelectContent>
                     </Select>
-                  </div> */}
-                  <div>
+                  </div>
+                  {/* <div>
                     <select
                       {...register("time")}
                       className="w-full rounded-2xl border bg-transparent p-2"
@@ -280,7 +277,7 @@ const BookingForm = () => {
                         <FormError message={errors.time?.message} />
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
                   {/* Name Input */}
                   <div>
