@@ -123,19 +123,21 @@ const BookingForm = () => {
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        {service?.map((item, index) => (
-                          <div key={index}>
-                            <SelectLabel>{item.name}</SelectLabel>
-                            {item.serviceItem.map((serviceItem, subIndex) => (
-                              <SelectItem
-                                key={`${index}-${subIndex}`}
-                                value={serviceItem.name}
-                              >
-                                {serviceItem.name}
-                              </SelectItem>
-                            ))}
-                          </div>
-                        ))}
+                        <SelectGroup>
+                          {service?.map((item, index) => (
+                            <div key={index}>
+                              <SelectLabel>{item.name}</SelectLabel>
+                              {item.serviceItem.map((serviceItem, subIndex) => (
+                                <SelectItem
+                                  key={`${index}-${subIndex}`}
+                                  value={serviceItem.name}
+                                >
+                                  {serviceItem.name}
+                                </SelectItem>
+                              ))}
+                            </div>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </div>
