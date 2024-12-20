@@ -93,7 +93,6 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
       setError("Failed to create product.");
       console.error("Update error:", error);
     }
-    console.log(form.getValues());
   };
 
   return (

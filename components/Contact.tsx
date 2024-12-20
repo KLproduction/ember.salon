@@ -4,14 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 
 const Contact = () => {
   return (
-    <div className="flex min-h-[100vh] w-screen flex-col bg-zinc-800 bg-fixed bg-center bg-no-repeat object-cover text-zinc-50">
-      <div className="flex w-full justify-center text-3xl sm:text-6xl">
-        <h1 className="my-20 p-10 text-yellow-600">CONTACT US</h1>
+    <div className="flex h-full w-full flex-col bg-zinc-800 bg-fixed bg-center bg-no-repeat object-cover text-zinc-50">
+      <div className="my-12 flex w-full justify-center text-3xl sm:text-6xl md:mb-0">
+        <h1 className="font-black text-orange-500">CONTACT US</h1>
       </div>
-      <div className="flex h-[100vh] min-h-screen w-full flex-col items-center justify-center md:ml-10 md:flex-row">
+      <div className="flex h-screen w-full flex-col items-center justify-center md:ml-10 md:flex-row">
         <div className="flex items-start justify-between gap-10 sm:flex-col">
           <div className="flex flex-col items-start justify-center">
-            <h1 className="text-xl font-black text-yellow-600">Address:</h1>
+            <h1 className="text-xl font-black text-orange-500">Address:</h1>
             <div className="flex flex-col items-start justify-between">
               <p>Westminster</p>
               <p>London</p>
@@ -19,7 +19,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="flex flex-col items-start justify-center">
-            <h1 className="text-xl font-black text-yellow-600">Contact:</h1>
+            <h1 className="text-xl font-black text-orange-500">Contact:</h1>
             <div className="flex flex-col items-start justify-between gap-3">
               <div className="flex flex-col items-start justify-between">
                 <div>Telephone:</div>

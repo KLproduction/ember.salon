@@ -19,16 +19,21 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SignOutBtn from "@/components/auth/SignOutBtn";
+import { useEffect, useState } from "react";
+import MySpinner from "@/components/MySpinner";
+import { MessageBox } from "@/components/AdminBar/MessageBox";
+import { Separator } from "@/components/ui/separator";
 
 const SideBar = () => {
   const route = useRouter();
   const now = new Date();
+
   const sideBarList = [
     {
       name: "Dashboard",
-      path: `/admin`,
+      path: `/admin/dashboard`,
       icon: <BiSolidDashboard />,
     },
     {
@@ -47,34 +52,56 @@ const SideBar = () => {
       icon: <AiOutlineHome />,
     },
   ];
+
+  const pathname = usePathname();
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (
+      pathname.includes("booking") ||
+      pathname.includes("services") ||
+      pathname.includes("dashboard")
+    ) {
+      setLoading(false);
+    }
+  }, [pathname]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <MySpinner />
+      </div>
+    );
+  }
   return (
     <Command className="rounded-xl bg-zinc-100 shadow-lg shadow-black/50">
-      <CommandInput placeholder="Type a command or search..." />
+      {/* <CommandInput placeholder="Type a command or search..." /> */}
       <CommandList className="h-full min-h-[100vh]">
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
+        <CommandGroup heading="Dashboard pages">
           <CommandItem className="item flex flex-col justify-start gap-5 p-5">
             {sideBarList.map((item, index) => (
               <Link
                 key={index}
                 href={item.path}
-                onClick={() => route.refresh()}
-                className="flex w-full cursor-pointer items-center justify-between gap-10 hover:ml-10"
+                onClick={() => {
+                  route.refresh(), setLoading(true);
+                }}
+                className="flex w-full cursor-pointer items-center justify-between gap-10 transition-all duration-200 hover:ml-5"
               >
                 {item.name}
                 {item.icon}
               </Link>
             ))}
+            <Separator />
+            <div className="flex w-full items-center justify-center">
+              <MessageBox />
+            </div>
+            <Separator />
             <Button asChild className="hover:opacity-50">
               <SignOutBtn />
             </Button>
           </CommandItem>
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Settings" className="">
-          <CommandItem>Profile</CommandItem>
-          <CommandItem>Billing</CommandItem>
-          <CommandItem>Settings</CommandItem>
         </CommandGroup>
       </CommandList>
     </Command>

@@ -23,6 +23,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logs } from "lucide-react";
 import SignOutBtn from "@/components/auth/SignOutBtn";
+import { MessageBox } from "@/components/AdminBar/MessageBox";
 
 const MobileSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const MobileSideBar = () => {
   const sideBarList = [
     {
       name: "Dashboard",
-      path: `/admin`,
+      path: `/admin/dashboard`,
       icon: <BiSolidDashboard />,
     },
     {
@@ -67,10 +68,17 @@ const MobileSideBar = () => {
 
   return (
     <div className="relative h-full w-full">
-      <div className="fixed inset-0 z-[9999] h-10 w-10 p-5 opacity-50">
-        <Button onClick={() => setIsOpen((open) => !open)} variant={"ghost"}>
+      <div className="fixed bottom-0 z-[9999] h-10 w-full bg-orange-500 p-1 backdrop-blur-md">
+        <Button
+          onClick={() => setIsOpen((open) => !open)}
+          variant={"ghost"}
+          className="absolute left-1/2 -translate-x-1/2"
+        >
           <Logs />
         </Button>
+        <div className="absolute right-10">
+          <MessageBox />
+        </div>
       </div>
       <div
         className={cn(
@@ -79,7 +87,7 @@ const MobileSideBar = () => {
         )}
       >
         <Command
-          className="rounded-xl bg-zinc-100 shadow-lg shadow-black/50"
+          className="rounded-none bg-zinc-100 shadow-lg shadow-black/50"
           ref={containerRef}
         >
           <CommandInput placeholder="Type a command or search..." />
@@ -104,12 +112,6 @@ const MobileSideBar = () => {
                   <SignOutBtn />
                 </Button>
               </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Settings" className="">
-              <CommandItem>Profile</CommandItem>
-              <CommandItem>Billing</CommandItem>
-              <CommandItem>Settings</CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>

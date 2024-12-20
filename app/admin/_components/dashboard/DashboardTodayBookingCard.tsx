@@ -12,7 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { AiFillBell } from "react-icons/ai";
+import { AiFillBell, AiOutlineLoading } from "react-icons/ai";
 import Image from "next/image";
 import React, { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
@@ -20,15 +20,12 @@ import BookingDialog from "../BookingDialog";
 import Link from "next/link";
 import { ResponsiveContainer } from "recharts";
 import { CalendarIcon } from "lucide-react";
+import { useTodayBooking } from "@/hooks/dashboard";
 
-type DashboardTodayBookingCardProps = {
-  todayBooking: Booking[];
-};
-
-const DashboardTodayBookingCard = ({
-  todayBooking,
-}: DashboardTodayBookingCardProps) => {
+const DashboardTodayBookingCard = () => {
   const now = new Date();
+  const { data, isFetching } = useTodayBooking();
+  const todayBookingCount = data?.todayBookingCount;
   return (
     <>
       <Card>
@@ -42,7 +39,17 @@ const DashboardTodayBookingCard = ({
             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="flex items-center justify-center">
-            <div className="mt-5 text-6xl font-bold">{todayBooking.length}</div>
+            {isFetching ? (
+              <div className="flex h-full w-full items-center justify-center">
+                <AiOutlineLoading
+                  className="animate-spin text-6xl text-yellow-500"
+                  aria-label="Loading"
+                  role="status"
+                />
+              </div>
+            ) : (
+              <div className="mt-5 text-6xl font-bold">{todayBookingCount}</div>
+            )}
           </CardContent>
         </Link>
       </Card>

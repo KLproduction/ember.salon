@@ -30,3 +30,31 @@ export const getAllBooking = async () => {
   const booking = await db.booking.findMany();
   return booking;
 };
+
+export const onLoadBooking = async () => {
+  try {
+    const booking = await db.adminMessage.findMany({
+      include: {
+        bookings: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    if (booking) {
+      return {
+        booking,
+        status: 200,
+      };
+    }
+
+    return {
+      status: 404,
+    };
+  } catch {
+    return {
+      status: 400,
+    };
+  }
+};

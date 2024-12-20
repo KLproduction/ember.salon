@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4">
+      <div className="flex flex-col items-center gap-3 py-4 md:flex-row">
         <Input
           placeholder="Filter service name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -146,7 +146,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-zinc-100 text-xs">
+          <TableBody className="bg-zinc-100 text-xs text-foreground">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

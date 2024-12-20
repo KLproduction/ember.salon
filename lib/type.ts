@@ -1,5 +1,6 @@
 import {
   $Enums,
+  Booking,
   ServiceCategory,
   ServiceItem,
   ServiceStatus,

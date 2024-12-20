@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "sonner";
 import { UserRole } from "@prisma/client";
+import { ReactQueryProvider } from "@/react-query/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,11 +27,10 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body>
-          <div className="w-screen">
-            <Navbar />
-          </div>
-          <div className="h-screen w-screen">{children}</div>
-          <Toaster />
+          <ReactQueryProvider>
+            <div className="h-screen w-screen">{children}</div>
+            <Toaster />
+          </ReactQueryProvider>
         </body>
       </html>
     </SessionProvider>

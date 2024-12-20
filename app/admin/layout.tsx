@@ -4,6 +4,7 @@ import AdminNavbar from "./_components/AdminNavbar";
 import { getProduct } from "@/data/getProduct";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import MobileSideBar from "./_components/MobileSideBar";
+import AdminBar from "@/components/AdminBar/AdminBar";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -11,19 +12,17 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
   return (
-    <div className="relative h-full">
+    <div className="relative h-full w-full bg-white">
       {/* <AdminNavbar /> */}
       <div className="flex h-full">
         <div className="hidden h-full min-h-[100vh] w-[300px] md:block">
           <SideBar />
         </div>
-        <div className="h-full min-h-[100vh] md:hidden">
+        <div className="md:hidden">
           <MobileSideBar />
         </div>
 
-        <div className="container ml-0 w-screen overflow-auto p-5 md:max-w-[1140px]">
-          {children}
-        </div>
+        <div className="mx-auto w-full overflow-auto p-5">{children}</div>
       </div>
       <Toaster />
     </div>

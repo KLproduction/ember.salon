@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { createDummyBooking } from "./_components/createDummyBooking";
 import { startTransition, useTransition } from "react";
 import { addBooking } from "@/action/booking";
+import { addAdminMessage } from "@/action/addAdminMessage";
 
 const SuperAdminPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -11,7 +12,7 @@ const SuperAdminPage = () => {
     startTransition(async () => {
       for (let i = 0; i < 10; i++) {
         const booking = createDummyBooking();
-        await addBooking(booking);
+        await addBooking(booking, true);
       }
     });
   };

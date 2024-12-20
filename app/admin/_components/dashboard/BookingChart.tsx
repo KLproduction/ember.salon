@@ -28,14 +28,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEffect } from "react";
 
-type BookingChartProps = {
-  data: TBookingChart[];
-};
+import { useBookingChartData } from "@/hooks/dashboard";
+import { AiOutlineLoading } from "react-icons/ai";
 
-const BookingChart = ({ data }: BookingChartProps) => {
+const BookingChart = () => {
+  const { data, isFetching } = useBookingChartData();
   const chartData: TBookingChart[] = [];
+  if (!data) return;
   data.map((entry, index) =>
     chartData.push({ date: entry.date, bookings: entry.bookings }),
   );
@@ -63,7 +63,7 @@ const BookingChart = ({ data }: BookingChartProps) => {
                   label={{
                     value: "Date",
                     position: "insideBottom",
-                    offset: -5,
+                    offset: -3,
                   }}
                 />
                 <YAxis

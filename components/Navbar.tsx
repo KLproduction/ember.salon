@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 import Hamburger from "hamburger-react";
 import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
+import Logo from "./Logo";
+import AdminBar from "./AdminBar/AdminBar";
 
 const Navbar = () => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -18,19 +20,16 @@ const Navbar = () => {
       name: "Home",
       path: "home",
     },
-    {
-      name: "Services",
-      path: "services",
-    },
 
     {
-      name: "Gallery",
-      path: "gallery",
+      name: "About Us",
+      path: "about-us",
     },
     {
-      name: "Appointment",
-      path: "appointment",
+      name: "Pricing",
+      path: "pricing",
     },
+
     {
       name: "Contact",
       path: "contact",
@@ -65,7 +64,7 @@ const Navbar = () => {
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
 
-    if (currentScrollY < lastScrollY && currentScrollY > 100) {
+    if (currentScrollY < lastScrollY) {
       setIsNavOpen(true);
     } else {
       setIsNavOpen(false);
@@ -87,21 +86,13 @@ const Navbar = () => {
       <nav
         className={cn(
           isNavOpen ? "top-0" : "-top-[100vh]",
-          "fixed inset-x-0 z-[9999] h-24 w-full bg-black/50 px-4 backdrop-blur-lg duration-300 sm:px-8 md:px-12 lg:px-20 xl:px-48",
+          "fixed inset-x-0 z-[9999] h-16 w-full bg-black/50 px-4 backdrop-blur-lg duration-300 sm:px-8 md:px-12 lg:px-20 xl:px-48",
         )}
       >
         <div className="flex h-full items-center justify-between">
           {/* LOGO */}
-          <Link to="home" smooth className="cursor-pointer">
-            <div className="flex min-w-[7rem] flex-col justify-start">
-              <h1 className="text-2xl font-bold text-colors-indian-yellow lg:text-4xl">
-                EMBER
-              </h1>
-              <h1 className="text-lg font-semibold text-zinc-50">
-                {" "}
-                HAIR SALON
-              </h1>
-            </div>
+          <Link to="home" smooth className="h-full cursor-pointer">
+            <Logo />
           </Link>
           {/* NAV ITEM */}
           <div className="hidden h-full w-full items-center justify-center gap-5 text-zinc-50 sm:flex">
@@ -111,7 +102,7 @@ const Navbar = () => {
                   <Link
                     to={item.path}
                     smooth={true}
-                    offset={-100}
+                    offset={0}
                     duration={500}
                     className="cursor-pointer"
                   >
@@ -122,11 +113,20 @@ const Navbar = () => {
             ))}
           </div>
           {/* Mobile nav trigger */}
-          <div className="mr-16 flex min-w-[48px] text-white sm:hidden">
+          <div className="mr-4 flex min-w-[48px] text-white sm:hidden">
             <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
           </div>
+          <Link to="appointment" smooth>
+            <Button
+              className="border-2 border-orange-500 bg-transparent px-3 py-1 text-orange-500 hover:animate-accordion-up hover:bg-orange-500 hover:text-zinc-50"
+              variant={"ghost"}
+            >
+              Book Online
+            </Button>
+          </Link>
         </div>
       </nav>
+
       {/* Mobile nav menu */}
       {isMenuOpen && (
         <motion.div
@@ -160,7 +160,7 @@ const Navbar = () => {
                 <Link
                   to={item.path}
                   smooth={true}
-                  offset={-90}
+                  offset={-200}
                   duration={500}
                   className="cursor-pointer"
                 >
