@@ -33,11 +33,11 @@ export default async function Home() {
     queryFn: () => getProduct(),
     staleTime: 1000 * 60 * 60,
   });
-  await queryClient.prefetchQuery({
-    queryKey: ["thumbnail"],
-    queryFn: () => onLoadThumbnail(),
-    staleTime: 1000 * 60 * 60,
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["thumbnail"],
+  //   queryFn: () => onLoadThumbnail(),
+  //   staleTime: 1000 * 60 * 60,
+  // });
   await queryClient.prefetchQuery({
     queryKey: ["booking"],
     queryFn: () => onLoadBooking(),
