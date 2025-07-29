@@ -1,43 +1,10 @@
 "use client";
-import SignOutBtn from "../auth/SignOutBtn";
+
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-
 import { useEffect, useRef, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { createClient } from "@/utils/supabase/client";
 import { cn } from "@/lib/utils";
-import { Switch } from "@/components/ui/switch";
-import {
-  MessageCircle,
-  Calendar,
-  Clock,
-  Scissors,
-  Palette,
-  Waves,
-  Sparkles,
-  LeafIcon,
-  PaintbrushIcon,
-  SparklesIcon,
-  Trash2,
-} from "lucide-react";
-
-import { AdminMessage, Booking } from "@prisma/client";
-import { Message } from "postcss";
-import { format } from "date-fns";
-import { changeMessageIsRead, deleteMessage } from "@/action/message";
-import { Card } from "../ui/card";
-import { ScrollArea } from "../ui/scroll-area";
-import { getAllBooking, getBooking } from "@/data/getBooking";
-import { getAdminMessage } from "@/data/getAdminMessage";
-import { motion } from "framer-motion";
-import { AiOutlineLoading } from "react-icons/ai";
 import MySpinner from "../MySpinner";
 import { MessageBox } from "./MessageBox";
 
@@ -47,6 +14,21 @@ const AdminBar = () => {
   const pathname = usePathname();
   const [isLoading, setLoading] = useState(false);
   const [showBar, setShowBar] = useState(false);
+  // Supabase session/email logic
+  const supabase = createClient();
+  const [session, setSession] = useState<any>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: any, session: any) => {
+        setSession(session);
+      },
+    );
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onClickHandlerAdmin = () => {
     setLoading(true);
@@ -73,7 +55,13 @@ const AdminBar = () => {
     <div className="relative z-[99999] h-12 w-full">
       {/* Midden screen */}
       <div className="hidden h-full w-full items-center justify-between bg-white/75 backdrop-blur-md md:flex">
-        <h1 className="ml-5 text-zinc-500 sm:ml-20">Admin Bar</h1>
+        <h1 className="ml-5 text-zinc-500 sm:ml-20">Admin Dashboard</h1>
+        <p>
+          logged in email:{" "}
+          {session?.user?.email || session?.user?.user_metadata?.email || (
+            <span className="italic text-zinc-400">Not logged in</span>
+          )}
+        </p>
         <div className="mr-20 flex items-center gap-5 p-3">
           {!pathname.includes("admin") ? (
             <Button onClick={() => onClickHandlerAdmin()}>

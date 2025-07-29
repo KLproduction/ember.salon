@@ -32,17 +32,36 @@ const BookingTablePage = () => {
     })();
   }, [searchParams]);
 
+  // Helper to get previous/next day with month/year rollover
+  const getPrevDay = () => {
+    const prev = new Date(year, month - 1, date - 1);
+    return {
+      year: prev.getFullYear(),
+      month: prev.getMonth() + 1,
+      date: prev.getDate(),
+    };
+  };
+  const getNextDay = () => {
+    const next = new Date(year, month - 1, date + 1);
+    return {
+      year: next.getFullYear(),
+      month: next.getMonth() + 1,
+      date: next.getDate(),
+    };
+  };
+
   return (
     <>
       <div className="relative flex w-full flex-col items-center justify-between">
         <div className="mt-20 flex w-full items-center justify-between sm:px-20">
           <Button
             variant={"ghost"}
-            onClick={() =>
+            onClick={() => {
+              const prev = getPrevDay();
               route.push(
-                `/admin/booking?year=${year}&month=${month}&date=${date - 1}`,
-              )
-            }
+                `/admin/booking?year=${prev.year}&month=${prev.month}&date=${prev.date}`,
+              );
+            }}
           >
             <ChevronLeft className="text-zinc-500" />
           </Button>
@@ -57,11 +76,12 @@ const BookingTablePage = () => {
           </div>
           <Button
             variant={"ghost"}
-            onClick={() =>
+            onClick={() => {
+              const next = getNextDay();
               route.push(
-                `/admin/booking?year=${year}&month=${month}&date=${date + 1}`,
-              )
-            }
+                `/admin/booking?year=${next.year}&month=${next.month}&date=${next.date}`,
+              );
+            }}
           >
             <ChevronRight className="text-zinc-500" />
           </Button>

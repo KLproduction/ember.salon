@@ -23,6 +23,8 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logs } from "lucide-react";
 import SignOutBtn from "@/components/auth/SignOutBtn";
+import { createClient } from "@/utils/supabase/client";
+import { AuthButtons } from "@/utils/supabase/AuthButtons";
 import { MessageBox } from "@/components/AdminBar/MessageBox";
 
 const MobileSideBar = () => {
@@ -66,6 +68,22 @@ const MobileSideBar = () => {
     };
   }, []);
 
+  // Supabase session/email logic
+  const supabase = createClient();
+  const [session, setSession] = useState<any>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: any, session: any) => {
+        setSession(session);
+      },
+    );
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="relative h-full w-full">
       <div className="fixed bottom-0 z-[9999] h-10 w-full bg-orange-500 p-1 backdrop-blur-md">
@@ -100,7 +118,7 @@ const MobileSideBar = () => {
                     key={index}
                     href={item.path}
                     onClick={() => {
-                      route.refresh(), setIsOpen(false);
+                      (route.refresh(), setIsOpen(false));
                     }}
                     className="flex w-full cursor-pointer items-center justify-between gap-10 hover:ml-5"
                   >
@@ -108,9 +126,13 @@ const MobileSideBar = () => {
                     {item.icon}
                   </Link>
                 ))}
-                <Button asChild className="hover:opacity-50">
-                  <SignOutBtn />
-                </Button>
+                {session ? (
+                  <Button asChild className="hover:opacity-50">
+                    <SignOutBtn />
+                  </Button>
+                ) : (
+                  <AuthButtons textColor="text-black" />
+                )}
               </CommandItem>
             </CommandGroup>
           </CommandList>

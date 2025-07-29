@@ -9,8 +9,8 @@ const Contact = () => {
         <h1 className="font-black text-orange-500">CONTACT US</h1>
       </div>
       <div className="flex h-screen w-full flex-col items-center justify-center md:ml-10 md:flex-row">
-        <div className="flex items-start justify-between gap-10 sm:flex-col">
-          <div className="flex flex-col items-start justify-center">
+        <div className="flex items-start justify-end gap-10 sm:flex-col md:ml-24">
+          <div className="flex flex-col items-start justify-end">
             <h1 className="text-xl font-black text-orange-500">Address:</h1>
             <div className="flex flex-col items-start justify-between">
               <p>Westminster</p>

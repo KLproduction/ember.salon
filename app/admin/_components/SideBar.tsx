@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import SignOutBtn from "@/components/auth/SignOutBtn";
 import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { AuthButtons } from "@/utils/supabase/AuthButtons";
 import MySpinner from "@/components/MySpinner";
 import { MessageBox } from "@/components/AdminBar/MessageBox";
 import { Separator } from "@/components/ui/separator";
@@ -55,6 +57,21 @@ const SideBar = () => {
 
   const pathname = usePathname();
   const [isLoading, setLoading] = useState(false);
+  // Supabase session/email logic
+  const supabase = createClient();
+  const [session, setSession] = useState<any>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: any, session: any) => {
+        setSession(session);
+      },
+    );
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (
@@ -85,7 +102,7 @@ const SideBar = () => {
                 key={index}
                 href={item.path}
                 onClick={() => {
-                  route.refresh(), setLoading(true);
+                  (route.refresh(), setLoading(true));
                 }}
                 className="flex w-full cursor-pointer items-center justify-between gap-10 transition-all duration-200 hover:ml-5"
               >
@@ -98,9 +115,13 @@ const SideBar = () => {
               <MessageBox />
             </div>
             <Separator />
-            <Button asChild className="hover:opacity-50">
-              <SignOutBtn />
-            </Button>
+            {session ? (
+              <Button asChild className="hover:opacity-50">
+                <SignOutBtn />
+              </Button>
+            ) : (
+              <AuthButtons textColor="text-black" />
+            )}
           </CommandItem>
         </CommandGroup>
       </CommandList>

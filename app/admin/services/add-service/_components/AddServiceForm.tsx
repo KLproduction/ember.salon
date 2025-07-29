@@ -29,6 +29,7 @@ import {
 
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useEffect, useState, useTransition } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 import {
   Card,
@@ -72,7 +73,31 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
     },
   });
 
+  // Supabase session/email logic
+  const supabase = createClient();
+  const [session, setSession] = useState<any>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: any, session: any) => {
+        setSession(session);
+      },
+    );
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit = (values: z.infer<typeof ServiceAddingSchema>) => {
+    // Only allow this email
+    const allowedEmail = "kent.law.production01@gmail.com";
+    const userEmail =
+      session?.user?.email || session?.user?.user_metadata?.email;
+    if (userEmail !== allowedEmail) {
+      toast.error("Not authorized to do so");
+      return;
+    }
     try {
       startTransition(async () => {
         if (values) {

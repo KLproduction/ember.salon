@@ -139,6 +139,11 @@ const BookingForm = () => {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                    {errors && errors.services && (
+                      <div className="mt-2">
+                        <FormError message={errors.services.message} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Date Selection */}
@@ -311,8 +316,8 @@ const BookingForm = () => {
                       disabled={isSubmitting}
                     />
                     {errors && errors.phone && (
-                      <div>
-                        <FormError message={errors.phone?.message} />
+                      <div className="mt-2">
+                        <FormError message={errors.phone.message} />
                       </div>
                     )}
                   </div>
@@ -328,8 +333,8 @@ const BookingForm = () => {
                       disabled={isSubmitting}
                     />
                     {errors && errors.email && (
-                      <div>
-                        <FormError message={errors.email?.message} />
+                      <div className="mt-2">
+                        <FormError message={errors.email.message} />
                       </div>
                     )}
                   </div>

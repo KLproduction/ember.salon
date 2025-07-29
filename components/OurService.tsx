@@ -44,7 +44,7 @@ const OurService = () => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-800 pt-12 md:pt-0">
+    <div className="flex h-full flex-col items-center justify-center overflow-hidden bg-black to-zinc-800 pt-12 md:pt-0">
       <div className="pointer-events-none relative mb-12 ml-24 flex w-full -rotate-6 justify-start text-4xl font-black text-orange-500 md:text-6xl">
         Our Services
       </div>

@@ -1,10 +1,6 @@
-import React from "react";
-import { Input } from "./ui/input";
 import { currentUser } from "@/lib/auth";
-import SignOutBtn from "./auth/SignOutBtn";
-import Link from "next/link";
-import { Button } from "./ui/button";
 import Logo from "./Logo";
+import { AuthButtons } from "@/utils/supabase/AuthButtons";
 
 const Footer = async () => {
   const user = await currentUser();
@@ -13,7 +9,8 @@ const Footer = async () => {
       <div className="flex flex-col items-center justify-around gap-5 p-5">
         <Logo />
         <div className="text-white">
-          <h1>&copy; 2024 Copy reserve ShimG.solution</h1>
+          <h1>&copy; 2024 Copy reserve Shim.solution</h1>
+          <AuthButtons textColor="text-white" />
         </div>
       </div>
     </div>

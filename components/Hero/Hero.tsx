@@ -7,7 +7,7 @@ import { Link } from "react-scroll";
 
 const Hero = () => {
   return (
-    <div className="home relative mt-16 flex h-screen w-full items-center justify-center overflow-hidden bg-zinc-800">
+    <div className="home relative mt-16 flex h-screen w-full items-center justify-center overflow-hidden bg-black">
       <svg
         className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2"
         width="320"
