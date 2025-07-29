@@ -41,8 +41,8 @@ export const useBookingMessage = (messageId: string | null) => {
     mutationFn: async (messageId: string) => {
       await changeMessageIsRead(messageId);
     },
-    onSettled: (data, error, variables) => {
-      query.invalidateQueries({ queryKey: ["booking", variables] });
+    onSuccess: (data, error, variables) => {
+      query.invalidateQueries({ queryKey: ["booking", messageId] });
     },
   });
 
@@ -54,8 +54,8 @@ export const useBookingMessage = (messageId: string | null) => {
     mutationFn: async (messageId: string) => {
       await deleteMessage(messageId);
     },
-    onSettled: (data, error, variables) => {
-      query.invalidateQueries({ queryKey: ["booking", variables] });
+    onSuccess: (data, error, variables) => {
+      query.invalidateQueries({ queryKey: ["booking", messageId] });
     },
   });
 
@@ -170,7 +170,6 @@ export const useBookingForm = () => {
       reset();
 
       await addAdminMessage(data?.booking?.id!);
-      route.push("/");
     },
     onSettled: (data) => {
       if (data?.status === 200) {
