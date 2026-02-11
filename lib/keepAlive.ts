@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, serviceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
-async function keepSupabaseAlive() {
+export async function keepSupabaseAlive() {
   const uuid = crypto.randomUUID();
   const email = `dummy_${uuid}@example.com`;
 
@@ -27,7 +27,3 @@ async function keepSupabaseAlive() {
   console.log("✅ Supabase keep-alive ping sent");
 }
 
-keepSupabaseAlive().catch((err) => {
-  console.error("[keep-alive] failed:", err);
-  process.exit(1);
-});
