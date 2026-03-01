@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Link } from "react-scroll";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Hamburger from "hamburger-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
@@ -301,7 +301,7 @@ function NewHeroContent() {
 
 function AnimatedTitle() {
   const words = ["EMBER", "HAIR", "SALON"];
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
@@ -309,12 +309,12 @@ function AnimatedTitle() {
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 12,
         stiffness: 100,
       },
@@ -323,7 +323,7 @@ function AnimatedTitle() {
       opacity: 0,
       y: 200,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 12,
         stiffness: 100,
       },
