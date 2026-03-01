@@ -35,8 +35,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
-import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,8 +50,6 @@ export function DataTable<TData, TValue>({
   const [pageSize, setPageSize] = useState(10);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const route = useRouter();
-
   const table = useReactTable({
     data,
     columns,
@@ -77,29 +73,25 @@ export function DataTable<TData, TValue>({
   });
 
   useEffect(() => {
-    route.refresh();
-  }, []);
-
-  useEffect(() => {
     setPageIndex(0);
   }, [columnFilters]);
 
   return (
     <>
-      <div className="flex flex-col items-center gap-3 py-4 md:flex-row">
+      <div className="flex flex-col gap-3 py-1 md:flex-row md:items-center">
         <Input
           placeholder="Filter service name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="rounder-md max-w-sm border border-orange-500"
+          className="h-11 max-w-md rounded-2xl border-zinc-200 bg-white"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="ml-auto flex items-center gap-1"
+              className="md:ml-auto rounded-2xl border-zinc-200 bg-white"
             >
               Columns
               <AiOutlineMenu />
@@ -126,14 +118,14 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border border-zinc-400 p-3">
+      <div className="overflow-hidden rounded-[24px] border border-zinc-200 bg-white">
         <Table>
-          <TableHeader className="border-b-2 border-zinc-400">
+          <TableHeader className="bg-[#fcfaf7]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="h-14 text-xs uppercase tracking-[0.18em] text-zinc-500">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -146,16 +138,16 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-zinc-100 text-xs text-foreground">
+          <TableBody className="text-sm text-foreground">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="border-b-2 border-zinc-500 text-center"
+                  className="border-b border-zinc-100 text-center transition hover:bg-amber-50/40"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-4">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
@@ -176,28 +168,30 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex flex-col items-center justify-center">
-          <div>
+        <div className="flex flex-col items-center justify-center gap-3 border-t border-zinc-100 px-4 py-4 sm:flex-row sm:justify-between">
+          <p className="text-sm text-zinc-500">
+            Page {pageIndex + 1} of {table.getPageCount()}
+          </p>
+          <div className="flex items-center gap-2">
             <Button
-              variant={"ghost"}
+              variant={"outline"}
               onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
               disabled={pageIndex === 0}
+              className="rounded-2xl border-zinc-200 bg-white"
             >
               <AiOutlineArrowLeft />
             </Button>
             <Button
-              variant={"ghost"}
+              variant={"outline"}
               onClick={() => {
                 if (pageIndex < table.getPageCount() - 1)
                   setPageIndex((prev) => prev + 1);
               }}
               disabled={pageIndex >= table.getPageCount() - 1}
+              className="rounded-2xl border-zinc-200 bg-white"
             >
               <AiOutlineArrowRight />
             </Button>
-          </div>
-          <div>
-            Page {pageIndex + 1} of {table.getPageCount()}
           </div>
         </div>
       </div>

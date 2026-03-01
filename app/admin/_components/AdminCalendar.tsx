@@ -9,7 +9,6 @@ import { Booking } from "@prisma/client";
 import { getBooking } from "@/data/getBooking";
 import { enGB } from "date-fns/locale";
 import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CalendarIcon } from "lucide-react";
@@ -32,7 +31,7 @@ const AdminCalendar = () => {
     } else {
       setDate(new Date(year, month - 1, day));
     }
-  }, [day]);
+  }, [day, month, year]);
 
   useEffect(() => {
     (async () => {
@@ -89,23 +88,27 @@ const AdminCalendar = () => {
   }, []);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="relative" ref={calendarRef}>
-        <div className="flex items-center justify-between">
-          <p className="text-yellow-700">Pick a Date:</p>
+    <div className="flex w-full flex-col">
+      <div className="relative w-full" ref={calendarRef}>
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-amber-900">Pick a date</p>
+            <p className="text-xs text-zinc-500">Navigate across working days.</p>
+          </div>
           <Button
             onClick={() => {
               setIsOpen((open) => !open);
             }}
-            variant={"ghost"}
+            variant={"outline"}
             type="button"
+            className="rounded-2xl border-amber-200 bg-white/90"
           >
-            <CalendarIcon className="ml-auto h-4 w-4 text-yellow-700" />
+            <CalendarIcon className="ml-auto h-4 w-4 text-amber-800" />
           </Button>
         </div>
         {isOpen && (
-          <div className="absolute -right-[60%] top-full z-50 mt-2 w-auto p-0">
-            <Card>
+          <div className="absolute left-0 top-full z-50 mt-3 w-auto p-0">
+            <Card className="rounded-[24px] border-amber-100 bg-white/95 shadow-xl">
               <Calendar
                 mode="single"
                 selected={date}
@@ -113,7 +116,7 @@ const AdminCalendar = () => {
                   handleDateSelect(data);
                   setIsOpen(false);
                 }}
-                className="w-full rounded-md border bg-zinc-50 p-5"
+                className="w-full rounded-[24px] border-0 bg-transparent p-4"
                 initialFocus
                 locale={enGB}
                 modifiers={{

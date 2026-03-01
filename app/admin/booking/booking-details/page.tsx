@@ -13,40 +13,32 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { motion } from "framer-motion";
 import {
   Form,
   FormField,
   FormControl,
-  FormDescription,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Image from "next/image";
-import { BookingFormSchema, BookingSettingSchema } from "@/schemas";
+import { BookingSettingSchema } from "@/schemas";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addBooking } from "@/action/booking";
 import { checkFreeTimeSlot } from "@/action/checkFreeTimeSlot";
 import { enGB } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { Booking } from "@prisma/client";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -59,6 +51,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { deleteBooking } from "@/action/delete";
+import { AdminPageShell } from "../../_components/AdminShell";
+
+const TIME_SLOTS = [
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+];
 
 const BookingDetailsPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -71,27 +77,21 @@ const BookingDetailsPage = () => {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("booking");
   const [booking, setBooking] = useState<Booking | null>(null);
+
+  const form = useForm<z.infer<typeof BookingSettingSchema>>({
+    resolver: zodResolver(BookingSettingSchema),
+    defaultValues: {
+      timeSlot: undefined,
+      date: undefined,
+    },
+  });
+
   useEffect(() => {
     (async () => {
       if (bookingId) {
         const data = await getBookingById(bookingId);
         if (data) {
           setBooking(data);
-        }else{
-              return (
-      <div className="flex h-full w-full flex-col items-center justify-center bg-transparent backdrop-blur-xl gap-5">
-        <h1 className="text-4xl">Booking Not Found</h1>
-        <Button
-          onClick={() =>
-            route.push(
-              `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`,
-            )
-          }
-        >
-          Back to Booking
-        </Button>
-      </div>
-    );
         }
       }
     })();
@@ -102,15 +102,7 @@ const BookingDetailsPage = () => {
       ...form.getValues(),
       timeSlot: undefined,
     });
-  }, [bookingId, searchParams]);
-
-  const form = useForm<z.infer<typeof BookingSettingSchema>>({
-    resolver: zodResolver(BookingSettingSchema),
-    defaultValues: {
-      timeSlot: undefined,
-      date: undefined,
-    },
-  });
+  }, [bookingId, form, searchParams]);
 
   const [availableTimeSlots, setAvailableTimeSlots] = useState<string[]>([]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -131,25 +123,13 @@ const BookingDetailsPage = () => {
     };
   }, []);
 
-  const slots = [
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-  ];
   const selectedDate = form.watch("date");
   const selectedDateTrigger = selectedDate ? selectedDate.toISOString() : null;
 
   useEffect(() => {
     startTransition(async () => {
       const availableSlots = [];
-      for (let slot of slots) {
+      for (let slot of TIME_SLOTS) {
         const count = await checkFreeTimeSlot(selectedDate, slot);
 
         if (count < 5) {
@@ -162,7 +142,7 @@ const BookingDetailsPage = () => {
         timeSlot: undefined,
       });
     });
-  }, [selectedDateTrigger]);
+  }, [form, selectedDate, selectedDateTrigger]);
 
   const onSubmit = (values: z.infer<typeof BookingSettingSchema>) => {
     startTransition(async () => {
@@ -184,7 +164,7 @@ const BookingDetailsPage = () => {
     });
   };
 
-  const deleteHandler = (productId: string) => {
+  const deleteHandler = () => {
     startTransition(async () => {
       if (bookingId) {
         await deleteBooking(bookingId).then((data) => {
@@ -202,9 +182,52 @@ const BookingDetailsPage = () => {
     });
   };
  
+  if (!booking) {
+    return (
+      <AdminPageShell
+        title="Booking Details"
+        badge="Edit"
+        description="Review and adjust an existing appointment."
+        breadcrumbs={[
+          { label: "Admin", href: "/admin/dashboard" },
+          { label: "Bookings", href: `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}` },
+          { label: "Booking Details" },
+        ]}
+      >
+        <div className="flex min-h-[320px] items-center justify-center">
+          <div className="rounded-[28px] border border-zinc-200 bg-white px-8 py-10 text-center shadow-sm">
+            <h2 className="text-2xl font-semibold text-zinc-900">Booking not found</h2>
+            <p className="mt-2 text-sm text-zinc-500">
+              The selected booking may have been removed.
+            </p>
+            <Button
+              onClick={() =>
+                route.push(
+                  `/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate()}`,
+                )
+              }
+              className="mt-6 rounded-2xl bg-zinc-900 hover:bg-zinc-800"
+            >
+              Back to Booking
+            </Button>
+          </div>
+        </div>
+      </AdminPageShell>
+    );
+  }
+
   return (
-    <div className="my-10 flex h-full w-full items-center justify-center py-10">
-      <Card className="mx-auto w-full max-w-3xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg">
+    <AdminPageShell
+      title="Booking Details"
+      badge="Edit"
+      description="Reschedule appointments and review customer details without losing the current admin context."
+      breadcrumbs={[
+        { label: "Admin", href: "/admin/dashboard" },
+        { label: "Bookings", href: `/admin/booking?year=${booking.date.getFullYear()}&month=${booking.date.getMonth() + 1}&date=${booking.date.getDate()}` },
+        { label: "Booking Details" },
+      ]}
+    >
+      <Card className="mx-auto w-full max-w-3xl rounded-[28px] border-amber-100 bg-white/95 shadow-[0_18px_60px_-30px_rgba(24,24,27,0.28)]">
         <div className="flex justify-end p-5">
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -223,7 +246,7 @@ const BookingDetailsPage = () => {
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
-                  onClick={() => deleteHandler(bookingId!)}
+                  onClick={() => deleteHandler()}
                   className="bg-red-500 text-zinc-50"
                 >
                   Delete
@@ -232,17 +255,17 @@ const BookingDetailsPage = () => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <CardHeader className="p-6">
-          <CardTitle className="text-2xl font-bold text-yellow-700">
+        <CardHeader className="border-b border-zinc-100 p-6">
+          <CardTitle className="text-2xl font-bold text-amber-800">
             Booking Details
           </CardTitle>
         </CardHeader>
         <div className="grid grid-cols-1 gap-8 p-6 md:grid-cols-2">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-yellow-700">
+            <h3 className="text-lg font-semibold text-amber-800">
               Customer Information
             </h3>
-            <div className="space-y-2 rounded-lg bg-white p-4 shadow-sm">
+            <div className="space-y-2 rounded-[24px] border border-zinc-100 bg-[#fcfaf7] p-4 shadow-sm">
               <p className="text-sm">
                 <span className="font-medium text-gray-600">Name:</span>{" "}
                 <span className="text-gray-800">{booking?.name}</span>
@@ -262,10 +285,10 @@ const BookingDetailsPage = () => {
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-yellow-700">
+            <h3 className="text-lg font-semibold text-amber-800">
               Current Booking
             </h3>
-            <div className="space-y-2 rounded-lg bg-white p-4 shadow-sm">
+            <div className="space-y-2 rounded-[24px] border border-zinc-100 bg-[#fcfaf7] p-4 shadow-sm">
               <p className="text-sm">
                 <span className="font-medium text-gray-600">Date:</span>{" "}
                 <span className="text-gray-800">
@@ -329,7 +352,7 @@ const BookingDetailsPage = () => {
                           }}
                           initialFocus
                           locale={enGB}
-                          className="rounded-md border"
+                          className="rounded-[24px] border"
                           defaultMonth={
                             selectedDate ? selectedDate : new Date()
                           }
@@ -360,7 +383,7 @@ const BookingDetailsPage = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-white">
-                      {slots.map((hour, index) => {
+                      {TIME_SLOTS.map((hour, index) => {
                         const slotTime = parseInt(hour.split(":")[0], 10);
 
                         const currentTime = new Date();
@@ -392,15 +415,16 @@ const BookingDetailsPage = () => {
             />
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90"
+              className="w-full rounded-2xl bg-zinc-900 hover:bg-zinc-800"
               disabled={isPending}
             >
               {isPending ? "Updating..." : "Update Booking"}
             </Button>
           </form>
         </Form>
+        <CardFooter className="border-t border-zinc-100 px-6 pb-6 pt-4" />
       </Card>
-    </div>
+    </AdminPageShell>
   );
 };
 

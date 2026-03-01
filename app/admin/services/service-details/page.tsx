@@ -70,6 +70,7 @@ import { ServiceSettingSchema } from "@/schemas";
 import { getProductByID } from "@/data/getProduct";
 import { serviceSetting } from "@/action/serviceSetting";
 import { deleteService } from "@/action/delete";
+import { AdminPageShell } from "../../_components/AdminShell";
 
 const ServiceDetailsPage = () => {
   const searchParams = useSearchParams();
@@ -81,6 +82,16 @@ const ServiceDetailsPage = () => {
   const serviceId = searchParams.get("service");
   const [imageURL, setImageURL] = useState("");
   const route = useRouter();
+
+  const form = useForm<z.infer<typeof ServiceSettingSchema>>({
+    resolver: zodResolver(ServiceSettingSchema),
+    defaultValues: {
+      name: product?.name,
+      categoryName: product?.categoryName,
+      price: product?.price,
+      serviceStatus: product?.serviceStatus,
+    },
+  });
 
   useEffect(() => {
     (async () => {
@@ -101,17 +112,7 @@ const ServiceDetailsPage = () => {
       });
       setFormLoaded(true);
     }
-  }, [product]);
-
-  const form = useForm<z.infer<typeof ServiceSettingSchema>>({
-    resolver: zodResolver(ServiceSettingSchema),
-    defaultValues: {
-      name: product?.name,
-      categoryName: product?.categoryName,
-      price: product?.price,
-      serviceStatus: product?.serviceStatus,
-    },
-  });
+  }, [form, product]);
   const onSubmit = (values: z.infer<typeof ServiceSettingSchema>) => {
     if (!serviceId) {
       console.log("No product ID found");
@@ -164,8 +165,17 @@ const ServiceDetailsPage = () => {
   }
 
   return (
-    <div className="my-10 flex h-full w-full justify-center">
-      <Card className="mx-auto w-full max-w-3xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg">
+    <AdminPageShell
+      title="Service Details"
+      badge="Edit"
+      description="Update pricing, category, and service availability in a cleaner editing workspace."
+      breadcrumbs={[
+        { label: "Admin", href: "/admin/dashboard" },
+        { label: "Services", href: "/admin/services" },
+        { label: "Service Details" },
+      ]}
+    >
+      <Card className="mx-auto w-full max-w-3xl rounded-[28px] border-amber-100 bg-white/95 shadow-[0_18px_60px_-30px_rgba(24,24,27,0.28)]">
         <div className="flex justify-end p-5">
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -193,13 +203,15 @@ const ServiceDetailsPage = () => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <CardHeader className="text-xl font-bold text-yellow-700">
+        <CardHeader className="border-b border-zinc-100 text-xl font-bold text-amber-800">
           Service Setting
         </CardHeader>
 
         <CardContent>
-          <div className="flex justify-end">
-            <Label className="">Service ID: {product.id}</Label>
+          <div className="flex justify-end pt-2">
+            <Label className="rounded-full border border-amber-100 bg-[#fff7ea] px-3 py-1 text-xs text-zinc-600">
+              Service ID: {product.id}
+            </Label>
           </div>
           <Form {...form}>
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
@@ -232,7 +244,7 @@ const ServiceDetailsPage = () => {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder={product.categoryName} />
                           </SelectTrigger>
                           <SelectContent>
@@ -287,7 +299,7 @@ const ServiceDetailsPage = () => {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder={product.serviceStatus} />
                           </SelectTrigger>
                           <SelectContent>
@@ -311,7 +323,7 @@ const ServiceDetailsPage = () => {
               <div className="flex justify-center">
                 <Button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90"
+                  className="w-full rounded-2xl bg-zinc-900 hover:bg-zinc-800"
                 >
                   Save
                 </Button>
@@ -319,13 +331,17 @@ const ServiceDetailsPage = () => {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex justify-end p-5">
-          <Button asChild variant={"outline"}>
+        <CardFooter className="flex justify-end border-t border-zinc-100 p-5">
+          <Button
+            asChild
+            variant={"outline"}
+            className="rounded-2xl border-zinc-200 bg-white"
+          >
             <Link href={"/admin/services"}>Back</Link>
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </AdminPageShell>
   );
 };
 

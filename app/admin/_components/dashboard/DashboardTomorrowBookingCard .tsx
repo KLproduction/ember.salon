@@ -1,10 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import { CalendarIcon } from "lucide-react";
 import { useTomorrowBooking } from "@/hooks/dashboard";
 import { AiOutlineLoading } from "react-icons/ai";
+import { AdminMetricCard } from "../AdminShell";
 
 const DashboardTomorrowBookingCard = () => {
   const now = new Date();
@@ -12,35 +11,24 @@ const DashboardTomorrowBookingCard = () => {
   const tomorrowBookingCount = data?.tomorrowBookingCount;
 
   return (
-    <>
-      <Card>
-        <Link
-          href={`/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate() + 1}`}
-        >
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Tomorrow Bookings
-            </CardTitle>
-            <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            {isFetching ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <AiOutlineLoading
-                  className="animate-spin text-6xl text-yellow-500"
-                  aria-label="Loading"
-                  role="status"
-                />
-              </div>
-            ) : (
-              <div className="mt-5 text-6xl font-bold">
-                {tomorrowBookingCount}
-              </div>
-            )}
-          </CardContent>
-        </Link>
-      </Card>
-    </>
+    <AdminMetricCard
+      label="Tomorrow bookings"
+      value={
+        isFetching ? (
+          <AiOutlineLoading
+            className="animate-spin text-4xl text-amber-600"
+            aria-label="Loading"
+            role="status"
+          />
+        ) : (
+          tomorrowBookingCount ?? 0
+        )
+      }
+      hint="A quick read on tomorrow's workload before the team opens."
+      icon={<CalendarIcon className="h-5 w-5" />}
+      href={`/admin/booking?year=${now.getFullYear()}&month=${now.getMonth() + 1}&date=${now.getDate() + 1}`}
+      accent="gold"
+    />
   );
 };
 

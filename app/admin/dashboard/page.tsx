@@ -1,36 +1,17 @@
-import React from "react";
-import AdminBooking from "../_components/AdminBooking";
-
-import { getBookingByDate } from "@/data/getBookingByDate";
-import { getProduct } from "@/data/getProduct";
-
 import DashboardTodayBookingCard from "../_components/dashboard/DashboardTodayBookingCard";
 import DashboardTomorrowBookingCard from "../_components/dashboard/DashboardTomorrowBookingCard ";
 import BookingChart from "../_components/dashboard/BookingChart";
 import bookingChartData from "@/data/bookingChartData";
-import { getAllBooking, getBooking } from "@/data/getBooking";
-import {
-  CalendarIcon,
-  ScissorsIcon,
-  PaintbrushIcon,
-  SparklesIcon,
-  LeafIcon,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryData from "../_components/dashboard/CategoryData";
-import MySpinner from "@/components/MySpinner";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import {
-  onLoadCategoryData,
-  onLoadTodayBooking,
-  onLoadTomorrowBooing,
-  onLoadUpcomingBookings,
-} from "@/action/booking";
 import DashboardUpcomingBookingCard from "../_components/dashboard/DashboardUpcomingBookingCard";
+import { AdminPageShell, AdminPanel } from "../_components/AdminShell";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const AdminPage = async () => {
   const queryClient = new QueryClient();
@@ -72,30 +53,43 @@ const AdminPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="container mx-auto space-y-6 p-4">
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="md:col-span-2">
+      <AdminPageShell
+        title="Dashboard"
+        badge="Overview"
+        description="Track daily appointments, spot workload changes, and keep the salon schedule under control from one consistent workspace."
+        breadcrumbs={[{ label: "Admin" }, { label: "Dashboard" }]}
+        actions={
+          <Button
+            asChild
+            className="rounded-2xl bg-zinc-900 px-5 text-white hover:bg-zinc-800"
+          >
+            <Link href="/admin/services/add-service">Add Service</Link>
+          </Button>
+        }
+      >
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-4">
+          <div className="xl:col-span-2">
             <DashboardUpcomingBookingCard />
           </div>
           <DashboardTodayBookingCard />
           <DashboardTomorrowBookingCard />
         </div>
 
-        {/* Monthly Booking Chart */}
+        <AdminPanel
+          title="Monthly booking trend"
+          description="Daily booking volume for the current month."
+          contentClassName="pt-2"
+        >
+          <BookingChart />
+        </AdminPanel>
 
-        <BookingChart />
-
-        {/* Footer - Service Categories Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Service Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CategoryData />
-          </CardContent>
-        </Card>
-      </div>
+        <AdminPanel
+          title="Service category mix"
+          description="Which categories are taking the biggest share of current demand."
+        >
+          <CategoryData />
+        </AdminPanel>
+      </AdminPageShell>
     </HydrationBoundary>
   );
 };
