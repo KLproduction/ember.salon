@@ -103,7 +103,7 @@ export const MessageBox = () => {
                 <Dialog>
                   <DialogTrigger
                     className={
-                      "rounded-full border border-zinc-500 p-1 text-zinc-500 hover:bg-green-500 hover:text-zinc-50"
+                      "rounded-full border border-zinc-50 bg-green-500 p-1 text-zinc-50 hover:bg-green-600"
                     }
                     disabled={!booking.message}
                     onClick={(e) => e.stopPropagation()}

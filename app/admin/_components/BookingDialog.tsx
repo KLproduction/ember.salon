@@ -1,7 +1,5 @@
-import { Dialog } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Booking } from "@prisma/client";
-import { DialogContent } from "@radix-ui/react-dialog";
 import { MessageCircle, Phone, User } from "lucide-react";
 import React from "react";
 
@@ -25,6 +23,12 @@ const BookingDialog = ({ booking }: BookingDialogProps) => {
 
   return (
     <div className="w-full bg-transparent p-3">
+      <DialogHeader className="sr-only">
+        <DialogTitle>
+          Booking details for {booking.name} on {formatDate(booking.date)} at{" "}
+          {booking.timeSlot}
+        </DialogTitle>
+      </DialogHeader>
       <div className="mx-10 flex flex-col gap-6 text-foreground">
         <div className="flex items-center justify-between gap-10 border-b pb-4">
           <h1 className="text-xl font-semibold">

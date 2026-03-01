@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { LoginForm } from "./LoginForm";
 
 interface LoginButtonProps {
@@ -24,6 +24,7 @@ export const LoginButtonProps = ({
       <Dialog>
         <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
         <DialogContent className=" p-0 w-auto bg-white bg-transparent border-none">
+          <DialogTitle className="sr-only">Login</DialogTitle>
           <LoginForm />
         </DialogContent>
       </Dialog>
