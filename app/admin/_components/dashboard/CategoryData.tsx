@@ -7,7 +7,6 @@ import {
   ScissorsIcon,
   SparklesIcon,
 } from "lucide-react";
-import { Suspense } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 
 const CategoryData = () => {
@@ -35,31 +34,36 @@ const CategoryData = () => {
           />
         </div>
       ) : (
-        <div className="flex w-full flex-col items-center justify-around gap-5 md:flex-row">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {data.totalBookingForCategory.map((item, index) => {
             return (
               <div
-                className="flex items-center justify-center space-x-4"
+                className="rounded-[24px] border border-amber-100 bg-gradient-to-br from-[#fff8ed] to-white p-5"
                 key={index}
               >
-                <div className="flex flex-col items-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                <div className="flex flex-col gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 text-amber-200">
                     {item.categoryName === "Cut and Blow Dry" ? (
-                      <ScissorsIcon className="h-8 w-8" />
+                      <ScissorsIcon className="h-7 w-7" />
                     ) : item.categoryName === "Treatment" ? (
-                      <SparklesIcon className="h-8 w-8" />
+                      <SparklesIcon className="h-7 w-7" />
                     ) : item.categoryName === "Coloring" ? (
-                      <PaintbrushIcon className="h-8 w-8" />
+                      <PaintbrushIcon className="h-7 w-7" />
                     ) : (
-                      <LeafIcon className="h-8 w-8" />
+                      <LeafIcon className="h-7 w-7" />
                     )}
                   </div>
-                  <span className="mt-2 text-sm font-medium">
-                    {item.categoryName}
-                  </span>
-                  <span className="text-lg text-muted-foreground">
-                    {percentages[index]}%
-                  </span>
+                  <div className="space-y-1">
+                    <span className="block text-sm font-semibold text-zinc-900">
+                      {item.categoryName}
+                    </span>
+                    <span className="font-['Oswald'] text-4xl leading-none text-amber-900">
+                      {percentages[index]}%
+                    </span>
+                    <p className="text-sm text-zinc-500">
+                      {item.totalBookings} bookings
+                    </p>
+                  </div>
                 </div>
               </div>
             );

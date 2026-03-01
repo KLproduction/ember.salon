@@ -1,22 +1,16 @@
 "use client";
-import React, { useEffect, useState, useTransition } from "react";
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { TService, TServiceItem } from "@/lib/type";
-import { getProduct, getServiceItem } from "@/data/getProduct";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Booking } from "@prisma/client";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import AdminCalendar from "../../_components/AdminCalendar";
-import BookingDialog from "../../_components/BookingDialog";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
 import ShowBookingGrid from "../../_components/ShowBookingGrid";
+import { AdminPageShell, AdminPanel, AdminToolbar } from "../../_components/AdminShell";
 
 const BookingTablePage = () => {
   const [bookings, setBookings] = useState<Booking[] | null>(null);
-  const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const year = Number(searchParams.get("year"));
   const month = Number(searchParams.get("month"));
@@ -30,7 +24,7 @@ const BookingTablePage = () => {
         setBookings(data);
       }
     })();
-  }, [searchParams]);
+  }, [date, month, searchParams, year]);
 
   // Helper to get previous/next day with month/year rollover
   const getPrevDay = () => {
@@ -51,47 +45,77 @@ const BookingTablePage = () => {
   };
 
   return (
-    <>
-      <div className="relative flex w-full flex-col items-center justify-between">
-        <div className="mt-20 flex w-full items-center justify-between sm:px-20">
-          <Button
-            variant={"ghost"}
-            onClick={() => {
-              const prev = getPrevDay();
-              route.push(
-                `/admin/booking?year=${prev.year}&month=${prev.month}&date=${prev.date}`,
-              );
-            }}
-          >
-            <ChevronLeft className="text-zinc-500" />
-          </Button>
-          <div className="flex flex-col">
-            <div className="">
-              <h1 className="text-4xl text-zinc-700">{` ${year}-${month}-${date}`}</h1>
-            </div>
+    <AdminPageShell
+      title="Bookings"
+      badge="Schedule"
+      description="Move through the day view, inspect each time block, and clear unread appointment requests quickly."
+      breadcrumbs={[{ label: "Admin" }, { label: "Bookings" }]}
+    >
+      <AdminToolbar
+        eyebrow="Daily view"
+        title={`${year}-${month}-${date}`}
+        description={`${bookings?.length ?? 0} bookings loaded for the selected date.`}
+        actions={
+          <>
+            <Button
+              variant="outline"
+              className="rounded-2xl border-zinc-200 bg-white/80"
+              onClick={() => {
+                const prev = getPrevDay();
+                route.push(
+                  `/admin/booking?year=${prev.year}&month=${prev.month}&date=${prev.date}`,
+                );
+              }}
+            >
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              className="rounded-2xl border-zinc-200 bg-white/80"
+              onClick={() => {
+                const next = getNextDay();
+                route.push(
+                  `/admin/booking?year=${next.year}&month=${next.month}&date=${next.date}`,
+                );
+              }}
+            >
+              Next
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          </>
+        }
+      />
 
-            <div>
-              <AdminCalendar />
+      <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+        <AdminPanel
+          title="Calendar"
+          description="Jump to another date and watch unread booking indicators."
+          className="h-fit"
+        >
+          <div className="rounded-[22px] border border-amber-100 bg-[#fff9ef] p-4">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-2xl border border-amber-200 bg-white p-3 text-amber-800">
+                <CalendarDays className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-zinc-900">Date picker</p>
+                <p className="text-xs text-zinc-500">Unread days stay marked in green.</p>
+              </div>
             </div>
+            <AdminCalendar />
           </div>
-          <Button
-            variant={"ghost"}
-            onClick={() => {
-              const next = getNextDay();
-              route.push(
-                `/admin/booking?year=${next.year}&month=${next.month}&date=${next.date}`,
-              );
-            }}
-          >
-            <ChevronRight className="text-zinc-500" />
-          </Button>
-        </div>
-        <div className="container mt-20 w-full bg-white pb-20 md:w-4/6 lg:w-4/5 xl:w-full">
-          {/* {bookings && <DataTable columns={columns} data={bookings} />} */}
+        </AdminPanel>
+
+        <AdminPanel
+          title="Time slots"
+          description="Open any block to view booking details and mark unread requests as reviewed."
+          contentClassName="p-0"
+        >
           <ShowBookingGrid />
-        </div>
+        </AdminPanel>
       </div>
-    </>
+    </AdminPageShell>
   );
 };
 

@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { createDummyBooking } from "./_components/createDummyBooking";
-import { startTransition, useTransition } from "react";
+import { useTransition } from "react";
 import { addBooking } from "@/action/booking";
-import { addAdminMessage } from "@/action/addAdminMessage";
+import { AdminPageShell, AdminPanel } from "../_components/AdminShell";
 
 const SuperAdminPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -18,17 +18,26 @@ const SuperAdminPage = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-zinc-900 text-zinc-50">
-      <div>
+    <AdminPageShell
+      title="Super Admin"
+      badge="Restricted"
+      description="Internal utilities for seeding and admin-only maintenance tasks."
+      breadcrumbs={[{ label: "Admin" }, { label: "Super Admin" }]}
+    >
+      <AdminPanel
+        title="Seed tools"
+        description="Use carefully. This action inserts multiple demo bookings."
+        className="max-w-2xl"
+      >
         <Button
           onClick={() => onClick()}
           disabled={isPending}
-          className="bg-white text-black"
+          className="rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800"
         >
-          Dummy Booking
+          {isPending ? "Creating..." : "Create Dummy Bookings"}
         </Button>
-      </div>
-    </div>
+      </AdminPanel>
+    </AdminPageShell>
   );
 };
 

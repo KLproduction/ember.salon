@@ -121,9 +121,16 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Card className="w-[300px] sm:w-[600px]">
-        <CardHeader>Add Product</CardHeader>
+    <div className="flex w-full max-w-3xl flex-col items-center justify-center">
+      <Card className="w-full rounded-[28px] border-amber-100 bg-white/95 shadow-[0_18px_60px_-30px_rgba(24,24,27,0.28)]">
+        <CardHeader className="space-y-2 border-b border-zinc-100">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
+            Add Service
+          </h2>
+          <p className="text-sm text-zinc-500">
+            Create a new service entry for the admin catalog.
+          </p>
+        </CardHeader>
         <CardContent>
           <Form {...form}>
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
@@ -156,7 +163,7 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder={"Category"} />
                           </SelectTrigger>
                           <SelectContent>
@@ -211,7 +218,7 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder={"Status"} />
                           </SelectTrigger>
                           <SelectContent>
@@ -234,13 +241,22 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
               <FormError message={error} />
 
               <div className="flex justify-center">
-                <Button type="submit">Save</Button>
+                <Button
+                  type="submit"
+                  className="w-full rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800"
+                >
+                  Save Service
+                </Button>
               </div>
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button asChild variant={"outline"}>
+        <CardFooter className="flex justify-end border-t border-zinc-100">
+          <Button
+            asChild
+            variant={"outline"}
+            className="rounded-2xl border-zinc-200 bg-white"
+          >
             <Link href={"/admin/services"}>Back</Link>
           </Button>
         </CardFooter>

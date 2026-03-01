@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import { Booking } from "@prisma/client";
 
 import { useCallback, useEffect, useState, useTransition } from "react";
@@ -12,19 +11,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  CalendarIcon,
   UsersIcon,
-  ClockIcon,
-  MenuIcon,
   PhoneIcon,
   MailIcon,
   Scissors,
-  Book,
-  BookAIcon,
   CalendarCheck2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { TIMESLOT } from "@/lib/serviceList";
 import { getBookingByDate } from "@/data/getBookingByDate";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -33,15 +25,10 @@ import { toast } from "sonner";
 import MySpinner from "@/components/MySpinner";
 import { Separator } from "@/components/ui/separator";
 
-type BookingDialogProps = {
-  bookings: Booking[];
-};
-
 const ShowBookingGrid = () => {
   const [bookings, setBookings] = useState<Record<string, Booking[]>>({});
-  const [unreadBookingIds, setUnreadBookingIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const bookingYear = Number(searchParams.get("year"));
@@ -110,111 +97,102 @@ const ShowBookingGrid = () => {
   if (loading) return <MySpinner />;
   if (error) return <p>Error loading bookings.</p>;
   return (
-    <div className="flex h-full bg-transparent">
-      <div className="flex-1 p-2 md:p-4 lg:p-8">
-        <div className="h-[calc(100vh-120px)] w-full">
-          <div className="grid gap-4 pb-12 md:grid-cols-2 lg:grid-cols-3">
-            {timeslots.map((timeslot) => (
-              <Dialog
-                key={timeslot}
-                onOpenChange={(isOpen) => isReadHandler(isOpen, timeslot)}
-              >
-                <DialogTrigger asChild>
-                  <Card
-                    className={`${
-                      bookings[timeslot]
-                        ? "bg-white hover:bg-gray-50"
-                        : "bg-gray-200"
-                    } relative cursor-pointer transition-colors duration-200`}
-                  >
-                    <CardHeader>
-                      <CardTitle className="flex items-center justify-between">
-                        <span>{timeslot}</span>
-                        {bookings[timeslot] && (
-                          <span className="flex items-center gap-3 text-sm font-normal text-gray-500">
-                            <h1 className="font-bold">
-                              {bookings[timeslot].length}
-                            </h1>
-                            <CalendarCheck2 />
-                          </span>
-                        )}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-zinc-900">
+    <div className="bg-transparent">
+      <div className="px-4 py-4 md:px-5 md:py-5">
+        <div className="grid gap-4 pb-2 md:grid-cols-2 xl:grid-cols-3">
+          {timeslots.map((timeslot) => (
+            <Dialog
+              key={timeslot}
+              onOpenChange={(isOpen) => isReadHandler(isOpen, timeslot)}
+            >
+              <DialogTrigger asChild>
+                <Card
+                  className={`relative min-h-[172px] cursor-pointer rounded-[24px] border transition-all duration-200 ${
+                    bookings[timeslot]
+                      ? "border-amber-100 bg-gradient-to-br from-white via-white to-[#f7efe3] hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-lg"
+                      : "border-dashed border-zinc-200 bg-[#fcfaf7] text-zinc-400"
+                  }`}
+                >
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center justify-between text-base text-zinc-900">
+                      <span className="font-['Oswald'] text-2xl tracking-[0.06em]">
+                        {timeslot}
+                      </span>
                       {bookings[timeslot] ? (
-                        <div className="space-y-2">
-                          {bookings[timeslot].map((booking, index) => (
-                            <div key={index} className="text-sm">
-                              <p className="font-medium">{booking.name}</p>
-                              <p className="text-gray-500">{booking.service}</p>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-gray-500">No bookings</p>
+                        <span className="flex items-center gap-2 text-sm font-normal text-zinc-500">
+                          <strong>{bookings[timeslot].length}</strong>
+                          <CalendarCheck2 className="h-4 w-4" />
+                        </span>
+                      ) : null}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-zinc-900">
+                    {bookings[timeslot] ? (
+                      <div className="space-y-2">
+                        {bookings[timeslot].map((booking, index) => (
+                          <div
+                            key={index}
+                            className="rounded-2xl border border-white/80 bg-white/80 px-3 py-2 text-sm shadow-sm"
+                          >
+                            <p className="font-medium">{booking.name}</p>
+                            <p className="text-zinc-500">{booking.service}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex min-h-[72px] items-center rounded-2xl border border-dashed border-zinc-200 px-4 text-sm text-zinc-400">
+                        No bookings
+                      </div>
+                    )}
+                  </CardContent>
+                  {bookings[timeslot]?.some((booking) => !booking.isRead) ? (
+                    <div
+                      className={cn(
+                        "absolute right-1 top-2 h-3 w-3 rounded-full bg-green-500",
                       )}
-                    </CardContent>
-                    {/* UNREAD DOT */}
-                    {bookings[timeslot] &&
-                      bookings[timeslot].some((booking) => !booking.isRead) && (
-                        <div
-                          className={cn(
-                            "absolute right-1 top-2 h-3 w-3 rounded-full bg-green-500",
-                          )}
-                        />
-                      )}
-                  </Card>
-                </DialogTrigger>
-                {bookings[timeslot] && (
-                  <DialogContent className="w-full">
-                    <DialogHeader>
-                      <DialogTitle className="text-zinc-900">
-                        Booking Details - {timeslot}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <ScrollArea className="mt-4 max-h-[60vh] border-b-[4px] border-zinc-500">
-                      {bookings[timeslot].map((booking, index) => (
-                        <div key={index} className="mb-6 pb-6">
-                          <div>
-                            <Separator className="mb-6 text-zinc-900" />
-                            <h3 className="mb-2 font-semibold text-zinc-900">
-                              Booking - {index + 1}
-                            </h3>
-                            <div className="grid gap-2">
-                              <div className="flex items-center gap-2">
-                                <UsersIcon className="h-4 w-4 text-gray-500" />
-                                <span className="text-zinc-900">
-                                  {booking.name}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <MailIcon className="h-4 w-4 text-gray-500" />
-                                <span className="text-zinc-900">
-                                  {booking.email}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <PhoneIcon className="h-4 w-4 text-gray-500" />
-                                <span className="text-zinc-900">
-                                  {booking.phone}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Scissors className="h-4 w-4 text-gray-500" />
-                                <span className="text-zinc-900">
-                                  {booking.service}
-                                </span>
-                              </div>
-                            </div>
+                    />
+                  ) : null}
+                </Card>
+              </DialogTrigger>
+              {bookings[timeslot] ? (
+                <DialogContent className="w-full rounded-[28px] border-amber-100 bg-[#fffdf9]">
+                  <DialogHeader>
+                    <DialogTitle className="text-zinc-900">
+                      Booking Details - {timeslot}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <ScrollArea className="mt-4 max-h-[60vh] pr-4">
+                    {bookings[timeslot].map((booking, index) => (
+                      <div key={index} className="mb-6 pb-6">
+                        <Separator className="mb-6 text-zinc-900" />
+                        <h3 className="mb-3 font-semibold text-zinc-900">
+                          Booking - {index + 1}
+                        </h3>
+                        <div className="grid gap-3 rounded-[22px] border border-amber-100 bg-white px-4 py-4 shadow-sm">
+                          <div className="flex items-center gap-2">
+                            <UsersIcon className="h-4 w-4 text-gray-500" />
+                            <span className="text-zinc-900">{booking.name}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <MailIcon className="h-4 w-4 text-gray-500" />
+                            <span className="text-zinc-900">{booking.email}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <PhoneIcon className="h-4 w-4 text-gray-500" />
+                            <span className="text-zinc-900">{booking.phone}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Scissors className="h-4 w-4 text-gray-500" />
+                            <span className="text-zinc-900">{booking.service}</span>
                           </div>
                         </div>
-                      ))}
-                    </ScrollArea>
-                  </DialogContent>
-                )}
-              </Dialog>
-            ))}
-          </div>
+                      </div>
+                    ))}
+                  </ScrollArea>
+                </DialogContent>
+              ) : null}
+            </Dialog>
+          ))}
         </div>
       </div>
     </div>
