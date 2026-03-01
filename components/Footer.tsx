@@ -1,6 +1,7 @@
 import { currentUser } from "@/lib/auth";
+import Link from "next/link";
 import Logo from "./Logo";
-import { AuthButtons } from "@/utils/supabase/AuthButtons";
+import SignOutBtn from "./auth/SignOutBtn";
 
 const Footer = async () => {
   const user = await currentUser();
@@ -10,7 +11,15 @@ const Footer = async () => {
         <Logo />
         <div className="text-white">
           <h1>&copy; 2024 Copy reserve Shim.solution</h1>
-          <AuthButtons textColor="text-white" />
+          <div className="mt-3 flex justify-center">
+            {user ? (
+              <SignOutBtn />
+            ) : (
+              <Link className="text-sm underline underline-offset-4" href="/auth/login">
+                Sign in
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>

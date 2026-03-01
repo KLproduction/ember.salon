@@ -2,33 +2,17 @@
 
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import MySpinner from "../MySpinner";
 import { MessageBox } from "./MessageBox";
+import { useSession } from "next-auth/react";
 
 const AdminBar = () => {
   const route = useRouter();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const pathname = usePathname();
   const [isLoading, setLoading] = useState(false);
-  const [showBar, setShowBar] = useState(false);
-  // Supabase session/email logic
-  const supabase = createClient();
-  const [session, setSession] = useState<any>(null);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event: any, session: any) => {
-        setSession(session);
-      },
-    );
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { data: session } = useSession();
 
   const onClickHandlerAdmin = () => {
     setLoading(true);
@@ -58,7 +42,7 @@ const AdminBar = () => {
         <h1 className="ml-5 text-zinc-500 sm:ml-20">Admin Dashboard</h1>
         <p>
           logged in email:{" "}
-          {session?.user?.email || session?.user?.user_metadata?.email || (
+          {session?.user?.email || (
             <span className="italic text-zinc-400">Not logged in</span>
           )}
         </p>

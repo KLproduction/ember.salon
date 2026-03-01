@@ -22,14 +22,12 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useEffect, useState, useTransition } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
 import {
   Card,
@@ -38,19 +36,12 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { Label } from "@/components/ui/label";
-
-import UploadImage from "./UploadImage";
-import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
-
-import { Weight } from "lucide-react";
 import Link from "next/link";
 import { ServiceAddingSchema } from "@/schemas";
 import { addServiceToDB } from "@/action/addServiceToDB";
 import { Category } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 type AddServiceFormProps = {
   category: Category[];
@@ -60,6 +51,7 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
   const route = useRouter();
+  const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof ServiceAddingSchema>>({
     resolver: zodResolver(ServiceAddingSchema),
@@ -73,27 +65,10 @@ const AddServiceForm = ({ category }: AddServiceFormProps) => {
     },
   });
 
-  // Supabase session/email logic
-  const supabase = createClient();
-  const [session, setSession] = useState<any>(null);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event: any, session: any) => {
-        setSession(session);
-      },
-    );
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onSubmit = (values: z.infer<typeof ServiceAddingSchema>) => {
     // Only allow this email
     const allowedEmail = "kent.law.production01@gmail.com";
-    const userEmail =
-      session?.user?.email || session?.user?.user_metadata?.email;
+    const userEmail = session?.user?.email;
     if (userEmail !== allowedEmail) {
       toast.error("Not authorized to do so");
       return;

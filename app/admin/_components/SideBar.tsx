@@ -1,34 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { CalendarDays, Home, LayoutDashboard, Scissors, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import SignOutBtn from "@/components/auth/SignOutBtn";
 import { MessageBox } from "@/components/AdminBar/MessageBox";
-import { createClient } from "@/utils/supabase/client";
-import { AuthButtons } from "@/utils/supabase/AuthButtons";
 
 const SideBar = () => {
   const pathname = usePathname();
   const now = new Date();
-  const supabase = createClient();
-  const [session, setSession] = useState<any>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event: any, nextSession: any) => {
-        setSession(nextSession);
-      },
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, [supabase.auth]);
 
   const items = [
     {
@@ -146,15 +128,9 @@ const SideBar = () => {
       </div>
 
       <div className="border-t border-white/10 p-4">
-        {session ? (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
-            <SignOutBtn />
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
-            <AuthButtons textColor="text-white" />
-          </div>
-        )}
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+          <SignOutBtn />
+        </div>
       </div>
     </aside>
   );
